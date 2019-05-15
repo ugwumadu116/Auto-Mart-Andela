@@ -134,13 +134,15 @@ body {
 }
 
 /* end of navbar */
-.sign-up-section{
+.sign-up-section,
+.login-section{
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - 66px);
     background: linear-gradient(#348ea9, #020202);
 }
-.sign-up-container{
+.sign-up-container,
+.login-container{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -169,7 +171,8 @@ body {
 .btn-submit:focus{
     background-color: #2796ff;
 }
-.sign-up-text{
+.sign-up-text,
+.login-text{
     font-size: 3.5rem;
     font-weight: bold;
     margin: 0;
@@ -179,7 +182,8 @@ body {
 .access{
     color:#bc3a80;
 }
-.sing-up-form{
+.sign-up-form,
+.login-form{
     background-color: #202027;
     width: 50vw;
     max-width:50%;
@@ -220,16 +224,19 @@ body {
 }
 .validation{background-color: #bc3a80;}
 @media (max-width:900px){
-    .sign-up-container{
+    .sign-up-container,
+    .login-container{
         flex-direction: column;
         justify-content: center;
     }
-    .sing-up-form{
+    .sign-up-form,
+    .login-form{
         width: 80vw;
         max-width: inherit;
         margin: 2rem 0;
     } 
-    .sign-up-text{
+    .sign-up-text,
+    .login-text{
         font-size: 2rem;
         margin: 2rem 0;
     }
