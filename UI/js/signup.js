@@ -20,9 +20,6 @@ signUPFormDOM.addEventListener('submit', (e) => {
     e.preventDefault();
     const firstNameVal = document.querySelector('input[name="firstName"]').value;
     const lastNameVal = document.querySelector('input[name="lastName"]').value;
-    // const emailVal = document.querySelector('input[name="email"]').value;
-    // const passwordVal = document.querySelector('input[name="pwd"]').value;
-    // const addressVal = document.querySelector('input[name="address"]').value;
     if (!firstNameVal.match(/^[A-Z]+$/i)) {
         alertResult('failed', 'First name should be alphabets only');
     } else if (!lastNameVal.match(/^[A-Z]+$/i)) {
