@@ -27,5 +27,7 @@ signUPFormDOM.addEventListener('submit', (e) => {
     }
     else {
         alertResult('success', 'Registered');
+        document.querySelector('#sign-up').action = 'cars.html';
+        document.querySelector('#sign-up').submit();
     }
 });
