@@ -265,3 +265,113 @@ nav{
     visibility: visible;
     opacity: 1;
   }
+
+  /* single car */
+  
+.single-car-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: var(--styleTransition);
+    background: rgba(240, 158, 81, 0.801);
+    z-index: 2;
+    visibility: hidden;
+    -webkit-transition: var(--styleTransition);
+    -moz-transition: var(--styleTransition);
+    -ms-transition: var(--styleTransition);
+    -o-transition: var(--styleTransition);
+}
+  .single-car {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: scroll;
+      z-index: 3;
+      color: var(--WhiteColor);
+      background: linear-gradient(#348ea9, #020202);
+      padding: 1.5rem;
+      transition: var(--styleTransition);
+      transform: translateY(100%);
+      -webkit-transform: translateY(100%);
+      -moz-transform: translateY(100%);
+      -ms-transform: translateY(100%);
+      -o-transform: translateY(100%);
+      -webkit-transition: var(--styleTransition);
+      -moz-transition: var(--styleTransition);
+      -ms-transition: var(--styleTransition);
+      -o-transition: var(--styleTransition);
+}
+  .showCart {
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+}
+  .transparentBcg {
+    visibility: visible;
+  }
+  @media screen and (min-width: 768px) {
+    .single-car {
+      width: 30vw;
+      min-width: 450px;
+    }
+  }
+  .close-single-car {
+    font-size: 1.7rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+  }  
+  .single-car h2 {
+    text-transform: capitalize;
+    text-align: center;
+    letter-spacing: var(--styleTransition);
+    margin-bottom: 2rem;
+  }
+  /*---------- single car Item -------------------- */
+  .single-car-item {
+    margin: 20px;
+  }
+  .car-info{
+    width: 50%;
+    padding: 0 15px;
+    display: inline-block;
+    float: left;
+    padding: 10px 0;
+  }
+  .car-info-val{
+    width: 50%;
+    padding: 0 15px;
+    display: inline-block;
+    float: left;
+    padding: 10px 0;
+  }
+  .single-car-item span{
+      margin: 30px;
+  }
+  .single-car img {
+    width: 100%;
+    height: 100%;
+  }
+  .car-name{
+    display: flex;
+    justify-content: space-between;
+}
+.single-car-btn{
+  background: var(--lightGreen);
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  padding: 10px;
+  margin-top: 2rem;
+}
+.car-footer {
+  letter-spacing: var(--styleSpacing);
+  text-align: center;
+}
+  

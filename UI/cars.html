@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Auto-Mart - cars</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
@@ -92,8 +91,8 @@
 
     <section id="cars-section">
         <div class="cars-container">
-            <article class="card">
-                <img src="images/car1.jpg" alt="product">
+            <!-- <article class="card">
+                <img src="images/car1.jpg" class="car-img" alt="product">
                 <div class="details">
                     <div class="menuName">
                         <h2>Chevrolet </h2>
@@ -116,7 +115,7 @@
                 </div>
             </article>
             <article class="card">
-                <img src="images/car2.jpg" alt="product">
+                <img src="images/car2.jpg" class="car-img" alt="product">
                 <div class="details">
                     <div class="menuName">
                         <h2>vintage </h2>
@@ -139,7 +138,7 @@
                 </div>
             </article>
             <article class="card">
-                <img src="images/car3.jpg" alt="product">
+                <img src="images/car3.jpg" class="car-img" alt="product">
                 <div class="details">
                     <div class="menuName">
                         <h2>Vintage </h2>
@@ -162,7 +161,7 @@
                 </div>
             </article>
             <article class="card">
-                <img src="images/car4.jpg" alt="product">
+                <img src="images/car4.jpg" class="car-img" alt="product">
                 <div class="details">
                     <div class="menuName">
                         <h2>Range Rover </h2>
@@ -185,7 +184,7 @@
                 </div>
             </article>
             <article class="card">
-                <img src="images/car5.jpg" alt="product">
+                <img src="images/car5.jpg" class="car-img" alt="product">
                 <div class="details">
                     <div class="menuName">
                         <h2>Bentley </h2>
@@ -208,7 +207,7 @@
                 </div>
             </article>
             <article class="card">
-                <img src="images/car6.jpg" alt="product">
+                <img src="images/car6.jpg" class="car-img" alt="product">
                 <div class="details">
                     <div class="menuName">
                         <h2>ferrari </h2>
@@ -231,7 +230,7 @@
                 </div>
             </article>
             <article class="card">
-                <img src="images/car7.jpg" alt="product">
+                <img src="images/car7.jpg" class="car-img" alt="product">
                 <div class="details">
                     <div class="menuName">
                         <h2>Mercedes Benz </h2>
@@ -254,7 +253,7 @@
                 </div>
             </article>
             <article class="card">
-                <img src="images/car8.jpg" alt="product">
+                <img src="images/car8.jpg" class="car-img" alt="product">
                 <div class="details">
                     <div class="menuName">
                         <h2>Mercedes Benz </h2>
@@ -277,7 +276,7 @@
                 </div>
             </article>
             <article class="card">
-                <img src="images/car9.jpg" alt="product">
+                <img src="images/car9.jpg" class="car-img" alt="product">
                 <div class="details">
                     <div class="menuName">
                         <h2>Mercedes Benz </h2>
@@ -300,7 +299,7 @@
                 </div>
             </article>
             <article class="card">
-                <img src="images/car10.jpg" alt="product">
+                <img src="images/car10.jpg" class="car-img" alt="product">
                 <div class="details">
                     <div class="menuName">
                         <h2>volkswagen </h2>
@@ -321,9 +320,70 @@
                         add to cart
                     </button>
                 </div>
-            </article>
+            </article> -->
         </div>
     </section>
+    <div class="single-car-overlay">
+        <div class="single-car">
+            <span class="close-single-car">
+                <i class="fas fa-window-close"></i>
+            </span>
+            <h2>single car</h2>
+            <div class="single-car-content">
+                <img src="./images/car2.jpg" alt="car">
+                <div class="car-name">
+                    <h3>Mercedes Benz</h3>
+                    <h3>$454 million</h3>
+                </div>
+                <div class="single-car-item">
+                    <div class="car-info">MANUFACTURER : </div>
+                    <div class="car-info-val">
+                        <h3>Mercedes Benz</h3>
+                    </div>
+                </div>
+                <div class="single-car-item">
+                    <div class="car-info">STATE : </div>
+                    <div class="car-info-val">
+                        <h3>new</h3>
+                    </div>
+                </div>
+                <div class="single-car-item">
+                    <div class="car-info">STATUS : </div>
+                    <div class="car-info-val">
+                        <h3>Available</h3>
+                    </div>
+                </div>
+                <div class="single-car-item">
+                    <div class="car-info">MODEL : </div>
+                    <div class="car-info-val">
+                        <h3>2019 model</h3>
+                    </div>
+                </div>
+                <div class="single-car-item">
+                    <div class="car-info">OWNER : </div>
+                    <div class="car-info-val">
+                        <h3>john doe</h3>
+                    </div>
+                </div>
+                <div class="single-car-item">
+                    <div class="car-info">DATE : </div>
+                    <div class="car-info-val">
+                        <h3>17/5/2019</h3>
+                    </div>
+                </div>
+                <div class="single-car-item">
+                    <div class="car-info">BODY TYPE : </div>
+                    <div class="car-info-val">
+                        <h3>truck</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="car-footer">
+                <button class="single-car-btn">Add to cart</button>
+            </div>
+        </div>
+    </div>
+
     <script src="./js/cars.js"></script>
 </body>
 
