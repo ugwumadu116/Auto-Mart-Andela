@@ -152,8 +152,8 @@ endRangeDom.addEventListener('input', () => {
 
 
 closeSingleCarDOM.addEventListener('click', () => {
-    singleCarOverlayDOM.classList.toggle('transparentBcg');
-    singleCarDOM.classList.toggle('showCart');
+    singleCarOverlayDOM.classList.toggle('transparentBcg1');
+    singleCarDOM.classList.toggle('showSingleCar');
 })
 
 const displayCars = (cars) => {
@@ -172,11 +172,11 @@ const displayCars = (cars) => {
             </span>
         </div>
         <div class="cart-footer">
-            <button class="cart-btn del">
+            <button class="cart-btns delete-car del" data-id=${car.id}>
                 <i class="fas fa-trash"></i>
                 delete
             </button>
-            <button class="cart-btn" data-id="1">
+            <button class="cart-btns add-car"data-id=${car.id}>
                 <i class="fas fa-shopping-cart"></i>
                 add to cart
             </button>
@@ -235,8 +235,8 @@ const showSingleCar = (car) => {
         </div>
     </div>
     `;
-    singleCarOverlayDOM.classList.toggle('transparentBcg');
-    singleCarDOM.classList.toggle('showCart');
+    singleCarOverlayDOM.classList.toggle('transparentBcg1');
+    singleCarDOM.classList.toggle('showSingleCar');
 }
 const showACar = () => {
     const carImageDOM = document.querySelectorAll('.car-img');
@@ -252,5 +252,5 @@ const showACar = () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     displayCars(cars);
-    showACar()
+    showACar();
 })
