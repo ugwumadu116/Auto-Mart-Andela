@@ -115,11 +115,11 @@ const cars = [
     },
     {
         id: 9,
-        name: 'Mercedes Benz',
+        name: 'Volkswagen',
         img: './images/car10.jpg',
         price: 80,
         model: '2013 model',
-        manufacturer: 'Toyota Motor Corporation',
+        manufacturer: 'Volkswagen group',
         owner: 'Uche fords',
         date: '19/3/2019',
         status: 'available',
@@ -128,11 +128,11 @@ const cars = [
     },
     {
         id: 10,
-        name: 'Volkswagen',
+        name: 'Mercedes Benz',
         img: './images/car9.jpg',
         price: 100,
         model: '2013 model',
-        manufacturer: 'Volkswagen group',
+        manufacturer: 'Toyota Motor Corporation',
         owner: 'uche fords',
         date: '19/3/2019',
         status: 'available',
@@ -187,6 +187,7 @@ const displayCars = (cars) => {
 };
 const showSingleCar = (car) => {
     singleCarContainer.innerHTML = `
+    <article>
     <img src=${car.img} alt="car">
     <div class="car-name">
         <h3>${car.name}</h3>
@@ -234,6 +235,7 @@ const showSingleCar = (car) => {
             <h3>${car.bodyType}</h3>
         </div>
     </div>
+    </article>
     `;
     singleCarOverlayDOM.classList.toggle('transparentBcg1');
     singleCarDOM.classList.toggle('showSingleCar');
@@ -248,9 +250,18 @@ const showACar = () => {
         })
     })
 }
+const deleteACar = () => {
+    const deleteBtnDOM = document.querySelectorAll('.delete-car');
+    deleteBtnDOM.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.parentElement.parentElement.style.display = 'none';
+        })
+    })
+}
 
 
 document.addEventListener('DOMContentLoaded', () => {
     displayCars(cars);
     showACar();
+    deleteACar();
 })
