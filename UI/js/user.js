@@ -136,6 +136,17 @@ const sellCarBtnDOM = document.querySelector('.cart-icon-button');
 const sellCarOverlay = document.querySelector('.sell-car-overlay');
 const sellCarContent = document.querySelector('.sell-car');
 const closeSellCar = document.querySelector('.close-sell-car');
+const singleCarContainer = document.querySelector('.single-car-content');
+const singleCarOverlayDOM = document.querySelector('.single-car-overlay');
+const singleCarDOM = document.querySelector('.single-car');
+const closeSingleCarDOM = document.querySelector('.close-single-car');
+const updatePriceDOM = document.querySelector('.update-price');
+const contentDOM = document.querySelector('.content');
+
+closeSingleCarDOM.addEventListener('click', () => {
+    singleCarOverlayDOM.classList.toggle('transparentBcg1');
+    singleCarDOM.classList.toggle('showSingleCar');
+})
 
 const displayCars = (cars) => {
 
@@ -149,18 +160,11 @@ const displayCars = (cars) => {
             </div>
             <span class="model">${car.model}</span>
             <span class="price">$${car.price}m</span>
-            <span class="flag"><i class="fab fa-font-awesome-flag"></i>
-                <span class="flag-text">report as fraud</span>
-            </span>
         </div>
         <div class="cart-footer">
             <button class="cart-btns delete-car del" data-id=${car.id}>
                 <i class="fas fa-trash"></i>
                 delete
-            </button>
-            <button class="cart-btns add-car"data-id=${car.id}>
-                <i class="fas fa-shopping-cart"></i>
-                add to cart
             </button>
         </div>
     </article>  
@@ -171,9 +175,73 @@ const carOwner = (user) => {
     const findCar = cars.filter(car => car.owner === user);
     displayCars(findCar);
 }
+const showSingleCar = (car) => {
+    singleCarContainer.innerHTML = `
+    <img src=${car.img} alt="car">
+    <div class="car-name">
+        <h3>${car.name}</h3>
+        <h3>$${car.price}m</h3>
+    </div>
+    <div class="single-car-item">
+        <div class="car-info">MANUFACTURER : </div>
+        <div class="car-info-val">
+            <h3>${car.manufacturer}</h3>
+        </div>
+    </div>
+    <div class="single-car-item">
+        <div class="car-info">STATE : </div>
+        <div class="car-info-val">
+            <h3>${car.state}</h3>
+        </div>
+    </div>
+    <div class="single-car-item">
+        <div class="car-info">STATUS : </div>
+        <div class="car-info-val">
+            <h3>${car.status}</h3>
+        </div>
+    </div>
+    <div class="single-car-item">
+        <div class="car-info">MODEL : </div>
+        <div class="car-info-val">
+            <h3>${car.model}</h3>
+        </div>
+    </div>
+    <div class="single-car-item">
+        <div class="car-info">OWNER : </div>
+        <div class="car-info-val">
+            <h3>${car.owner}</h3>
+        </div>
+    </div>
+    <div class="single-car-item">
+        <div class="car-info">DATE : </div>
+        <div class="car-info-val">
+            <h3>${car.date}</h3>
+        </div>
+    </div>
+    <div class="single-car-item">
+        <div class="car-info">BODY TYPE : </div>
+        <div class="car-info-val">
+            <h3>${car.bodyType}</h3>
+        </div>
+    </div>
+    `;
+    singleCarOverlayDOM.classList.toggle('transparentBcg1');
+    singleCarDOM.classList.toggle('showSingleCar');
+}
+const showACar = () => {
+    const carImageDOM = document.querySelectorAll('.car-img');
+    carImageDOM.forEach(img => {
+        img.addEventListener('click', () => {
+            let id = img.dataset.id;
+            let requestedCar = cars.find(car => car.id == id);
+            showSingleCar(requestedCar);
+        })
+    })
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-    carOwner('John Doe')
+    carOwner('John Doe');
+    showACar();
 })
 // post car
 sellCarBtnDOM.addEventListener('click', () => {
@@ -183,4 +251,9 @@ sellCarBtnDOM.addEventListener('click', () => {
 closeSellCar.addEventListener('click', () => {
     sellCarOverlay.classList.toggle('transparentBcg2');
     sellCarContent.classList.toggle('showSell-carX')
+})
+
+// update price
+updatePriceDOM.addEventListener('click', () => {
+    contentDOM.classList.toggle('show-content')
 })
