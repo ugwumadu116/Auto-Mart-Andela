@@ -8,6 +8,17 @@ const closeSingleCarDOM = document.querySelector('.close-single-car');
 const carContainerDOM = document.querySelector('.cars-container');
 const singleCarContainer = document.querySelector('.single-car-content');
 
+const findUser = () => {
+    const pairs = location.search.slice(1).split('&');
+
+    let result = {};
+    pairs.forEach(pair => {
+        pair = pair.split('=');
+        result[pair[0]] = decodeURIComponent(pair[1] || '');
+    });
+    return result;
+}
+
 const cars = [
     {
         id: 1,
@@ -156,34 +167,66 @@ closeSingleCarDOM.addEventListener('click', () => {
     singleCarDOM.classList.toggle('showSingleCar');
 })
 
-const displayCars = (cars) => {
-    cars.forEach(car => {
-        carContainerDOM.innerHTML += `
-        <article class="card">
-        <img src=${car.img} class="car-img" alt="product" data-id=${car.id}>
-        <div class="details">
-            <div class="menuName">
-                <h2>${car.name} </h2>
+const displayCars = (userCars) => {
+    const user = findUser();
+    if (user.email === 'admin@gmail.com' && user.pwd === 'adminPwd') {
+        console.log('admin')
+        userCars.forEach(car => {
+            carContainerDOM.innerHTML += `
+            <article class="card">
+            <img src=${car.img} class="car-img" alt="product" data-id=${car.id}>
+            <div class="details">
+                <div class="menuName">
+                    <h2>${car.name} </h2>
+                </div>
+                <span class="model">${car.model}</span>
+                <span class="price">$${car.price}m</span>
+                <span class="flag"><i class="fab fa-font-awesome-flag"></i>
+                    <span class="flag-text">report as fraud</span>
+                </span>
             </div>
-            <span class="model">${car.model}</span>
-            <span class="price">$${car.price}m</span>
-            <span class="flag"><i class="fab fa-font-awesome-flag"></i>
-                <span class="flag-text">report as fraud</span>
-            </span>
-        </div>
-        <div class="cart-footer">
-            <button class="cart-btns delete-car del" data-id=${car.id}>
-                <i class="fas fa-trash"></i>
-                delete
-            </button>
-            <button class="cart-btns add-car"data-id=${car.id}>
-                <i class="fas fa-shopping-cart"></i>
-                add to cart
-            </button>
-        </div>
-    </article>  
-        `;
-    })
+            <div class="cart-footer">
+                <button class="cart-btns delete-car del" data-id=${car.id}>
+                    <i class="fas fa-trash"></i>
+                    delete
+                </button>
+                <button class="cart-btns add-car"data-id=${car.id}>
+                    <i class="fas fa-shopping-cart"></i>
+                    add to cart
+                </button>
+            </div>
+        </article>  
+            `;
+        });
+    } else {
+        let carForSale = userCars.filter(car => car.status !== 'sold')
+        carForSale.forEach(car => {
+            carContainerDOM.innerHTML += `
+            <article class="card">
+            <img src=${car.img} class="car-img" alt="product" data-id=${car.id}>
+            <div class="details">
+                <div class="menuName">
+                    <h2>${car.name} </h2>
+                </div>
+                <span class="model">${car.model}</span>
+                <span class="price">$${car.price}m</span>
+                <span class="flag"><i class="fab fa-font-awesome-flag"></i>
+                    <span class="flag-text">report as fraud</span>
+                </span>
+            </div>
+            <div class="cart-footer">
+                <button class="cart-btns add-car"data-id=${car.id}>
+                    <i class="fas fa-shopping-cart"></i>
+                    add to cart
+                </button>
+            </div>
+        </article>  
+            `;
+        });
+
+    }
+
+
 };
 const showSingleCar = (car) => {
     singleCarContainer.innerHTML = `
@@ -258,6 +301,7 @@ const deleteACar = () => {
         })
     })
 }
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
