@@ -1,0 +1,285 @@
+@import url("https://fonts.googleapis.com/css?family=Quicksand:400,700");
+
+:root {
+  --DarkGreen: #348ea9;
+  --lightGreen: #2dc26f;
+  --WhiteColor: #fff;
+  --BlackColor: #222;
+  --mainGrey: #ececec;
+  --styleSpacing: 0.1rem;
+  --styleTransition: all 0.3s linear;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  color: var(--BlackColor);
+  background: var(--mainWhite);
+  font-family: "Quicksand", sans-serif;
+  scroll-behavior: smooth;
+}
+nav{
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+}
+.navbar {
+    display: flex;
+    height: 70px;
+    align-items: center;
+    font-size: 18px;
+    background: var(--DarkGreen);
+    padding: 10px;
+  }
+.cart-btns {
+    font-size:1.5rem;
+  }
+  .cart-btn {
+    position: relative;
+    cursor: pointer;    
+    margin-left: auto;
+    margin-right: 20px;
+    font-size:1.5rem;
+  }
+  .user{
+    color: var(--WhiteColor);    
+    font-size:1.5rem;
+    padding: 0 10px;
+
+  }
+  .cart-icon{
+      color: white;
+  }
+  .logo img {
+    width: 10.5rem;
+  }
+
+/* end of navbar */
+
+
+/* .banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 75vh;
+  background: linear-gradient(#348ea9, transparent, #020202, transparent),
+    url("../images/action-automobile-automotive-50704.jpg") no-repeat center
+      center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  color: var(--WhiteColor);
+  padding: 2rem 1rem;
+  text-align: center;
+  text-transform: capitalize;
+  letter-spacing: var(--styleSpacing);
+}
+.banner h1 {
+  font-size: 2.5rem;
+}
+@media screen and (min-width: 576px) {
+  .banner {
+    padding: 2rem 3rem;
+  }
+  .banner h1 {
+    font-size: 3rem;
+  }
+}
+@media screen and (min-width: 992px) {
+  .banner {
+    padding: 2rem 6rem;
+  }
+  .banner h1 {
+    font-size: 4rem;
+  }
+} */
+
+  .cars-container {
+    margin-top: 50px;
+    margin-left: 20px;
+    display: flex;
+    width: auto;
+    height: auto;
+    flex-wrap: wrap;
+  }
+   .card {
+    width: 300px;
+    height: auto;
+    margin: 22px 5px;
+    font-size: 18px;
+    background: #fff;
+    box-shadow: 0 5px 15px rgb(0, 0, 0, 0.25);
+    border-radius: 5px;
+  }
+   .cars-container .card img {
+    display: block;
+    width: 100%;
+    height: 300px;
+  }  
+   .card .price {
+    background: var(--lightGreen);
+    color: white;
+    font-size: 1.5rem;
+    padding: 0 8px;
+  }
+   .card button {
+    color: #fdf9f8;
+    border: 2px solid transparent;
+    background: var(--DarkGreen);
+    width: 100%;
+    padding: 5px 0;
+    margin: 5px;
+    transition: all 0.5s ease-in-out;
+  }
+  .card .delete{
+      display: none;
+  }
+  .cart-footer{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+  }
+  .card .del{
+      background: #bc3a80;
+  }
+
+  @media screen and (max-width: 1100px) {
+    .cars-container {
+        justify-content: center;
+        margin-left: 0px;
+    }
+  }
+
+
+  /* services */
+  
+  
+.services {
+    padding: 4rem 0 0 0;
+    background: var(--WhiteColor);
+    background: var(--mainGrey);
+  }
+  .services-container{
+      display: flex;
+  }
+  .service{
+      margin: 20px;
+  }
+  .service button{
+    color: #fdf9f8;
+    background: var(--DarkGreen);
+    padding: 5px;
+    margin: 5px;
+    font-size: 1.8rem;
+    transition: all 0.5s ease-in-out;
+   }
+   .btn-active{
+    border: 2px solid var(--lightGreen);
+
+   }
+
+
+
+.sell-car-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  transition: var(--styleTransition);
+  background: rgba(240, 158, 81, 0.801);
+  z-index: 2;
+  visibility: hidden;
+  -webkit-transition: var(--styleTransition);
+  -moz-transition: var(--styleTransition);
+  -ms-transition: var(--styleTransition);
+  -o-transition: var(--styleTransition);
+}
+.sell-car {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+  z-index: 3;
+  color: var(--WhiteColor);
+  background: linear-gradient(#348ea9, #020202);
+  padding: 1.5rem;
+  transition: var(--styleTransition);
+  transform: translateX(100%);
+  -webkit-transition: var(--styleTransition);
+  -moz-transition: var(--styleTransition);
+  -ms-transition: var(--styleTransition);
+  -o-transition: var(--styleTransition);
+  -webkit-transform: translateX(100%);
+  -moz-transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  -o-transform: translateX(100%);
+}
+.showSell-carX {
+  transform: translateX(0%);
+  -webkit-transform: translateX(0%);
+  -moz-transform: translateX(0%);
+  -ms-transform: translateX(0%);
+  -o-transform: translateX(0%);
+}
+.transparentBcg2 {
+  visibility: visible;
+}
+@media screen and (min-width: 768px) {
+  .sell-car {
+    width: 30vw;
+    min-width: 450px;
+  }
+}
+
+.close-sell-car {
+  font-size: 1.7rem;
+  cursor: pointer;
+}
+.sell-car h2 {
+  text-transform: capitalize;
+  text-align: center;
+  letter-spacing: var(--styleSpacing);
+  margin-bottom: 2rem;
+}
+.btn-submit{
+  background: var(--lightGreen);
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  padding: 10px;
+  margin-top: 2rem;
+
+}
+form input, form select {
+    width: 100%;
+    padding: 0 20px;
+    margin: 0.8rem auto;
+    text-decoration: none;
+    line-height: 50px;
+    font-size: 15px;
+    height: 50px;
+    border: 1px solid #e6e6e6;
+    border-bottom-width: 3px;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+}
+.input-group-submit {
+    text-align: center;
+}
+.input-group label{
+    font-weight: bold;
+}
