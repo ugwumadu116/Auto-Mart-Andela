@@ -134,17 +134,17 @@ nav{
   .service{
       margin: 20px;
   }
-  .service button{
+  .service-btn{
     color: #fdf9f8;
     background: var(--DarkGreen);
     padding: 5px;
+    border: none;
     margin: 5px;
     font-size: 1.8rem;
     transition: all 0.5s ease-in-out;
    }
-   .btn-active{
-    border: 2px solid var(--lightGreen);
-
+   .btn-active{    
+    background: var(--lightGreen);
    }
 
 

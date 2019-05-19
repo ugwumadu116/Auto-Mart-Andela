@@ -8,8 +8,8 @@ const cars = [
         manufacturer: 'General Motors (GM)',
         owner: 'John Doe',
         date: '17/5/2019',
-        status: 'new',
-        state: 'available',
+        status: 'available',
+        state: 'new',
         bodyType: 'car'
     },
     {
@@ -21,8 +21,8 @@ const cars = [
         manufacturer: 'Nissan Motor Company',
         owner: 'John Doe',
         date: '12/7/2019',
-        status: 'new',
-        state: 'available',
+        status: 'available',
+        state: 'new',
         bodyType: 'car'
     },
     {
@@ -34,8 +34,8 @@ const cars = [
         manufacturer: 'Land Rover',
         owner: 'John Doe',
         date: '12/3/2014',
-        status: 'used',
-        state: 'available',
+        status: 'sold',
+        state: 'new',
         bodyType: 'car'
     },
     {
@@ -47,8 +47,8 @@ const cars = [
         manufacturer: 'Land Rover',
         owner: 'jim ken',
         date: '12/3/2014',
-        status: 'used',
-        state: 'available',
+        status: 'available',
+        state: 'used',
         bodyType: 'car'
     },
     {
@@ -60,8 +60,8 @@ const cars = [
         manufacturer: 'Bentley Motors Limited',
         owner: 'John Doe',
         date: '12/3/2014',
-        status: 'new',
-        state: 'available',
+        status: 'available',
+        state: 'new',
         bodyType: 'car'
     },
     {
@@ -73,8 +73,8 @@ const cars = [
         manufacturer: 'ferrari',
         owner: 'joel john',
         date: '12/3/2014',
-        status: 'new',
-        state: 'available',
+        status: 'available',
+        state: 'new',
         bodyType: 'car'
     },
     {
@@ -86,8 +86,8 @@ const cars = [
         manufacturer: 'Bentley Motors Limited',
         owner: 'Amarachi queen',
         date: '1/3/2019',
-        status: 'used',
-        state: 'available',
+        status: 'available',
+        state: 'used',
         bodyType: 'car'
     },
     {
@@ -99,8 +99,8 @@ const cars = [
         manufacturer: 'Tesla, Inc',
         owner: 'John Doe',
         date: '1/3/2019',
-        status: 'used',
-        state: 'available',
+        status: 'sold',
+        state: 'new',
         bodyType: 'truck'
     },
     {
@@ -112,8 +112,8 @@ const cars = [
         manufacturer: 'Toyota Motor Corporation',
         owner: 'Uche fords',
         date: '19/3/2019',
-        status: 'used',
-        state: 'available',
+        status: 'available',
+        state: 'used',
         bodyType: 'car'
     },
     {
@@ -125,11 +125,13 @@ const cars = [
         manufacturer: 'Volkswagen group',
         owner: 'uche fords',
         date: '19/3/2019',
-        status: 'used',
-        state: 'available',
+        status: 'available',
+        state: 'new',
         bodyType: 'car'
     }
 ];
+
+let soldCars = [];
 
 const carContainerDOM = document.querySelector('.cars-container');
 const sellCarBtnDOM = document.querySelector('.cart-icon-button');
@@ -142,6 +144,8 @@ const singleCarDOM = document.querySelector('.single-car');
 const closeSingleCarDOM = document.querySelector('.close-single-car');
 const updatePriceDOM = document.querySelector('.update-price');
 const contentDOM = document.querySelector('.content');
+const soldCarsDOM = document.querySelector('.sold-cars');
+const myCarsBtnDom = document.querySelector('.my-cars-btn');
 
 closeSingleCarDOM.addEventListener('click', () => {
     singleCarOverlayDOM.classList.toggle('transparentBcg1');
@@ -149,9 +153,10 @@ closeSingleCarDOM.addEventListener('click', () => {
 })
 
 const displayCars = (cars) => {
+    let str = '';
 
     (cars.length === 0) ? carContainerDOM.innerHTML = '<h1>You are yet to post a car</h1>' : cars.forEach(car => {
-        carContainerDOM.innerHTML += `
+        str += `
         <article class="card">
         <img src=${car.img} class="car-img" alt="product" data-id=${car.id}>
         <div class="details">
@@ -169,10 +174,13 @@ const displayCars = (cars) => {
         </div>
     </article>  
         `;
+
     })
+    carContainerDOM.innerHTML = str;
 };
 const carOwner = (user) => {
     const findCar = cars.filter(car => car.owner === user);
+    soldCars = findCar.filter(car => car.status === 'sold')
     displayCars(findCar);
 }
 const showSingleCar = (car) => {
@@ -256,4 +264,22 @@ closeSellCar.addEventListener('click', () => {
 // update price
 updatePriceDOM.addEventListener('click', () => {
     contentDOM.classList.toggle('show-content')
+})
+
+// // sold cars
+soldCarsDOM.addEventListener('click', () => {
+    carContainerDOM.innerHTML = '';
+    myCarsBtnDom.classList.toggle('btn-active')
+    soldCarsDOM.classList.toggle('btn-active')
+    displayCars(soldCars);
+    showACar();
+})
+
+// // my cars 
+myCarsBtnDom.addEventListener('click', () => {
+    carContainerDOM.innerHTML = '';
+    myCarsBtnDom.classList.toggle('btn-active')
+    soldCarsDOM.classList.toggle('btn-active')
+    carOwner('John Doe');
+    showACar();
 })
