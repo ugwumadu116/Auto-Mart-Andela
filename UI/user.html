@@ -22,10 +22,10 @@
                     sell
                 </span>
             </div>
-            <a href="./cars.html" class="user">
+            <a href="./cars.html" class="car-nav">
                 <i class="fas fa-car"></i>
             </a>
-            <a href="./user.html" class="user">
+            <a href="./user.html" class="user ">
                 <i class="fas fa-user-alt"></i>
             </a>
         </div>
@@ -35,6 +35,12 @@
         <div class="services-container">
             <article class="service">
                 <button class="my-cars-btn service-btn btn-active">my cars</button>
+            </article>
+            <article class="service ">
+                <button class="order-request service-btn">purchase request</button>
+            </article>
+            <article class="service ">
+                <button class="my-order service-btn">my orders</button>
             </article>
             <article class="service ">
                 <button class="sold-cars service-btn">sold cars</button>
@@ -105,21 +111,39 @@
             <span class="close-single-car">
                 <i class="fas fa-window-close"></i>
             </span>
-            <h2>single car</h2>
+            <h2>my car advert</h2>
             <div class="single-car-content">
             </div>
-            <div class="car-footer">
+            <!-- <div class="car-footer">
                 <button class="single-car-btn update-price">Update price</button>
-                <button class="single-car-btn update-price">mark as sold</button>
                 <div class="content">
                     <form>
                         <input type="number">
                         <input type="submit">
                     </form>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
+
+
+
+    <!-- <article class="card">
+        <img src=${car.img} class="car-img" alt="product" data-id=${car.id}>
+        <div class="details">
+            <div class="menuName">
+                <h2>${car.name} </h2>
+            </div>
+            <span class="model">${car.model}</span>
+            <span class="price">$${car.price}m</span>
+        </div>
+        <div class="cart-footer">
+            <button class="cart-btns delete-car del" data-id=${car.id}>
+                <i class="fas fa-trash"></i>
+                delete
+            </button>
+        </div>
+    </article> -->
 
     <script src="./js/user.js"></script>
 </body>

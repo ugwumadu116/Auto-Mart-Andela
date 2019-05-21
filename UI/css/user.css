@@ -14,6 +14,13 @@
   padding: 0;
   box-sizing: border-box;
 }
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; 
+}
+a{
+  text-decoration: none;
+}
 html {
   scroll-behavior: smooth;
 }
@@ -28,6 +35,10 @@ nav{
     width: 100%;
     z-index: 1;
 }
+/* .active{
+  background: var(--lightGreen);
+  border: 1px white solid;
+} */
 .navbar {
     display: flex;
     height: 70px;
@@ -46,11 +57,18 @@ nav{
     margin-right: 20px;
     font-size:1.5rem;
   }
-  .user{
+  .car-nav{
     color: var(--WhiteColor);    
     font-size:1.5rem;
     padding: 0 10px;
 
+  }
+  .user{
+    color: var(--WhiteColor);
+    font-size: 1.5rem;
+    padding: 10px 15px;
+    background: var(--lightGreen);
+    border-radius: 50%;
   }
   .cart-icon{
       color: white;
@@ -79,6 +97,16 @@ nav{
     box-shadow: 0 5px 15px rgb(0, 0, 0, 0.25);
     border-radius: 5px;
   }
+  /* .cars-container .order img {
+    display: block;
+    width: 0%;
+    height: 100px;
+  }
+  .cars-container .order .car-info-container{
+    display: flex;
+  } */
+
+
    .cars-container .card img {
     display: block;
     width: 100%;
@@ -101,6 +129,15 @@ nav{
   }
   .card .delete{
       display: none;
+  }
+  .available{
+    text-align: center;
+    color: #fdf9f8;
+    border: 2px solid transparent;
+    background: var(--DarkGreen);
+    width: 100%;
+    padding: 5px 0;
+    transition: all 0.5s ease-in-out;
   }
   .cart-footer{
       display: flex;
@@ -125,14 +162,18 @@ nav{
   
 .services {
     padding: 4rem 0 0 0;
+    width: 100vw;
     background: var(--WhiteColor);
     background: var(--mainGrey);
+    overflow: scroll;
   }
   .services-container{
       display: flex;
+      width: 100%;
   }
+  
   .service{
-      margin: 20px;
+      margin: 20px 0 10px 10px;
   }
   .service-btn{
     color: #fdf9f8;
@@ -140,7 +181,7 @@ nav{
     padding: 5px;
     border: none;
     margin: 5px;
-    font-size: 1.8rem;
+    font-size: 1.3rem;
     transition: all 0.5s ease-in-out;
    }
    .btn-active{    
@@ -354,7 +395,9 @@ form input, form select {
   letter-spacing: var(--styleSpacing);
   text-align: center;
 }
-
+.reject-price{
+  background: #bc3a80;
+}
 .content{
     display: none;
 }
