@@ -47,9 +47,11 @@ nav{
     font-size:1.5rem;
   }
   .user{
-    color: var(--WhiteColor);    
-    font-size:1.5rem;
-    padding: 0 10px;
+    color: var(--WhiteColor);
+    font-size: 1.5rem;
+    padding: 10px 15px;
+    background: var(--lightGreen);
+    border-radius: 50%;
 
   }
   .cart-icon{

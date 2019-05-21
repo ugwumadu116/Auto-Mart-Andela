@@ -45,7 +45,7 @@ const cars = [
         price: 400,
         model: '2019 model',
         manufacturer: 'Land Rover',
-        owner: 'jim ken',
+        owner: 'John Doe',
         date: '12/3/2014',
         status: 'available',
         state: 'used',
@@ -58,7 +58,7 @@ const cars = [
         price: 800,
         model: '2019 model',
         manufacturer: 'Bentley Motors Limited',
-        owner: 'John Doe',
+        owner: 'lat week',
         date: '12/3/2014',
         status: 'available',
         state: 'new',
@@ -71,7 +71,7 @@ const cars = [
         price: 500,
         model: '2019 model',
         manufacturer: 'ferrari',
-        owner: 'joel john',
+        owner: 'joel pin',
         date: '12/3/2014',
         status: 'available',
         state: 'new',
@@ -84,7 +84,7 @@ const cars = [
         price: 10,
         model: '2013 model',
         manufacturer: 'Bentley Motors Limited',
-        owner: 'Amarachi queen',
+        owner: 'Adam queen',
         date: '1/3/2019',
         status: 'available',
         state: 'used',
@@ -97,7 +97,7 @@ const cars = [
         price: 10,
         model: '2013 model',
         manufacturer: 'Tesla, Inc',
-        owner: 'John Doe',
+        owner: 'kiss folks',
         date: '1/3/2019',
         status: 'sold',
         state: 'new',
@@ -131,7 +131,50 @@ const cars = [
     }
 ];
 
-let soldCars = [];
+const orders = [
+    {
+        id: 1,
+        car_id: 9,
+        buyer: 'john king',
+        created_on: '21/5/2019',
+        status: 'pending',
+        price_offered: 50
+
+    },
+    {
+        id: 2,
+        car_id: 1,
+        buyer: 'Mic vin',
+        created_on: '21/5/2019',
+        status: 'pending',
+        price_offered: 40
+    },
+    {
+        id: 4,
+        car_id: 1,
+        buyer: 'sprint chef',
+        created_on: '21/5/2019',
+        status: 'pending',
+        price_offered: 60
+    },
+    {
+        id: 5,
+        car_id: 3,
+        buyer: 'mick Doe',
+        created_on: '21/5/2019',
+        status: 'pending',
+        price_offered: 60
+    },
+    {
+        id: 6,
+        car_id: 5,
+        buyer: 'John Doe',
+        created_on: '21/5/2019',
+        status: 'pending',
+        price_offered: 60
+    }
+];
+//let soldCars = [];
 
 const carContainerDOM = document.querySelector('.cars-container');
 const sellCarBtnDOM = document.querySelector('.cart-icon-button');
@@ -142,10 +185,10 @@ const singleCarContainer = document.querySelector('.single-car-content');
 const singleCarOverlayDOM = document.querySelector('.single-car-overlay');
 const singleCarDOM = document.querySelector('.single-car');
 const closeSingleCarDOM = document.querySelector('.close-single-car');
-const updatePriceDOM = document.querySelector('.update-price');
-const contentDOM = document.querySelector('.content');
 const soldCarsDOM = document.querySelector('.sold-cars');
+const orderReqDOM = document.querySelector('.order-request');
 const myCarsBtnDom = document.querySelector('.my-cars-btn');
+const myOrderReq = document.querySelector('.my-order');
 
 closeSingleCarDOM.addEventListener('click', () => {
     singleCarOverlayDOM.classList.toggle('transparentBcg1');
@@ -167,10 +210,7 @@ const displayCars = (cars) => {
             <span class="price">$${car.price}m</span>
         </div>
         <div class="cart-footer">
-            <button class="cart-btns delete-car del" data-id=${car.id}>
-                <i class="fas fa-trash"></i>
-                delete
-            </button>
+            <div class="available">Available</div>            
         </div>
     </article>  
         `;
@@ -178,12 +218,118 @@ const displayCars = (cars) => {
     })
     carContainerDOM.innerHTML = str;
 };
+const displayOrders = (orders) => {
+    let str = '';
+    (orders.length === 0)
+        ? carContainerDOM.innerHTML = '<h1>No one has ordered your car</h1>' : orders.forEach(order => {
+            const car = cars.find(item => item.id === order.car_id);
+            str += `
+            <article class="card">
+            <img src=${car.img} class="car-img" alt="product" data-id=${order.id}>
+            <div class="details">
+                <div class="menuName">
+                    <h2>${car.name} </h2>
+                </div>
+                <span class="model">${car.model}</span>
+                <span class="price">$${car.price}m</span>
+            </div>
+            <div class="cart-footer">
+                <div class="available">price offered: $${order.price_offered}m </div>            
+            </div>
+        </article>  
+        `;
+
+        })
+    carContainerDOM.innerHTML = str;
+};
 const carOwner = (user) => {
-    const findCar = cars.filter(car => car.owner === user);
-    soldCars = findCar.filter(car => car.status === 'sold')
+    const findCar = cars.filter(car => car.owner === user && car.status !== 'sold');
     displayCars(findCar);
 }
-const showSingleCar = (car) => {
+const getOrders = (user) => {
+    const findCar = cars.filter(car => car.owner === user && car.status !== 'sold');
+    let mySaleReq = []
+    findCar.forEach(car => {
+        if (orders.filter(order => order.car_id === car.id).length !== 0) {
+            mySaleReq = [...mySaleReq, orders.filter(order => order.car_id === car.id)]
+        }
+    });
+
+    const simpleOrder = [].concat(...mySaleReq);
+    displayOrders(simpleOrder);
+    showAnOrder('purchase request', simpleOrder);
+}
+const getMyOrders = (user) => {
+    const findOrders = orders.filter(order => order.buyer === user);
+    displayOrders(findOrders);
+    showAnOrder('My Order', findOrders);
+}
+const showSingleCar = (title, car) => {
+    singleCarContainer.previousElementSibling.innerText = title || 'my car advert';
+    singleCarContainer.innerHTML = `
+    <img src=${car.img} alt="car">
+    <div class="car-name">
+        <h3>${car.name}</h3>
+        <h3>$${car.price}m</h3>
+    </div>
+    <div class="single-car-item">
+        <div class="car-info">MANUFACTURER : </div>
+        <div class="car-info-val">
+            <h3>${car.manufacturer}</h3>
+        </div>
+    </div>
+    <div class="single-car-item">
+        <div class="car-info">STATE : </div>
+        <div class="car-info-val">
+            <h3>${car.state}</h3>
+        </div>
+    </div>
+    <div class="single-car-item">
+        <div class="car-info">STATUS : </div>
+        <div class="car-info-val">
+            <h3>${car.status}</h3>
+        </div>
+    </div>
+    <div class="single-car-item">
+        <div class="car-info">MODEL : </div>
+        <div class="car-info-val">
+            <h3>${car.model}</h3>
+        </div>
+    </div>
+    <div class="single-car-item">
+        <div class="car-info">OWNER : </div>
+        <div class="car-info-val">
+            <h3>${car.owner}</h3>
+        </div>
+    </div>
+    <div class="single-car-item">
+        <div class="car-info">DATE : </div>
+        <div class="car-info-val">
+            <h3>${car.date}</h3>
+        </div>
+    </div>
+    <div class="single-car-item">
+        <div class="car-info">BODY TYPE : </div>
+        <div class="car-info-val">
+            <h3>${car.bodyType}</h3>
+        </div>
+    </div>
+    <div class="car-footer">
+        <button class="single-car-btn update-price">Update price</button>
+            <div class="content">
+                <form>
+                    <input type="number">
+                    <input type="submit">
+                </form>
+            </div>
+    </div>
+    `;
+    singleCarOverlayDOM.classList.toggle('transparentBcg1');
+    singleCarDOM.classList.toggle('showSingleCar');
+    updatePrice();
+}
+const showASoldCar = (title, car) => {
+    singleCarContainer.previousElementSibling.innerText = title || 'my car advert';
     singleCarContainer.innerHTML = `
     <img src=${car.img} alt="car">
     <div class="car-name">
@@ -236,20 +382,147 @@ const showSingleCar = (car) => {
     singleCarOverlayDOM.classList.toggle('transparentBcg1');
     singleCarDOM.classList.toggle('showSingleCar');
 }
-const showACar = () => {
+const showSingleOrder = (title, car, order) => {
+    singleCarContainer.previousElementSibling.innerText = title;
+    if (title === 'My Order') {
+        singleCarContainer.innerHTML = `
+        <img src=${car.img} alt="car">
+        <div class="car-name">
+            <h3>${car.name}</h3>
+            <h3>$${car.price}m</h3>
+        </div>
+        <div class="single-car-item">
+            <div class="car-info">BUYER : </div>
+            <div class="car-info-val">
+                <h3>${order.buyer}</h3>
+            </div>
+        </div>
+        <div class="single-car-item">
+            <div class="car-info">PRICE OFFERED : </div>
+            <div class="car-info-val">
+                <h3>$${order.price_offered}</h3>
+            </div>
+        </div>
+        <div class="single-car-item">
+            <div class="car-info">STATUS : </div>
+            <div class="car-info-val">
+                <h3>${order.status}</h3>
+            </div>
+        </div>
+        <div class="single-car-item">
+            <div class="car-info">SELLER : </div>
+            <div class="car-info-val">
+                <h3>${car.owner}</h3>
+            </div>
+        </div>
+        <div class="single-car-item">
+            <div class="car-info">DATE ORDER : </div>
+            <div class="car-info-val">
+                <h3>${order.created_on}</h3>
+            </div>
+        </div>
+        <div class="car-footer">
+        <button class="single-car-btn update-price">Update price</button>
+        <div class="content">
+            <form>
+                <input type="number">
+                <input type="submit">
+            </form>
+        </div>
+        </div>
+        `;
+        singleCarOverlayDOM.classList.toggle('transparentBcg1');
+        singleCarDOM.classList.toggle('showSingleCar');
+        updatePrice();
+    } else {
+        singleCarContainer.innerHTML = `
+        <img src=${car.img} alt="car">
+        <div class="car-name">
+            <h3>${car.name}</h3>
+            <h3>$${car.price}m</h3>
+        </div>
+        <div class="single-car-item">
+            <div class="car-info">BUYER : </div>
+            <div class="car-info-val">
+                <h3>${order.buyer}</h3>
+            </div>
+        </div>
+        <div class="single-car-item">
+            <div class="car-info">PRICE OFFERED : </div>
+            <div class="car-info-val">
+                <h3>$${order.price_offered}</h3>
+            </div>
+        </div>
+        <div class="single-car-item">
+            <div class="car-info">STATUS : </div>
+            <div class="car-info-val">
+                <h3>${order.status}</h3>
+            </div>
+        </div>
+        <div class="single-car-item">
+            <div class="car-info">SELLER : </div>
+            <div class="car-info-val">
+                <h3>${car.owner}</h3>
+            </div>
+        </div>
+        <div class="single-car-item">
+            <div class="car-info">DATE ORDER : </div>
+            <div class="car-info-val">
+                <h3>${order.created_on}</h3>
+            </div>
+        </div>
+        <div class="car-footer">
+            <button class="single-car-btn accept-price">Accept</button>
+            <button class="single-car-btn reject-price">Reject</button>
+        </div>
+        `;
+        singleCarOverlayDOM.classList.toggle('transparentBcg1');
+        singleCarDOM.classList.toggle('showSingleCar');
+    }
+
+
+}
+const showACar = (title) => {
     const carImageDOM = document.querySelectorAll('.car-img');
     carImageDOM.forEach(img => {
         img.addEventListener('click', () => {
             let id = img.dataset.id;
             let requestedCar = cars.find(car => car.id == id);
-            showSingleCar(requestedCar);
+            if (title === 'Sold Cars') {
+                showASoldCar(title, requestedCar);
+            } else {
+                showSingleCar(title, requestedCar);
+            }
+
         })
+    })
+}
+const showAnOrder = (title, orders) => {
+    const carImageDOM = document.querySelectorAll('.car-img');
+    carImageDOM.forEach(img => {
+        img.addEventListener('click', () => {
+            let id = img.dataset.id;
+            //console.log(id)
+            const orderDetails = orders.find(order => order.id == id);
+            const carDetails = cars.find(car => car.id = orderDetails.car_id)
+            console.log(orderDetails, carDetails)
+            showSingleOrder(title, carDetails, orderDetails);
+        })
+    })
+}
+const updatePrice = () => {
+    const updatePriceDOM = document.querySelector('.update-price');
+
+    const contentDOM = document.querySelector('.content');
+    updatePriceDOM.addEventListener('click', () => {
+        contentDOM.classList.toggle('show-content')
     })
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     carOwner('John Doe');
     showACar();
+
 })
 // post car
 sellCarBtnDOM.addEventListener('click', () => {
@@ -261,25 +534,43 @@ closeSellCar.addEventListener('click', () => {
     sellCarContent.classList.toggle('showSell-carX')
 })
 
-// update price
-updatePriceDOM.addEventListener('click', () => {
-    contentDOM.classList.toggle('show-content')
-})
 
 // // sold cars
 soldCarsDOM.addEventListener('click', () => {
     carContainerDOM.innerHTML = '';
-    myCarsBtnDom.classList.toggle('btn-active')
-    soldCarsDOM.classList.toggle('btn-active')
-    displayCars(soldCars);
-    showACar();
+    myCarsBtnDom.classList.remove('btn-active');
+    soldCarsDOM.classList.add('btn-active');
+    orderReqDOM.classList.remove('btn-active');
+    myOrderReq.classList.remove('btn-active');
+    const findCar = cars.filter(car => car.owner === 'John Doe' && car.status === 'sold');
+    displayCars(findCar);
+    showACar('Sold Cars');
+})
+// order request {[purchase] cars people want to buy from me}
+orderReqDOM.addEventListener('click', () => {
+    carContainerDOM.innerHTML = '';
+    myCarsBtnDom.classList.remove('btn-active');
+    soldCarsDOM.classList.remove('btn-active');
+    orderReqDOM.classList.add('btn-active');
+    myOrderReq.classList.remove('btn-active');
+    getOrders('John Doe');
+})
+// my orders {cars i want to buy from others}
+myOrderReq.addEventListener('click', () => {
+    myCarsBtnDom.classList.remove('btn-active');
+    soldCarsDOM.classList.remove('btn-active');
+    orderReqDOM.classList.remove('btn-active');
+    myOrderReq.classList.add('btn-active');
+    getMyOrders('John Doe')
 })
 
 // // my cars 
 myCarsBtnDom.addEventListener('click', () => {
     carContainerDOM.innerHTML = '';
-    myCarsBtnDom.classList.toggle('btn-active')
-    soldCarsDOM.classList.toggle('btn-active')
+    myCarsBtnDom.classList.add('btn-active');
+    soldCarsDOM.classList.remove('btn-active');
+    orderReqDOM.classList.remove('btn-active');
+    myOrderReq.classList.remove('btn-active');
     carOwner('John Doe');
     showACar();
 })
