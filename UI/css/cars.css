@@ -132,6 +132,7 @@ nav{
     display: block;
     width: 100%;
     height: 300px;
+    cursor: pointer;
   }  
    .card .price {
     background: var(--lightGreen);
@@ -147,9 +148,11 @@ nav{
     padding: 5px 0;
     margin: 5px;
     transition: all 0.5s ease-in-out;
+    cursor: pointer;
   }
   .card .delete{
       display: none;
+      cursor: pointer;
   }
   .cart-footer{
       display: flex;
@@ -238,6 +241,7 @@ nav{
     top: 0px;
     margin-left: 10px;
     border-bottom: 1px dotted black;
+    cursor: pointer;
   }
   .fa-font-awesome-flag{
       color: #bc3a80;
@@ -379,6 +383,7 @@ nav{
   font-size: 1.2rem;
   padding: 10px;
   margin-top: 2rem;
+  cursor: pointer;
 }
 .car-footer {
   letter-spacing: var(--styleSpacing);
@@ -511,8 +516,10 @@ nav{
   font-size: 1.2rem;
   padding: 10px;
   margin-top: 2rem;
+  cursor: pointer;
 
 }
 .clear-order{
   background: #bc3a80;
+  cursor: pointer;
 }
