@@ -1,0 +1,26 @@
+{
+  "name": "auto-mart-andela",
+  "version": "1.0.0",
+  "description": "Auto Mart is an online marketplace for automobiles of diverse makes, model or body type. With Auto Mart, users can sell their cars or buy from trusted dealerships or private sellers.",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ugwumadu116/Auto-Mart-Andela.git"
+  },
+  "author": "joel ugwumadu",
+  "license": "MIT",
+  "engines": {
+    "node": "10.13.0"
+  },
+  "bugs": {
+    "url": "https://github.com/ugwumadu116/Auto-Mart-Andela/issues"
+  },
+  "homepage": "https://github.com/ugwumadu116/Auto-Mart-Andela#readme"
+}
