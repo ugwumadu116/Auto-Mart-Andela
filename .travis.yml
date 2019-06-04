@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+ - "node"
+cache:
+  directories:
+    - "node_modules"
+env:
+  - SECRET=secret
+global:
+  - CODECLIMATE_REPO_TOKEN=d2743ffa22c21c3a7225a0331886c388e82e98a36f5854d127575b16ff41f4c7
+install:
+  - npm install
+script: "npm test"
+after_success:
+  - npm run coverage
+  

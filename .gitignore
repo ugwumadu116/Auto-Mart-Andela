@@ -1,2 +1,7 @@
 node_modules
 .vscode
+build
+.env
+.nyc_output
+lcov.info
+.coveralls.yml
