@@ -45,5 +45,47 @@ class UserController {
       });
     }
   }
+
+  static async loginUser(req, res) {
+    try {
+      const {
+        email,
+        password,
+      } = req.body;
+      const checkIfUserExist = await userService.findUser(email);
+      if (!checkIfUserExist) {
+        throw new Error('User not registered please signup');
+      }
+      const checkPassword = await bcrypt.compare(password, checkIfUserExist.password);
+      if (!checkPassword) {
+        throw new Error('invalid password or email');
+      }
+      const jwtToken = await jwt.sign({ user: checkIfUserExist.id }, secret, {
+        expiresIn: '1h',
+      });
+      return res.status(200).json({
+        status: 200,
+        data: [{
+          token: jwtToken,
+          id: checkIfUserExist.id,
+          firstName: checkIfUserExist.firstName,
+          lastName: checkIfUserExist.lastName,
+          email: checkIfUserExist.email,
+          address: checkIfUserExist.address,
+        }],
+      });
+    } catch (error) {
+      if (error.message === 'invalid password or email') {
+        return res.status(400).json({
+          status: 400,
+          message: error.message,
+        });
+      }
+      return res.status(404).json({
+        status: 404,
+        message: error.message,
+      });
+    }
+  }
 }
 export default UserController;

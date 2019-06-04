@@ -25,5 +25,9 @@ class UserService {
       return newUser;
     }
   }
+
+  static findUser(email) {
+    return userData.user.find(userInfo => userInfo.email === email);
+  }
 }
 export default UserService;
