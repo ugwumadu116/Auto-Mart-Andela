@@ -24,6 +24,21 @@ const signUpValidation = [
     .trim(),
 ];
 
+const signInValidation = [
+  body('email')
+    .isEmail()
+    .withMessage('A valid email is required')
+    .normalizeEmail()
+    .trim(),
+  body(
+    'password',
+    'Please enter a password at least 6 characters long',
+  )
+    .trim()
+    .isLength({ min: 6 }),
+];
+
 export default {
   signUpValidation,
+  signInValidation,
 };
