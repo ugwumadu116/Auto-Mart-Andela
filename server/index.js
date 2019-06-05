@@ -4,12 +4,14 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 
 import userRouter from './routes/user.route';
+import carRouter from './routes/cars.route';
 
 const app = express();
 dotenv.config();
 
+
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 const PORT = process.env.PORT || 3001;
@@ -20,6 +22,7 @@ app.get('/', (req, res) => {
 });
 
 app.use(`${prefix}/`, userRouter);
+app.use(`${prefix}/`, carRouter);
 
 app.listen(PORT, () => console.log(`Welcome ${PORT}`));
 
