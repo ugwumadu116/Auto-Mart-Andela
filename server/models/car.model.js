@@ -9,7 +9,7 @@ class Car {
     this.created_on = null;
     this.status = 'available';
     this.state = null;
-    this.bodyType = null;
+    this.body_type = null;
     this.manufacturer = null;
   }
 }

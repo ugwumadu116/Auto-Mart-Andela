@@ -10,7 +10,7 @@ class UserController {
         name,
         model,
         price,
-        bodyType,
+        body_type,
         state,
         manufacturer,
       } = req.body;
@@ -25,7 +25,7 @@ class UserController {
       newCar.name = name;
       newCar.model = model;
       newCar.price = price;
-      newCar.bodyType = bodyType;
+      newCar.body_type = body_type;
       newCar.state = state;
       newCar.manufacturer = manufacturer;
       carsData.cars.push(newCar);
@@ -66,6 +66,23 @@ class UserController {
       }
       return res.status(401).json({
         status: 401,
+        message: error.message,
+      });
+    }
+  }
+
+  static async getCars(req, res) {
+    try {
+      const queryObj = req.query;
+      const queryKeys = Object.keys(queryObj);
+      const result = carsData.cars.filter(car => queryKeys.every(key => car[key] === queryObj[key]));
+      return res.status(200).json({
+        status: 200,
+        data: result,
+      });
+    } catch (error) {
+      return res.status(404).json({
+        status: 404,
         message: error.message,
       });
     }

@@ -25,7 +25,7 @@ class UserController {
       };
       const createdUser = await userService.createUser(user);
       const jwtToken = jwt.sign({ user: createdUser.id }, secret, {
-        expiresIn: '1h',
+        expiresIn: '6h',
       });
       return res.status(201).json({
         status: 201,
@@ -61,7 +61,7 @@ class UserController {
         throw new Error('invalid password or email');
       }
       const jwtToken = await jwt.sign({ user: checkIfUserExist.id }, secret, {
-        expiresIn: '1h',
+        expiresIn: '6h',
       });
       return res.status(200).json({
         status: 200,

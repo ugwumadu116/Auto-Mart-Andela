@@ -51,7 +51,7 @@ const createCarValidation = [
   body('price', 'price must be numbers only')
     .isNumeric()
     .trim(),
-  body('bodyType', 'body type should be car or truck or van or trailer')
+  body('body_type', 'body type should be car or truck or van or trailer')
     .matches(/^car$|^truck$|^trailer$|^van$/i)
     .trim(),
   body('state', 'state should be new or old')

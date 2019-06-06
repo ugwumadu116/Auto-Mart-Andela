@@ -29,7 +29,7 @@ describe('Car Endpoint Tests', () => {
       .field('name', 'Chevrolet')
       .field('model', '2018 model')
       .field('price', 232)
-      .field('bodyType', 'car')
+      .field('body_type', 'car')
       .field('state', 'new')
       .attach('image',
         fs.readFileSync('UI/images/car1.jpg'),
@@ -38,7 +38,7 @@ describe('Car Endpoint Tests', () => {
     expect(result.body.status).to.eq(201);
     expect(result.body.data).to.have.property('id');
     expect(result.body.data).to.have.property('model');
-    expect(result.body.data).to.have.property('bodyType');
+    expect(result.body.data).to.have.property('body_type');
   });
   it('POST /car/ - User POST car - fake token provided', async () => {
     const result = await chai
@@ -50,7 +50,7 @@ describe('Car Endpoint Tests', () => {
       .field('name', 'Chevrolet')
       .field('model', '2018 model')
       .field('price', 232)
-      .field('bodyType', 'car')
+      .field('body_type', 'car')
       .field('state', 'new')
       .attach('image',
         fs.readFileSync('UI/images/car1.jpg'),
@@ -68,7 +68,7 @@ describe('Car Endpoint Tests', () => {
       .field('name', 'Chevrolet')
       .field('model', '2018 model')
       .field('price', 232)
-      .field('bodyType', 'car')
+      .field('body_type', 'car')
       .field('state', 'new')
       .attach('image',
         fs.readFileSync('UI/images/car1.jpg'),
@@ -85,7 +85,7 @@ describe('Car Endpoint Tests', () => {
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .field('model', '2018 model')
       .field('price', 232)
-      .field('bodyType', 'car')
+      .field('body_type', 'car')
       .field('state', 'new')
       .attach('image',
         fs.readFileSync('UI/images/car1.jpg'),
@@ -108,7 +108,7 @@ describe('Car Endpoint Tests', () => {
     expect(result.body.status).to.eq(400);
     expect(result.body.message).to.have.property('name');
     expect(result.body.message).to.have.property('manufacturer');
-    expect(result.body.message).to.have.property('bodyType');
+    expect(result.body.message).to.have.property('body_type');
     expect(result.body.message).to.have.property('price');
   });
   it('DELETE /car/id - User DELETE car- pass', async () => {
@@ -146,5 +146,23 @@ describe('Car Endpoint Tests', () => {
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
     expect(result.body.message).to.have.property('car_id');
+  });
+  it('GET /car?body_type=car - User GET cars with body_type=car', async () => {
+    const result = await chai
+      .request(app)
+      .get(`${API_PREFIX}/car?body_type=car`)
+      .set('authorization', jwtToken);
+    expect(result).to.have.status(200);
+    expect(result.body.status).to.eq(200);
+    expect(result.body.data).to.be.an('array');
+  });
+  it('GET /car?body_type=car - User GET cars with body_type=car', async () => {
+    const result = await chai
+      .request(app)
+      .get(`${API_PREFIX}/car?body_type=car`)
+      .set('authorization', 'jwtToken');
+    expect(result).to.have.status(401);
+    expect(result.body.status).to.eq(401);
+    assert.equal(result.body.message, 'invalid or expired token');
   });
 });
