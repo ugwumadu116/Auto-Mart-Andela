@@ -74,6 +74,14 @@ class UserController {
   static async getCars(req, res) {
     try {
       const queryObj = req.query;
+      if ('min_price' in queryObj) {
+        const carRange = carsData.cars
+          .filter(car => car.status === queryObj['status'] && car.price >= queryObj['min_price'] && car.price <= queryObj['max_price']);
+        return res.status(200).json({
+          status: 200,
+          data: carRange,
+        });
+      }
       const queryKeys = Object.keys(queryObj);
       const result = carsData.cars.filter(car => queryKeys.every(key => car[key] === queryObj[key]));
       return res.status(200).json({
