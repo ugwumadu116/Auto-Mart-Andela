@@ -19,8 +19,8 @@ router.post('/car',
 
 router.delete('/car/:car_id',
   verifyToken.validate,
-  trimRequest.body,
-  validation.deleteCar,
+  trimRequest.param,
+  validation.carIdParam,
   userValidation.validateUserReq,
   carController.deleteCar);
 
@@ -28,4 +28,11 @@ router.get('/car',
   verifyToken.validate,
   trimRequest.param,
   carController.getCars);
+
+router.get('/car/:car_id',
+  verifyToken.validate,
+  trimRequest.param,
+  validation.carIdParam,
+  userValidation.validateUserReq,
+  carController.getSingleCar);
 export default router;
