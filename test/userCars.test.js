@@ -183,4 +183,25 @@ describe('Car Endpoint Tests', () => {
     expect(result.body.status).to.eq(200);
     expect(result.body.data).to.be.an('array');
   });
+  it('GET /car/3 - User GET a specific car', async () => {
+    const result = await chai
+      .request(app)
+      .get(`${API_PREFIX}/car/3`)
+      .set('authorization', jwtToken);
+    expect(result).to.have.status(200);
+    expect(result.body.status).to.eq(200);
+    expect(result.body.data).to.have.property('name');
+    expect(result.body.data).to.have.property('manufacturer');
+    expect(result.body.data).to.have.property('body_type');
+    expect(result.body.data).to.have.property('price');
+  });
+  it('GET /car/car_id - User GET a specific car', async () => {
+    const result = await chai
+      .request(app)
+      .get(`${API_PREFIX}/car/3333`)
+      .set('authorization', jwtToken);
+    expect(result).to.have.status(404);
+    expect(result.body.status).to.eq(404);
+    assert.equal(result.body.message, 'Car with that id doest not exits');
+  });
 });

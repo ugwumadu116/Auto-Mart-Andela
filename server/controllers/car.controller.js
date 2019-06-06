@@ -95,5 +95,23 @@ class UserController {
       });
     }
   }
+
+  static async getSingleCar(req, res) {
+    try {
+      const checkIfCarExist = await CarServices.findCar(req.params.car_id);
+      if (!checkIfCarExist) {
+        throw new Error('Car with that id doest not exits');
+      }
+      return res.status(200).json({
+        status: 200,
+        data: checkIfCarExist,
+      });
+    } catch (error) {
+      return res.status(404).json({
+        status: 404,
+        message: error.message,
+      });
+    }
+  }
 }
 export default UserController;

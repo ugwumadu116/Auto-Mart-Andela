@@ -59,7 +59,7 @@ const createCarValidation = [
     .trim(),
 ];
 
-const deleteCar = [
+const carIdParam = [
   param('car_id', 'Invalid car id').isNumeric(),
 ];
 
@@ -67,5 +67,5 @@ export default {
   signUpValidation,
   signInValidation,
   createCarValidation,
-  deleteCar,
+  carIdParam,
 };
