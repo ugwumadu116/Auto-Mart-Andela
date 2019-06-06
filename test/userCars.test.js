@@ -156,7 +156,7 @@ describe('Car Endpoint Tests', () => {
     expect(result.body.status).to.eq(200);
     expect(result.body.data).to.be.an('array');
   });
-  it('GET /car?body_type=car - User GET cars with body_type=car', async () => {
+  it('GET /car?body_type=car - User GET cars with body_type=car fail wrong token', async () => {
     const result = await chai
       .request(app)
       .get(`${API_PREFIX}/car?body_type=car`)
@@ -164,5 +164,14 @@ describe('Car Endpoint Tests', () => {
     expect(result).to.have.status(401);
     expect(result.body.status).to.eq(401);
     assert.equal(result.body.message, 'invalid or expired token');
+  });
+  it('GET /car?status=available - User GET cars with status=available', async () => {
+    const result = await chai
+      .request(app)
+      .get(`${API_PREFIX}/car?status=available`)
+      .set('authorization', 'jwtToken');
+    expect(result).to.have.status(200);
+    expect(result.body.status).to.eq(200);
+    expect(result.body.data).to.be.an('array');
   });
 });
