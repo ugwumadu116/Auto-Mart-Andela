@@ -14,6 +14,10 @@ const jwtToken = jwt.sign({ user: 2 }, 'secret', {
   expiresIn: 86400,
 });
 
+const adminJwtToken = jwt.sign({ user: 1 }, 'secret', {
+  expiresIn: 86400,
+});
+
 describe('Car Endpoint Tests', () => {
   it('POST /car/ - User POST car', async () => {
     const result = await chai
@@ -106,5 +110,41 @@ describe('Car Endpoint Tests', () => {
     expect(result.body.message).to.have.property('manufacturer');
     expect(result.body.message).to.have.property('bodyType');
     expect(result.body.message).to.have.property('price');
+  });
+  it('DELETE /car/id - User DELETE car- pass', async () => {
+    const result = await chai
+      .request(app)
+      .delete(`${API_PREFIX}/car/1`)
+      .set('authorization', adminJwtToken);
+    expect(result).to.have.status(200);
+    expect(result.body.status).to.eq(200);
+    assert.equal(result.body.data, 'Car Ad successfully deleted');
+  });
+  it('DELETE /car/id - User DELETE car- fail not admin', async () => {
+    const result = await chai
+      .request(app)
+      .delete(`${API_PREFIX}/car/1`)
+      .set('authorization', jwtToken);
+    expect(result).to.have.status(401);
+    expect(result.body.status).to.eq(401);
+    assert.equal(result.body.message, 'Unauthorized only admin can delete');
+  });
+  it('DELETE /car/id - User DELETE car- fail car does not exits', async () => {
+    const result = await chai
+      .request(app)
+      .delete(`${API_PREFIX}/car/111`)
+      .set('authorization', adminJwtToken);
+    expect(result).to.have.status(404);
+    expect(result.body.status).to.eq(404);
+    assert.equal(result.body.message, 'Car with that id doest not exits');
+  });
+  it('DELETE /car/id - User DELETE car- fail invalid car id', async () => {
+    const result = await chai
+      .request(app)
+      .delete(`${API_PREFIX}/car/abc`)
+      .set('authorization', adminJwtToken);
+    expect(result).to.have.status(400);
+    expect(result.body.status).to.eq(400);
+    expect(result.body.message).to.have.property('car_id');
   });
 });

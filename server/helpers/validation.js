@@ -1,4 +1,4 @@
-import { body } from 'express-validator/check';
+import { body, param } from 'express-validator/check';
 
 
 const signUpValidation = [
@@ -59,8 +59,13 @@ const createCarValidation = [
     .trim(),
 ];
 
+const deleteCar = [
+  param('car_id', 'Invalid car id').isNumeric(),
+];
+
 export default {
   signUpValidation,
   signInValidation,
   createCarValidation,
+  deleteCar,
 };
