@@ -174,4 +174,13 @@ describe('Car Endpoint Tests', () => {
     expect(result.body.status).to.eq(200);
     expect(result.body.data).to.be.an('array');
   });
+  it('GET /car?status=available&min_price=100&max_price=1000 - User GET cars of specified price range', async () => {
+    const result = await chai
+      .request(app)
+      .get(`${API_PREFIX}/car?status=available&min_price=100&max_price=1000`)
+      .set('authorization', jwtToken);
+    expect(result).to.have.status(200);
+    expect(result.body.status).to.eq(200);
+    expect(result.body.data).to.be.an('array');
+  });
 });
