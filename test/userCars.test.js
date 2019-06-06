@@ -169,7 +169,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .get(`${API_PREFIX}/car?status=available`)
-      .set('authorization', 'jwtToken');
+      .set('authorization', jwtToken);
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
     expect(result.body.data).to.be.an('array');
