@@ -3,6 +3,7 @@
   "rules": {
     "linebreak-style": 0,
     "no-console": "off",
+    "camelcase": "off",
     "global-require": 0,
     "eslint linebreak-style": [
       0,

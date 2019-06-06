@@ -16,7 +16,7 @@ const checkCar = (req) => {
     manufacturer,
     model,
     price,
-    bodyType,
+    body_type,
     state,
   } = req.body;
 
@@ -35,8 +35,8 @@ const checkCar = (req) => {
   if (price === '' || price === undefined || isNaN(price)) {
     groupError['price'] = 'Car price must be numbers only and is required';
   }
-  if (bodyType === '' || bodyType === undefined || !bodyType.match(/^car$|^truck$|^trailer$|^van$/i)) {
-    groupError['bodyType'] = 'Car body type should be car or truck or van or trailer and is required';
+  if (body_type === '' || body_type === undefined || !body_type.match(/^car$|^truck$|^trailer$|^van$/i)) {
+    groupError['body_type'] = 'Car body type should be car or truck or van or trailer and is required';
   }
   if (state === '' || state === undefined || !state.match(/^new$|^old$/i)) {
     groupError['state'] = 'Car state should be new or old and is required';

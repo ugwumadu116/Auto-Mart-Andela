@@ -168,30 +168,3 @@ describe('User Auth SignIn Endpoint Tests', () => {
     done();
   });
 });
-
-// describe('Car Endpoint Tests', () => {
-//   it('POST /car/ - User POST car', (done) => {
-//     chai
-//       .request(app)
-//       .post(`${API_PREFIX}/car`)
-//       .set('authorization', jwtToken)
-//       .set('Content-Type', 'application/x-www-form-urlencoded')
-//       .field('manufacturer', 'General Motors (GM)')
-//       .field('name', 'Chevrolet')
-//       .field('model', '2018 model')
-//       .field('price', 232)
-//       .field('bodyType', 'car')
-//       .field('state', 'new')
-//       .attach('image',
-//         fs.readFileSync('UI/images/car1.jpg'),
-//         'car1.jpg')
-//       .then((res) => {
-//         expect(res).to.have.status(201);
-//         expect(res.body.status).to.eq(201);
-//         expect(res.body.data).to.have.property('id');
-//         expect(res.body.data).to.have.property('model');
-//         expect(res.body.data).to.have.property('bodyType');
-//       });
-//     done();
-//   });
-// });

@@ -23,4 +23,9 @@ router.delete('/car/:car_id',
   validation.deleteCar,
   userValidation.validateUserReq,
   carController.deleteCar);
+
+router.get('/car',
+  verifyToken.validate,
+  trimRequest.body,
+  carController.getCars);
 export default router;
