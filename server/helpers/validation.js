@@ -65,6 +65,9 @@ const carIdParam = [
 const carPrice = [
   body('price', 'price should be numbers only').isNumeric(),
 ];
+const carStatus = [
+  body('status', 'status should be sold').matches(/^sold$/i),
+];
 
 export default {
   signUpValidation,
@@ -72,4 +75,5 @@ export default {
   createCarValidation,
   carIdParam,
   carPrice,
+  carStatus,
 };

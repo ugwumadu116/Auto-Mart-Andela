@@ -134,5 +134,26 @@ class UserController {
       });
     }
   }
+
+  static async updateCarStatus(req, res) {
+    try {
+      const checkIfCarExist = await carsData.cars
+        .find(car => car.id == req.params.car_id && car.owner === req.userData.user);
+      if (!checkIfCarExist) {
+        throw new Error('Car with that id doest not exits');
+      }
+      const carIndex = carsData.cars.indexOf(checkIfCarExist);
+      carsData.cars[carIndex].status = req.body.status;
+      return res.status(200).json({
+        status: 200,
+        data: carsData.cars[carIndex],
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: 400,
+        message: error.message,
+      });
+    }
+  }
 }
 export default UserController;
