@@ -62,10 +62,14 @@ const createCarValidation = [
 const carIdParam = [
   param('car_id', 'Invalid car id').isNumeric(),
 ];
+const carPrice = [
+  body('price', 'price should be numbers only').isNumeric(),
+];
 
 export default {
   signUpValidation,
   signInValidation,
   createCarValidation,
   carIdParam,
+  carPrice,
 };

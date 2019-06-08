@@ -18,6 +18,23 @@ const adminJwtToken = jwt.sign({ user: 1 }, 'secret', {
   expiresIn: 86400,
 });
 
+before(async () => {
+  await chai
+    .request(app)
+    .post(`${API_PREFIX}/car`)
+    .set('authorization', jwtToken)
+    .set('Content-Type', 'application/x-www-form-urlencoded')
+    .field('manufacturer', 'General Motors (GM)')
+    .field('name', 'Chevrolet')
+    .field('model', '2018 model')
+    .field('price', 232)
+    .field('body_type', 'car')
+    .field('state', 'new')
+    .attach('image',
+      fs.readFileSync('UI/images/car1.jpg'),
+      'car1.jpg');
+});
+
 describe('Car Endpoint Tests', () => {
   it('POST /car/ - User POST car', async () => {
     const result = await chai
@@ -202,6 +219,33 @@ describe('Car Endpoint Tests', () => {
       .set('authorization', jwtToken);
     expect(result).to.have.status(404);
     expect(result.body.status).to.eq(404);
+    assert.equal(result.body.message, 'Car with that id doest not exits');
+  });
+  it('PATCH /car/car_id/price - User update a specific car price', async () => {
+    const result = await chai
+      .request(app)
+      .patch(`${API_PREFIX}/car/5/price`)
+      .set('authorization', jwtToken)
+      .send({
+        price: '1000000',
+      });
+    expect(result).to.have.status(200);
+    expect(result.body.status).to.eq(200);
+    expect(result.body.data).to.have.property('name');
+    expect(result.body.data).to.have.property('manufacturer');
+    expect(result.body.data).to.have.property('body_type');
+    expect(result.body.data).to.have.property('price');
+  });
+  it('PATCH /car/car_id/price - User update a specific car price / FAIL', async () => {
+    const result = await chai
+      .request(app)
+      .patch(`${API_PREFIX}/car/500/price`)
+      .set('authorization', jwtToken)
+      .send({
+        price: '1000000',
+      });
+    expect(result).to.have.status(400);
+    expect(result.body.status).to.eq(400);
     assert.equal(result.body.message, 'Car with that id doest not exits');
   });
 });
