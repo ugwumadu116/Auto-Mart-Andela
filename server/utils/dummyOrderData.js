@@ -8,7 +8,6 @@ export default {
       status: 'pending',
       price_offered: 50,
       price: 435,
-
     },
   ],
 };
