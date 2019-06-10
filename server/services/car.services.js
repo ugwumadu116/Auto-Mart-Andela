@@ -1,7 +1,7 @@
 import userData from '../utils/dummyUserData';
 import carData from '../utils/dummyCarData';
 
-class UserService {
+class CarService {
   static async CheckIfUserIsAdmin(id) {
     const userInfo = await userData.user.find(user => user.id === id);
     if (userInfo.isAdmin) {
@@ -18,4 +18,4 @@ class UserService {
     return false;
   }
 }
-export default UserService;
+export default CarService;

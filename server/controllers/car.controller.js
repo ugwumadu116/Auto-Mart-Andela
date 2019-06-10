@@ -3,7 +3,7 @@ import carsData from '../utils/dummyCarData';
 import Car from '../models/car.model';
 import CarServices from '../services/car.services';
 
-class UserController {
+class carController {
   static async createCar(req, res) {
     try {
       const {
@@ -156,4 +156,4 @@ class UserController {
     }
   }
 }
-export default UserController;
+export default carController;

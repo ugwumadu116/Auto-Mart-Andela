@@ -68,6 +68,10 @@ const carPrice = [
 const carStatus = [
   body('status', 'status should be sold').matches(/^sold$/i),
 ];
+const purchaseOrder = [
+  body('car_id', 'car id should be numeric').isNumeric(),
+  body('price_offered', 'price offered should be number').isNumeric(),
+];
 
 export default {
   signUpValidation,
@@ -76,4 +80,5 @@ export default {
   carIdParam,
   carPrice,
   carStatus,
+  purchaseOrder,
 };

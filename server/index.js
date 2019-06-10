@@ -5,6 +5,7 @@ import cors from 'cors';
 
 import userRouter from './routes/user.route';
 import carRouter from './routes/cars.route';
+import orderRouter from './routes/orders.route';
 
 const app = express();
 dotenv.config();
@@ -22,7 +23,8 @@ app.get('/', (req, res) => {
 });
 
 app.use(`${prefix}/`, userRouter);
-app.use(`${prefix}/`, carRouter);
+app.use(`${prefix}/car`, carRouter);
+app.use(`${prefix}/order`, orderRouter);
 
 app.listen(PORT, () => console.log(`Welcome ${PORT}`));
 
