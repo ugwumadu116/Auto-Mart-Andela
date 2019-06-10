@@ -35,7 +35,7 @@ export default {
       manufacturer: 'General Motors (GM)',
       owner: 'John Doe',
       created_on: '17/5/2019',
-      status: 'available',
+      status: 'sold',
       state: 'old',
       body_type: 'truck',
     },

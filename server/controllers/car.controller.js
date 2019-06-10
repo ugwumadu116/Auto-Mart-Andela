@@ -1,5 +1,6 @@
 import cloudinary from '../config/cloudinary';
 import carsData from '../utils/dummyCarData';
+import usersData from '../utils/dummyUserData';
 import Car from '../models/car.model';
 import CarServices from '../services/car.services';
 
@@ -73,6 +74,20 @@ class carController {
 
   static async getCars(req, res) {
     try {
+      if (Object.keys(req.query).length === 0) {
+        const checkIfUserIsAdmin = await usersData.user.find(user => user.id === req.userData.user);
+        if (checkIfUserIsAdmin.isAdmin === true) {
+          return res.status(200).json({
+            status: 200,
+            data: carsData.cars,
+          });
+        }
+        const availableCars = carsData.cars.filter(car => car.status === 'available');
+        return res.status(200).json({
+          status: 200,
+          data: availableCars,
+        });
+      }
       const queryObj = req.query;
       if ('min_price' in queryObj) {
         const carRange = carsData.cars
