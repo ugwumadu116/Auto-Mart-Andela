@@ -72,6 +72,12 @@ const purchaseOrder = [
   body('car_id', 'car id should be numeric').isNumeric(),
   body('price_offered', 'price offered should be number').isNumeric(),
 ];
+const orderPrice = [
+  body('price_offered', 'price should be numbers only').isNumeric(),
+];
+const orderIdParam = [
+  param('order_id', 'Invalid order id').isNumeric(),
+];
 
 export default {
   signUpValidation,
@@ -81,4 +87,6 @@ export default {
   carPrice,
   carStatus,
   purchaseOrder,
+  orderPrice,
+  orderIdParam,
 };
