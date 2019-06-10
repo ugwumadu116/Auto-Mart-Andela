@@ -10,33 +10,33 @@ import userValidation from '../middleware/user.validation';
 
 const router = express.Router();
 
-router.post('/car',
+router.post('/',
   verifyToken.validate,
   createCar.upload.single('image'),
   trimRequest.body,
   carValidation.validatePostCar,
   carController.createCar);
 
-router.delete('/car/:car_id',
+router.delete('/:car_id',
   verifyToken.validate,
   trimRequest.param,
   validation.carIdParam,
   userValidation.validateUserReq,
   carController.deleteCar);
 
-router.get('/car',
+router.get('/',
   verifyToken.validate,
   trimRequest.param,
   carController.getCars);
 
-router.get('/car/:car_id',
+router.get('/:car_id',
   verifyToken.validate,
   trimRequest.param,
   validation.carIdParam,
   userValidation.validateUserReq,
   carController.getSingleCar);
 
-router.patch('/car/:car_id/price',
+router.patch('/:car_id/price',
   verifyToken.validate,
   trimRequest.param,
   validation.carIdParam,
@@ -44,7 +44,7 @@ router.patch('/car/:car_id/price',
   userValidation.validateUserReq,
   carController.updateCarPrice);
 
-router.patch('/car/:car_id/status',
+router.patch('/:car_id/status',
   verifyToken.validate,
   trimRequest.param,
   validation.carIdParam,
