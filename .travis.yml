@@ -4,11 +4,6 @@ node_js:
 cache:
   directories:
     - "node_modules"
-env:
-  - SECRET=secret
-  - CLOUDINARY_name=joel116
-  - CLOUDINARY_API_KEY=689364339442974
-  - CLOUDINARY_API_SECRET=hmCiT_HmS-vXTybWF9yAjjkbyj0
 global:
   - CODECLIMATE_REPO_TOKEN=d2743ffa22c21c3a7225a0331886c388e82e98a36f5854d127575b16ff41f4c7
 install:
