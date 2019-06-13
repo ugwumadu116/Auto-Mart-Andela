@@ -1,5 +1,3 @@
-// import orderData from '../utils/dummyOrderData';
-// import Order from '../models/order.model';
 import OrderServices from '../services/orderServices';
 
 class OrderController {

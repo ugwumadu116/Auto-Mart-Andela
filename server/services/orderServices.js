@@ -1,4 +1,3 @@
-// import carData from '../utils/dummyCarData';
 import db from '../config/db';
 
 class OrderService {
