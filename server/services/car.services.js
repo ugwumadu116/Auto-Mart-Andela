@@ -1,7 +1,4 @@
-// import userData from '../utils/dummyUserData';
-// import carData from '../utils/dummyCarData';
 import db from '../config/db';
-// import { normalize } from 'path';
 
 class CarService {
   static async registerCar(req, uploadImage) {

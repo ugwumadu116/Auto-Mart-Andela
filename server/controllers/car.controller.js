@@ -1,7 +1,4 @@
 import cloudinary from '../config/cloudinary';
-// import carsData from '../utils/dummyCarData';
-// import usersData from '../utils/dummyUserData';
-// import Car from '../models/car.model';
 import CarServices from '../services/car.services';
 
 class carController {
