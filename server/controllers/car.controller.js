@@ -1,38 +1,32 @@
 import cloudinary from '../config/cloudinary';
-import carsData from '../utils/dummyCarData';
-import usersData from '../utils/dummyUserData';
-import Car from '../models/car.model';
+// import carsData from '../utils/dummyCarData';
+// import usersData from '../utils/dummyUserData';
+// import Car from '../models/car.model';
 import CarServices from '../services/car.services';
 
 class carController {
   static async createCar(req, res) {
     try {
-      const {
-        name,
-        model,
-        price,
-        body_type,
-        state,
-        manufacturer,
-      } = req.body;
-      const userId = req.userData.user;
-      const result = await cloudinary.uploader.upload(req.file.path);
-      const newCar = new Car();
-      newCar.id = carsData.cars.length + 1;
-      newCar.name = name;
-      newCar.img = result.secure_url;
-      newCar.owner = userId;
-      newCar.created_on = new Date();
-      newCar.name = name;
-      newCar.model = model;
-      newCar.price = price;
-      newCar.body_type = body_type;
-      newCar.state = state;
-      newCar.manufacturer = manufacturer;
-      carsData.cars.push(newCar);
+      const checkIfUserExist = await CarServices.checkUser(req.userData.user);
+      if (!checkIfUserExist) {
+        throw new Error('User not registered');
+      }
+      const uploadImage = await cloudinary.uploader.upload(req.file.path);
+      const newCar = await CarServices.registerCar(req, uploadImage);
       return res.status(201).json({
         status: 201,
-        data: newCar,
+        data: {
+          id: newCar[0].id,
+          name: newCar[0].name,
+          img: newCar[0].img,
+          price: newCar[0].price,
+          model: newCar[0].model,
+          manufacturer: newCar[0].manufacturer,
+          owner: newCar[0].owner,
+          created_on: newCar[0].created_on,
+          status: newCar[0].status,
+          body_type: newCar[0].body_type,
+        },
       });
     } catch (error) {
       return res.status(409).json({
@@ -44,7 +38,7 @@ class carController {
 
   static async deleteCar(req, res) {
     try {
-      const isAdmin = await CarServices.CheckIfUserIsAdmin(req.userData.user);
+      const isAdmin = await CarServices.checkIfUserIsAdmin(req.userData.user);
       if (!isAdmin) {
         throw new Error('Unauthorized only admin can delete');
       }
@@ -52,8 +46,11 @@ class carController {
       if (!checkIfCarExist) {
         throw new Error('Car with that id doest not exits');
       }
-      const carIndex = carsData.cars.indexOf(checkIfCarExist);
-      carsData.cars.splice(carIndex, 1);
+      const delCar = await CarServices.deleteSingleCar(checkIfCarExist.id);
+      if (!delCar) {
+        throw new Error('Error car failed to delete');
+      }
+      await cloudinary.uploader.destroy(checkIfCarExist.img_id);
       return res.status(200).json({
         status: 200,
         data: 'Car Ad successfully deleted',
@@ -75,14 +72,15 @@ class carController {
   static async getCars(req, res) {
     try {
       if (Object.keys(req.query).length === 0) {
-        const checkIfUserIsAdmin = await usersData.user.find(user => user.id === req.userData.user);
-        if (checkIfUserIsAdmin.isAdmin === true) {
+        const checkIfUserIsAdmin = await CarServices.checkIfUserIsAdmin(req.userData.user);
+        if (checkIfUserIsAdmin) {
+          const allCars = await CarServices.getAllCars();
           return res.status(200).json({
             status: 200,
-            data: carsData.cars,
+            data: allCars,
           });
         }
-        const availableCars = carsData.cars.filter(car => car.status === 'available');
+        const availableCars = await CarServices.getAvailableCars();
         return res.status(200).json({
           status: 200,
           data: availableCars,
@@ -90,18 +88,22 @@ class carController {
       }
       const queryObj = req.query;
       if ('min_price' in queryObj) {
-        const carRange = carsData.cars
-          .filter(car => car.status === queryObj['status'] && car.price >= queryObj['min_price'] && car.price <= queryObj['max_price']);
+        const myCars = await CarServices.getAllCars();
+        const carRange = myCars.filter(car => car.status === queryObj['status'] && Number(car.price) >= queryObj['min_price'] && Number(car.price) <= queryObj['max_price']);
         return res.status(200).json({
           status: 200,
           data: carRange,
         });
       }
       const queryKeys = Object.keys(queryObj);
-      const result = carsData.cars.filter(car => queryKeys.every(key => car[key] === queryObj[key]));
+      let sql = 'SELECT * from cars';
+      sql += ' WHERE ' + queryKeys.map((key, i) => `${key} = $${i + 1}`).join(' AND ');
+      const bindParameters = [];
+      queryKeys.forEach(item => bindParameters.push(queryObj[item]));
+      const queryCars = await CarServices.filterCars(sql, bindParameters);
       return res.status(200).json({
         status: 200,
-        data: result,
+        data: queryCars,
       });
     } catch (error) {
       return res.status(404).json({
@@ -131,16 +133,17 @@ class carController {
 
   static async updateCarPrice(req, res) {
     try {
-      const checkIfCarExist = await carsData.cars
-        .find(car => car.id == req.params.car_id && car.owner === req.userData.user);
+      const checkIfCarExist = await CarServices.findCar(req.params.car_id);
       if (!checkIfCarExist) {
         throw new Error('Car with that id doest not exits');
       }
-      const carIndex = carsData.cars.indexOf(checkIfCarExist);
-      carsData.cars[carIndex].price = req.body.price;
+      if (checkIfCarExist.owner !== req.userData.user) {
+        throw new Error('you cannot update the price of car you do not own');
+      }
+      const updatedCar = await CarServices.updatePrice(req.params.car_id, req.body.price);
       return res.status(200).json({
         status: 200,
-        data: carsData.cars[carIndex],
+        data: updatedCar,
       });
     } catch (error) {
       return res.status(400).json({
@@ -152,16 +155,17 @@ class carController {
 
   static async updateCarStatus(req, res) {
     try {
-      const checkIfCarExist = await carsData.cars
-        .find(car => car.id == req.params.car_id && car.owner === req.userData.user);
+      const checkIfCarExist = await CarServices.findCar(req.params.car_id);
       if (!checkIfCarExist) {
         throw new Error('Car with that id doest not exits');
       }
-      const carIndex = carsData.cars.indexOf(checkIfCarExist);
-      carsData.cars[carIndex].status = req.body.status;
+      if (checkIfCarExist.owner !== req.userData.user) {
+        throw new Error('you cannot update the status of car you do not own');
+      }
+      const updatedCar = await CarServices.updateStatus(req.params.car_id, req.body.status);
       return res.status(200).json({
         status: 200,
-        data: carsData.cars[carIndex],
+        data: updatedCar,
       });
     } catch (error) {
       return res.status(400).json({

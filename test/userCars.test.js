@@ -10,11 +10,14 @@ use(chaiHTTP);
 
 const API_PREFIX = '/api/v1';
 
-const jwtToken = jwt.sign({ user: 2 }, 'secret', {
+const jwtToken = jwt.sign({ user: 2, info: 'joel ugwumadu' }, 'secret', {
+  expiresIn: 86400,
+});
+const fakeUser = jwt.sign({ user: 3, info: 'kim shawn' }, 'secret', {
   expiresIn: 86400,
 });
 
-const adminJwtToken = jwt.sign({ user: 1 }, 'secret', {
+const adminJwtToken = jwt.sign({ user: 1, info: 'admin admin' }, 'secret', {
   expiresIn: 86400,
 });
 
@@ -27,7 +30,7 @@ before(async () => {
     .field('manufacturer', 'General Motors (GM)')
     .field('name', 'Chevrolet')
     .field('model', '2018 model')
-    .field('price', 232)
+    .field('price', 32)
     .field('body_type', 'car')
     .field('state', 'new')
     .attach('image',
@@ -45,9 +48,30 @@ describe('Car Endpoint Tests', () => {
       .field('manufacturer', 'General Motors (GM)')
       .field('name', 'Chevrolet')
       .field('model', '2018 model')
-      .field('price', 232)
+      .field('price', 132)
       .field('body_type', 'car')
       .field('state', 'new')
+      .attach('image',
+        fs.readFileSync('UI/images/car1.jpg'),
+        'car1.jpg');
+    expect(result).to.have.status(201);
+    expect(result.body.status).to.eq(201);
+    expect(result.body.data).to.have.property('id');
+    expect(result.body.data).to.have.property('model');
+    expect(result.body.data).to.have.property('body_type');
+  });
+  it('POST /car/ - User POST car', async () => {
+    const result = await chai
+      .request(app)
+      .post(`${API_PREFIX}/car`)
+      .set('authorization', jwtToken)
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .field('manufacturer', 'General Motors (GM)')
+      .field('name', 'Chevrolet')
+      .field('model', '2018 model')
+      .field('price', 132)
+      .field('body_type', 'car')
+      .field('state', 'old')
       .attach('image',
         fs.readFileSync('UI/images/car1.jpg'),
         'car1.jpg');
@@ -200,10 +224,10 @@ describe('Car Endpoint Tests', () => {
     expect(result.body.status).to.eq(200);
     expect(result.body.data).to.be.an('array');
   });
-  it('GET /car/3 - User GET a specific car', async () => {
+  it('GET /car/2 - User GET a specific car', async () => {
     const result = await chai
       .request(app)
-      .get(`${API_PREFIX}/car/3`)
+      .get(`${API_PREFIX}/car/2`)
       .set('authorization', jwtToken);
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
@@ -224,7 +248,7 @@ describe('Car Endpoint Tests', () => {
   it('PATCH /car/car_id/price - User update a specific car price', async () => {
     const result = await chai
       .request(app)
-      .patch(`${API_PREFIX}/car/5/price`)
+      .patch(`${API_PREFIX}/car/2/price`)
       .set('authorization', jwtToken)
       .send({
         price: '1000000',
@@ -248,10 +272,34 @@ describe('Car Endpoint Tests', () => {
     expect(result.body.status).to.eq(400);
     assert.equal(result.body.message, 'Car with that id doest not exits');
   });
+  it('PATCH /car/car_id/price - User update a specific car price / FAIL', async () => {
+    const result = await chai
+      .request(app)
+      .patch(`${API_PREFIX}/car/2/price`)
+      .set('authorization', adminJwtToken)
+      .send({
+        price: '1000000',
+      });
+    expect(result).to.have.status(400);
+    expect(result.body.status).to.eq(400);
+    assert.equal(result.body.message, 'you cannot update the price of car you do not own');
+  });
+  it('PATCH /car/car_id/status - User update a specific car status fail car not owned ny user', async () => {
+    const result = await chai
+      .request(app)
+      .patch(`${API_PREFIX}/car/3/status`)
+      .set('authorization', fakeUser)
+      .send({
+        status: 'sold',
+      });
+    expect(result).to.have.status(400);
+    expect(result.body.status).to.eq(400);
+    assert.equal(result.body.message, 'you cannot update the status of car you do not own');
+  });
   it('PATCH /car/car_id/status - User update a specific car status', async () => {
     const result = await chai
       .request(app)
-      .patch(`${API_PREFIX}/car/5/status`)
+      .patch(`${API_PREFIX}/car/3/status`)
       .set('authorization', jwtToken)
       .send({
         status: 'sold',

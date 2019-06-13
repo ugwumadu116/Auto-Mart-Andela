@@ -12,21 +12,21 @@ before(async () => {
     .request(app)
     .post(`${API_PREFIX}/auth/signup`)
     .send({
-      firstName: 'joel',
-      lastName: 'ugwumadu',
-      email: 'ugw5@gmail.com',
-      password: 'password',
+      firstName: 'admin',
+      lastName: 'admin',
+      email: 'admin@gmail.com',
+      password: 'adminPwd',
       address: 'ipaja lagos',
     });
   await chai
     .request(app)
     .post(`${API_PREFIX}/auth/signup`)
     .send({
-      firstName: 'test',
-      lastName: 'test',
-      email: 'test@gmail.com',
-      phone: '07064586146',
-      password: '1234password',
+      firstName: 'joel',
+      lastName: 'ugwumadu',
+      email: 'ugw5@gmail.com',
+      password: 'password',
+      address: 'ipaja lagos',
     });
 });
 
@@ -112,7 +112,7 @@ describe('User Auth Signup Endpoint Tests', () => {
       .then((res) => {
         expect(res).to.have.status(409);
         assert.equal(res.body.status, 409);
-        assert.equal(res.body.message, 'User with that email is already registered');
+        assert.equal(res.body.message, 'User already registered please sign in');
       });
     done();
   });
@@ -131,6 +131,7 @@ describe('User Auth Signup Endpoint Tests', () => {
         expect(res).to.have.status(201);
         assert.equal(res.body.status, 201);
         assert.equal(res.body.data[0].firstName, 'kim');
+        assert.equal(res.body.data[0].lastName, 'shawn');
       });
     done();
   });
