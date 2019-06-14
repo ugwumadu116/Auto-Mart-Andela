@@ -68,6 +68,16 @@ https://github.com/ugwumadu116/Auto-Mart-Andela.git
 	<td>Get cars of a specific car</td>
 </tr>
 <tr>
+	<td>GET</td>
+	<td>/api/v1/order/sale</td> 
+	<td>Get orders made on your car</td>
+</tr>
+<tr>
+	<td>GET</td>
+	<td>/api/v1/order/purchase</td> 
+	<td>Get orders you made on a car</td>
+</tr>
+<tr>
 	<td>PATCH</td>
 	<td>/api/v1/car/car_id/price</td> 
 	<td>Update the price of a specific car</td>
@@ -86,6 +96,11 @@ https://github.com/ugwumadu116/Auto-Mart-Andela.git
 	<td>PATCH</td>
 	<td>/api/v1/order/1/price</td> 
 	<td>Update the price of your order</td>
+</tr>
+<tr>
+	<td>GET</td>
+	<td>/api-docs</td> 
+	<td>GET api documentation</td>
 </tr>
 </table>
 

@@ -1,0 +1,655 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Auto-Mart",
+    "description": "Auto Mart is an online marketplace for automobiles of diverse makes, model or body type. With Auto Mart, users can sell their cars or buy from trusted dealerships or private sellers.",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "contact": {
+      "email": "ugwumadu116@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "Users",
+      "description": "API Endpoints for users in the system"
+    },
+    {
+      "name": "Cars",
+      "description": "API Endpoints for cars in the system"
+    },
+    {
+      "name": "Orders",
+      "description": "API Endpoints for orders in the system"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json",
+    "multipart/form-data",
+    "application/x-www-form-urlencoded"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/auth/signup": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Register a New User in the system",
+        "requestBody": {
+          "description": "Input Data Format",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "firstName": {
+                    "type": "string",
+                    "description": "First name of User"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "description": "Last name of User"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email of User"
+                  },
+                  "address": {
+                    "type": "string",
+                    "description": "address of User"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Password of User"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "400": {
+            "description": "User Registration Validation Error"
+          },
+          "409": {
+            "description": "User already registered"
+          },
+          "201": {
+            "description": "New user is Registered"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/signin": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Log In a Registered User",
+        "requestBody": {
+          "description": "Input Data Format",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email of Registered User"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Password of Registered User"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "400": {
+            "description": "User Login Validation Error"
+          },
+          "404": {
+            "description": "User Email or Password is wrong"
+          },
+          "200": {
+            "description": "User Logged In"
+          }
+        }
+      }
+    },
+    "/api/v1/car/": {
+      "get": {
+        "summary": "Get all cars",
+        "tags": [
+          "Cars"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Only Authenticated/No token provided"
+          },
+          "400": {
+            "description": "Only Authenticated/Unauthorized or invalid token"
+          },
+          "404": {
+            "description": "No car found"
+          },
+          "200": {
+            "description": "User successfully gets cars"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "Add New car to the system",
+        "tags": [
+          "Cars"
+        ],
+        "requestBody": {
+          "description": "Input Data Format",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Car image"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Car name"
+                  },
+                  "manufacturer": {
+                    "type": "string",
+                    "description": "Car manufacturer names"
+                  },
+                  "model": {
+                    "type": "string",
+                    "description": "Car model"
+                  },
+                  "price": {
+                    "type": "integer",
+                    "description": "Car price"
+                  },
+                  "body_type": {
+                    "type": "string",
+                    "description": "Car body type /car|truck|trailer|van"
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "Car sate /old|new|"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Only Authenticated Users are Authorized"
+          },
+          "400": {
+            "description": "Validation Error"
+          },
+          "201": {
+            "description": "New car Created"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/v1/car?status=available": {
+      "get": {
+        "summary": "Get all cars that are not sold",
+        "tags": [
+          "Cars"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Only Authenticated/No token provided"
+          },
+          "400": {
+            "description": "Only Authenticated/Unauthorized or invalid token"
+          },
+          "404": {
+            "description": "No car found"
+          },
+          "200": {
+            "description": "User successfully gets cars"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/v1/car?status=available&min_price=100&max_price=5000": {
+      "get": {
+        "summary": "Get all cars within a price range",
+        "tags": [
+          "Cars"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Only Authenticated/No token provided"
+          },
+          "400": {
+            "description": "Only Authenticated/Unauthorized or invalid token"
+          },
+          "404": {
+            "description": "No car found"
+          },
+          "200": {
+            "description": "User successfully gets cars"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/v1/car?status=available&state=new": {
+      "get": {
+        "summary": "View all cars of a state new",
+        "tags": [
+          "Cars"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Only Authenticated/No token provided"
+          },
+          "400": {
+            "description": "Only Authenticated/Unauthorized or invalid token"
+          },
+          "404": {
+            "description": "No car found"
+          },
+          "200": {
+            "description": "User successfully gets cars"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/v1/car/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the car that we want to work with",
+          "type": "string"
+        }
+      ],
+      "delete": {
+        "summary": "Delete car with given ID (only admin can delete)",
+        "tags": [
+          "Cars"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized only admin can delete"
+          },
+          "404": {
+            "description": "No car found"
+          },
+          "200": {
+            "description": "car Deleted"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "get": {
+        "summary": "Get car with given ID",
+        "tags": [
+          "Cars"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Only Authenticated Users are Authorized"
+          },
+          "400": {
+            "description": "Validation Error"
+          },
+          "404": {
+            "description": "car with the given ID not found"
+          },
+          "200": {
+            "description": "car gotten"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/v1/car/{id}/price": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the car that we want to work with",
+          "type": "string"
+        }
+      ],
+      "patch": {
+        "summary": "Update car price with the given ID",
+        "tags": [
+          "Cars"
+        ],
+        "requestBody": {
+          "description": "Input Data Format",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "price": {
+                    "type": "integer",
+                    "description": "Car price"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Only Authenticated Users are Authorized"
+          },
+          "400": {
+            "description": "Validation Error"
+          },
+          "404": {
+            "description": "car with the given ID not found"
+          },
+          "200": {
+            "description": "car gotten"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/v1/car/{id}/status": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the car that we want to work with",
+          "type": "string"
+        }
+      ],
+      "patch": {
+        "summary": "Update car status with the given ID",
+        "tags": [
+          "Cars"
+        ],
+        "requestBody": {
+          "description": "Input Data Format",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "description": "Car status"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Only Authenticated Users are Authorized"
+          },
+          "400": {
+            "description": "Validation Error"
+          },
+          "404": {
+            "description": "car with the given ID not found"
+          },
+          "200": {
+            "description": "car gotten"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/v1/order/": {
+      "post": {
+        "summary": "Order cars you want to buy",
+        "tags": [
+          "Orders"
+        ],
+        "requestBody": {
+          "description": "Input Data Format",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "car_id": {
+                    "type": "integer",
+                    "description": "Car id that you want to buy"
+                  },
+                  "price_offered": {
+                    "type": "integer",
+                    "description": "Bargain price for the car you want to buy"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Only Authenticated Users are Authorized"
+          },
+          "409": {
+            "description": "car already sold"
+          },
+          "200": {
+            "description": "All Unread messages Retrieved"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/v1/order/sale": {
+      "get": {
+        "summary": "Get cars that people want to buy from you",
+        "tags": [
+          "Orders"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Only Authenticated Users are Authorized"
+          },
+          "200": {
+            "description": "All Unread messages Retrieved"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/v1/order/purchase": {
+      "get": {
+        "summary": "Get cars that you have ordered",
+        "tags": [
+          "Orders"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Only Authenticated Users are Authorized"
+          },
+          "200": {
+            "description": "All Unread messages Retrieved"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/v1/order/:order_id/price": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the car that we want to work with",
+          "type": "string"
+        }
+      ],
+      "patch": {
+        "summary": "Update your bargain price of the car you want to buy",
+        "tags": [
+          "Orders"
+        ],
+        "requestBody": {
+          "description": "Input Data Format",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "price_offered": {
+                    "type": "integer",
+                    "description": "Bargain price for the car you want to buy"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Only Authenticated Users are Authorized"
+          },
+          "409": {
+            "description": "car already sold"
+          },
+          "200": {
+            "description": "All Unread messages Retrieved"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "JWT": {
+        "type": "apiKey",
+        "description": "JWT token is received after registering\/login, input format: \"token \\<token\\>\"",
+        "name": "authorization",
+        "in": "header"
+      }
+    }
+  }
+}

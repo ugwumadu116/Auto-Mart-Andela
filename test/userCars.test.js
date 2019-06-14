@@ -96,8 +96,8 @@ describe('Car Endpoint Tests', () => {
       .attach('image',
         fs.readFileSync('UI/images/car1.jpg'),
         'car1.jpg');
-    expect(result).to.have.status(401);
-    expect(result.body.status).to.eq(401);
+    expect(result).to.have.status(400);
+    expect(result.body.status).to.eq(400);
     assert.equal(result.body.message, 'invalid or expired token');
   });
   it('POST /car/ - User POST car - token not provided', async () => {
@@ -202,8 +202,8 @@ describe('Car Endpoint Tests', () => {
       .request(app)
       .get(`${API_PREFIX}/car?body_type=car`)
       .set('authorization', 'jwtToken');
-    expect(result).to.have.status(401);
-    expect(result.body.status).to.eq(401);
+    expect(result).to.have.status(400);
+    expect(result.body.status).to.eq(400);
     assert.equal(result.body.message, 'invalid or expired token');
   });
   it('GET /car?status=available - User GET cars with status=available', async () => {
