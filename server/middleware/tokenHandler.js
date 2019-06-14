@@ -18,16 +18,15 @@ class checkAuth {
       }
       throw new Error('Access denied.No token provided');
     } catch (err) {
-      if (err.message === 'jwt malformed' || err.message === 'jwt expired') {
-        res.status(400).json({
-          status: 400,
-          message: 'invalid or expired token',
-        });
-      }
       if (err.message === 'Unauthorized invalid token') {
         res.status(400).json({
           status: 400,
           message: 'Unauthorized invalid token',
+        });
+      } else if (err.message === 'jwt malformed' || err.message === 'jwt expired') {
+        res.status(400).json({
+          status: 400,
+          message: 'invalid or expired token',
         });
       } else {
         res.status(401).json({
