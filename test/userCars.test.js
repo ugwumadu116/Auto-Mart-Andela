@@ -17,6 +17,9 @@ const fakeUser = jwt.sign({ user: 3, info: 'kim shawn' }, 'secret', {
   expiresIn: 86400,
 });
 
+const notRegisteredUser = jwt.sign({ user: 73, info: 'kim shawn' }, 'secret', {
+  expiresIn: 86400,
+});
 const adminJwtToken = jwt.sign({ user: 1, info: 'admin admin' }, 'secret', {
   expiresIn: 86400,
 });
@@ -85,6 +88,25 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .post(`${API_PREFIX}/car`)
+      .set('authorization', notRegisteredUser)
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .field('manufacturer', 'General Motors (GM)')
+      .field('name', 'Chevrolet')
+      .field('model', '2018 model')
+      .field('price', 232)
+      .field('body_type', 'car')
+      .field('state', 'new')
+      .attach('image',
+        fs.readFileSync('UI/images/car1.jpg'),
+        'car1.jpg');
+    expect(result).to.have.status(409);
+    expect(result.body.status).to.eq(409);
+    assert.equal(result.body.message, 'User not registered');
+  });
+  it('POST /car/ - User POST car - fake token provided', async () => {
+    const result = await chai
+      .request(app)
+      .post(`${API_PREFIX}/car`)
       .set('authorization', 'jwtToken')
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .field('manufacturer', 'General Motors (GM)')
@@ -96,8 +118,8 @@ describe('Car Endpoint Tests', () => {
       .attach('image',
         fs.readFileSync('UI/images/car1.jpg'),
         'car1.jpg');
-    expect(result).to.have.status(401);
-    expect(result.body.status).to.eq(401);
+    expect(result).to.have.status(400);
+    expect(result.body.status).to.eq(400);
     assert.equal(result.body.message, 'invalid or expired token');
   });
   it('POST /car/ - User POST car - token not provided', async () => {
@@ -202,8 +224,8 @@ describe('Car Endpoint Tests', () => {
       .request(app)
       .get(`${API_PREFIX}/car?body_type=car`)
       .set('authorization', 'jwtToken');
-    expect(result).to.have.status(401);
-    expect(result.body.status).to.eq(401);
+    expect(result).to.have.status(400);
+    expect(result.body.status).to.eq(400);
     assert.equal(result.body.message, 'invalid or expired token');
   });
   it('GET /car?status=available - User GET cars with status=available', async () => {

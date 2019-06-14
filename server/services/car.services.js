@@ -69,7 +69,6 @@ class CarService {
     if (result.rowCount > 0) {
       return true;
     }
-    return false;
   }
 
   static async getAllCars() {
@@ -105,7 +104,6 @@ class CarService {
     if (result.rowCount > 0) {
       return result.rows[0];
     }
-    return false;
   }
 
   static async updateStatus(id, status) {
