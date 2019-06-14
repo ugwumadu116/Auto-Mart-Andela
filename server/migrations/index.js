@@ -56,7 +56,7 @@ const create = () => {
     car_id INTEGER NOT NULL,
     buyer INTEGER NOT NULL,
     status VARCHAR(50) NOT NULL,
-    owner VARCHAR(255) NOT NULL,
+    owner INTEGER NOT NULL,
     price_offered BIGINT NOT NULL,
     price BIGINT NOT NULL,
     created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
