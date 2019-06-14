@@ -43,10 +43,7 @@ class carController {
       if (!checkIfCarExist) {
         throw new Error('Car with that id doest not exits');
       }
-      const delCar = await CarServices.deleteSingleCar(checkIfCarExist.id);
-      if (!delCar) {
-        throw new Error('Error car failed to delete');
-      }
+      await CarServices.deleteSingleCar(checkIfCarExist.id);
       await cloudinary.uploader.destroy(checkIfCarExist.img_id);
       return res.status(200).json({
         status: 200,

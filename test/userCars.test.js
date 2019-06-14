@@ -17,6 +17,9 @@ const fakeUser = jwt.sign({ user: 3, info: 'kim shawn' }, 'secret', {
   expiresIn: 86400,
 });
 
+const notRegisteredUser = jwt.sign({ user: 73, info: 'kim shawn' }, 'secret', {
+  expiresIn: 86400,
+});
 const adminJwtToken = jwt.sign({ user: 1, info: 'admin admin' }, 'secret', {
   expiresIn: 86400,
 });
@@ -80,6 +83,25 @@ describe('Car Endpoint Tests', () => {
     expect(result.body.data).to.have.property('id');
     expect(result.body.data).to.have.property('model');
     expect(result.body.data).to.have.property('body_type');
+  });
+  it('POST /car/ - User POST car - fake token provided', async () => {
+    const result = await chai
+      .request(app)
+      .post(`${API_PREFIX}/car`)
+      .set('authorization', notRegisteredUser)
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .field('manufacturer', 'General Motors (GM)')
+      .field('name', 'Chevrolet')
+      .field('model', '2018 model')
+      .field('price', 232)
+      .field('body_type', 'car')
+      .field('state', 'new')
+      .attach('image',
+        fs.readFileSync('UI/images/car1.jpg'),
+        'car1.jpg');
+    expect(result).to.have.status(409);
+    expect(result.body.status).to.eq(409);
+    assert.equal(result.body.message, 'User not registered');
   });
   it('POST /car/ - User POST car - fake token provided', async () => {
     const result = await chai
