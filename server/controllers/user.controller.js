@@ -29,7 +29,7 @@ class UserController {
       }
       if (user.email === 'admin@gmail.com') {
         const registerAdmin = await userService.createUser(user, true);
-        const jwtTokenAdmin = jwt.sign({ user: registerAdmin.id }, secret, {
+        const jwtTokenAdmin = jwt.sign({ user: registerAdmin.id, admin: true }, secret, {
           expiresIn: '6h',
         });
         return res.status(201).json({
@@ -46,7 +46,7 @@ class UserController {
         });
       }
       const result = await userService.createUser(user, false);
-      const jwtToken = jwt.sign({ user: result.id, info: `${result.first_name} ${result.last_name}` }, secret, {
+      const jwtToken = jwt.sign({ user: result.id, admin: false, info: `${result.first_name} ${result.last_name}` }, secret, {
         expiresIn: '6h',
       });
       return res.status(201).json({
@@ -83,7 +83,7 @@ class UserController {
       if (!checkPassword) {
         throw new Error('invalid password or email');
       }
-      const jwtToken = await jwt.sign({ user: checkIfUserExist[0].id, info: `${checkIfUserExist[0].first_name} ${checkIfUserExist[0].last_name}` }, secret, {
+      const jwtToken = await jwt.sign({ user: checkIfUserExist[0].id, admin: checkIfUserExist[0].is_admin, info: `${checkIfUserExist[0].first_name} ${checkIfUserExist[0].last_name}` }, secret, {
         expiresIn: '6h',
       });
       return res.status(200).json({
