@@ -54,6 +54,7 @@ signUPFormDOM.addEventListener('submit', async (e) => {
             window.location.href = 'cars.html';
         } else {
             alertResult('failed', res.message, false);
+            console.log(res)
         }
     }
 });
