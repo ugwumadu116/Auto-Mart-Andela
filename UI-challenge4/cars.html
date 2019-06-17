@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Auto-Mart - cars</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./css/cars.css" />
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <a href="./index.html" class="logo">
+                <img src="./images/logo.svg" alt="logo" />
+            </a>
+            <div class="cart-btn cart-icon-button">
+                <span class="cart-icon">
+                    <i class="fas fa-cart-plus"></i>
+                </span>
+                <div class="cart-items">0</div>
+            </div>
+            <a href="./user.html" class="user">
+                <i class="fas fa-user-alt"></i>
+            </a>
+        </div>
+
+    </nav>
+    <header>
+        <div class="banner">
+            <h1>Purchase your cars here</h1>
+        </div>
+    </header>
+    <section id="services" class="services">
+        <div class="section-title">
+            <h4>filter</h4>
+            <div></div>
+        </div>
+        <div class="services-center">
+            <article class="service">
+                <span>
+                    <h2>price</h2>
+                </span>
+                <div class="range-container">
+                    <div class="start-range-container">
+                        <div class="start-range range-input">
+                            <h2>from</h2>
+                            <input type="range" min="1" max="999" value="" id="start-range">
+                        </div>
+                        <span class="start-range-value"></span>
+                    </div>
+                    <div class="end-range-container">
+                        <div class="end-range range-input">
+                            <h2>to</h2>
+                            <input type="range" min="1" max="999" value="" id="end-range">
+                        </div>
+                        <span class="end-range-value"></span>
+                    </div>
+                </div>
+            </article>
+            <article class="service">
+                <span>
+                    <h2>manufacturer</h2>
+                </span>
+                <div class="select">
+                    <select>
+                        <option value="Chevrolet">All</option>
+                        <option value="Chevrolet">Chevrolet</option>
+                        <option value="Vintage">Vintage</option>
+                        <option value="Mercedes Benz">Mercedes Benz</option>
+                        <option value="ferrari">ferrari</option>
+                        <option value="Range Rover">Range Rover</option>
+                        <option value="Range Rover">Bentley</option>
+                    </select>
+                </div>
+            </article>
+            <article class="service">
+                <span>
+                    <h2>Car State</h2>
+                </span>
+                <div class="select">
+                    <select>
+                        <option value="Chevrolet">Both</option>
+                        <option value="Chevrolet">New</option>
+                        <option value="Vintage">Old</option>
+                    </select>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section id="cars-section">
+        <div class="cars-container">
+        </div>
+    </section>
+    <div class="single-car-overlay">
+        <div class="single-car">
+            <span class="close-single-car">
+                <i class="fas fa-window-close"></i>
+            </span>
+            <h2>single car</h2>
+            <div class="single-car-content">
+            </div>
+            <div class="car-footer">
+                <button class="single-car-btn">Add to cart</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="order-overlay">
+        <div class="order">
+            <span class="close-order">
+                <i class="fas fa-window-close"></i>
+            </span>
+            <h2>your order</h2>
+            <div class="order-content">
+                <!-- <div class="order-item">
+                    <img src="./images/car1.jpg" alt="car image">
+                    <div>
+                        <h4>Mercedes Benz</h4>
+                        <h5>$9.00</h5>
+                        <span class="delete-item">delete</span>
+                    </div>
+                    <div>
+                        <h4>Bargain price</h4>
+                        <input class="bargain" type="number">
+                    </div>
+                    <div>
+                        <h4>Qty</h4>
+                        <input class="qty" value="1" type="number">
+
+                    </div>
+                </div> -->
+            </div>
+            <div class="order-footer">
+                <h3>your total : $ <span class="order-total">0</span></h3>
+                <button class="clear-order order-btn">clear order</button>
+                <button class="mark-order order-btn">Buy Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/cars.js"></script>
+    <script src="./js/cart.js"></script>
+</body>
+
+</html>
