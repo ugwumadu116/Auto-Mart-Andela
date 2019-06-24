@@ -3,6 +3,8 @@ import chaiHTTP from 'chai-http';
 import jwt from 'jsonwebtoken';
 import app from '../server/index';
 
+// test for user orders
+
 const { assert, expect, use } = chai;
 
 use(chaiHTTP);
