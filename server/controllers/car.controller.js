@@ -32,5 +32,35 @@ class carController {
       });
     }
   }
+
+  static async deleteCar(req, res) {
+    try {
+      const isAdmin = await CarServices.checkIfUserIsAdmin(req.userData.user);
+      if (!isAdmin) {
+        throw new Error('Unauthorized only admin can delete');
+      }
+      const checkIfCarExist = await CarServices.findCar(req.params.car_id);
+      if (!checkIfCarExist) {
+        throw new Error('Car with that id doest not exits');
+      }
+      await CarServices.deleteSingleCar(checkIfCarExist.id);
+      await cloudinary.uploader.destroy(checkIfCarExist.img_id);
+      return res.status(200).json({
+        status: 200,
+        data: 'Car Ad successfully deleted',
+      });
+    } catch (error) {
+      if (error.message === 'Car with that id doest not exits') {
+        return res.status(404).json({
+          status: 404,
+          message: error.message,
+        });
+      }
+      return res.status(401).json({
+        status: 401,
+        message: error.message,
+      });
+    }
+  }
 }
 export default carController;
