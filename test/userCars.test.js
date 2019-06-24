@@ -210,4 +210,22 @@ describe('Car Endpoint Tests', () => {
     expect(result.body.status).to.eq(400);
     expect(result.body.message).to.have.property('car_id');
   });
+  it('GET /car?body_type=car - User GET cars with body_type=car', async () => {
+    const result = await chai
+      .request(app)
+      .get(`${API_PREFIX}/car?body_type=car`)
+      .set('authorization', jwtToken);
+    expect(result).to.have.status(200);
+    expect(result.body.status).to.eq(200);
+    expect(result.body.data).to.be.an('array');
+  });
+  it('GET /car?body_type=car - User GET cars with body_type=car fail wrong token', async () => {
+    const result = await chai
+      .request(app)
+      .get(`${API_PREFIX}/car?body_type=car`)
+      .set('authorization', 'jwtToken');
+    expect(result).to.have.status(400);
+    expect(result.body.status).to.eq(400);
+    assert.equal(result.body.message, 'invalid or expired token');
+  });
 });
