@@ -70,5 +70,12 @@ class CarService {
       return true;
     }
   }
+
+  static async filterCars(sql, bindParameters) {
+    const client = await db.connect();
+    const result = await client.query(sql, bindParameters);
+    client.release();
+    return result.rows;
+  }
 }
 export default CarService;

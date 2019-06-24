@@ -62,5 +62,26 @@ class carController {
       });
     }
   }
+
+  static async getCars(req, res) {
+    try {
+      const queryObj = req.query;
+      const queryKeys = Object.keys(queryObj);
+      let sql = 'SELECT * from cars';
+      sql += ' WHERE ' + queryKeys.map((key, i) => `${key} = $${i + 1}`).join(' AND ');
+      const bindParameters = [];
+      queryKeys.forEach(item => bindParameters.push(queryObj[item]));
+      const queryCars = await CarServices.filterCars(sql, bindParameters);
+      return res.status(200).json({
+        status: 200,
+        data: queryCars,
+      });
+    } catch (error) {
+      return res.status(404).json({
+        status: 404,
+        message: error.message,
+      });
+    }
+  }
 }
 export default carController;
