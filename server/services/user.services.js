@@ -33,14 +33,5 @@ class UserService {
     client.release();
     return result.rowCount;
   }
-
-  static async findUser(email) {
-    const sql = 'SELECT * from users WHERE email = $1';
-    const bindParameters = [email];
-    const client = await db.connect();
-    const result = await client.query(sql, bindParameters);
-    client.release();
-    return result.rows;
-  }
 }
 export default UserService;
