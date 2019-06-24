@@ -151,7 +151,7 @@ describe('User Auth SignIn Endpoint Tests', () => {
         assert.equal(res.body.status, 200);
         assert.equal(res.body.data[0].email, 'ugw5@gmail.com');
         assert.equal(res.body.data[0].firstName, 'joel');
-        assert.equal(res.body.data[0].email, 'ugwumadu');
+        assert.equal(res.body.data[0].lastName, 'ugwumadu');
       });
     done();
   });

@@ -6,6 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger.json';
 
 import userRouter from './routes/user.route';
+import carRouter from './routes/cars.route';
 
 const app = express();
 dotenv.config();
@@ -24,6 +25,8 @@ app.get('/', (req, res) => {
 });
 
 app.use(`${prefix}/`, userRouter);
+app.use(`${prefix}/car`, carRouter);
+
 app.listen(PORT, () => console.log(`Welcome ${PORT}`));
 
 export default app;
