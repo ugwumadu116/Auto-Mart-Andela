@@ -32,5 +32,43 @@ class CarService {
     }
     return false;
   }
+
+  static async checkIfUserIsAdmin(id) {
+    const sql = 'SELECT * from users WHERE id = $1';
+    const bindParameters = [id];
+    const client = await db.connect();
+    const result = await client.query(sql, bindParameters);
+    client.release();
+    if (result.rows.length === 0) {
+      return false;
+    }
+    if (result.rows[0].is_admin) {
+      return true;
+    }
+    return false;
+  }
+
+  static async findCar(id) {
+    const sql = 'SELECT cars.*, users.first_name, users.last_name FROM cars LEFT JOIN users ON cars.owner = users.id WHERE cars.id = $1;';
+    const bindParameters = [id];
+    const client = await db.connect();
+    const result = await client.query(sql, bindParameters);
+    client.release();
+    if (result.rowCount > 0) {
+      return result.rows[0];
+    }
+    return false;
+  }
+
+  static async deleteSingleCar(id) {
+    const sql = 'DELETE from cars WHERE id = $1';
+    const bindParameters = [id];
+    const client = await db.connect();
+    const result = await client.query(sql, bindParameters);
+    client.release();
+    if (result.rowCount > 0) {
+      return true;
+    }
+  }
 }
 export default CarService;
