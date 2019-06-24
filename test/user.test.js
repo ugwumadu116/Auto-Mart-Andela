@@ -137,3 +137,52 @@ describe('User Auth Signup Endpoint Tests', () => {
   });
 });
 
+describe('User Auth SignIn Endpoint Tests', () => {
+  it('POST /auth/signin - User SignIn success', (done) => {
+    chai
+      .request(app)
+      .post(`${API_PREFIX}/auth/signin`)
+      .send({
+        email: 'ugw5@gmail.com',
+        password: 'password',
+      })
+      .then((res) => {
+        expect(res).to.have.status(200);
+        assert.equal(res.body.status, 200);
+        assert.equal(res.body.data[0].email, 'ugw5@gmail.com');
+        assert.equal(res.body.data[0].firstName, 'joel');
+        assert.equal(res.body.data[0].email, 'ugwumadu');
+      });
+    done();
+  });
+  it('POST /auth/signin - User SignIn Validation Test(not registered user)', (done) => {
+    chai
+      .request(app)
+      .post(`${API_PREFIX}/auth/signin`)
+      .send({
+        email: 'john@gmail.com',
+        password: 'password3',
+      })
+      .then((res) => {
+        expect(res).to.have.status(404);
+        assert.equal(res.body.status, 404);
+        assert.equal(res.body.message, 'User not registered please signup');
+      });
+    done();
+  });
+  it('POST /auth/signin - User SignIn Validation Test(wrong password)', (done) => {
+    chai
+      .request(app)
+      .post(`${API_PREFIX}/auth/signin`)
+      .send({
+        email: 'ugw5@gmail.com',
+        password: 'password3',
+      })
+      .then((res) => {
+        expect(res).to.have.status(400);
+        assert.equal(res.body.status, 400);
+        assert.equal(res.body.message, 'invalid password or email');
+      });
+    done();
+  });
+});

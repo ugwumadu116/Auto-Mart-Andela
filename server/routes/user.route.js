@@ -11,4 +11,9 @@ router.post('/auth/signup',
   userValidation.validateUserReq,
   userController.registerUser);
 
+router.post('/auth/signin',
+  validation.signInValidation,
+  userValidation.validateUserReq,
+  userController.loginUser);
+
 export default router;
