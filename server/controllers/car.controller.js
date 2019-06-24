@@ -66,6 +66,14 @@ class carController {
   static async getCars(req, res) {
     try {
       const queryObj = req.query;
+      if ('min_price' in queryObj) {
+        const myCars = await CarServices.getAllCars();
+        const carRange = myCars.filter(car => car.status === queryObj['status'] && Number(car.price) >= queryObj['min_price'] && Number(car.price) <= queryObj['max_price']);
+        return res.status(200).json({
+          status: 200,
+          data: carRange,
+        });
+      }
       const queryKeys = Object.keys(queryObj);
       let sql = 'SELECT * from cars';
       sql += ' WHERE ' + queryKeys.map((key, i) => `${key} = $${i + 1}`).join(' AND ');

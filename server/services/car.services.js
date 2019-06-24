@@ -77,5 +77,13 @@ class CarService {
     client.release();
     return result.rows;
   }
+
+  static async getAllCars() {
+    const sql = 'SELECT * from cars';
+    const client = await db.connect();
+    const result = await client.query(sql);
+    client.release();
+    return result.rows;
+  }
 }
 export default CarService;
