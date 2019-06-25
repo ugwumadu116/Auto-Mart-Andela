@@ -44,4 +44,12 @@ router.patch('/:car_id/price',
   userValidation.validateUserReq,
   carController.updateCarPrice);
 
+router.patch('/:car_id/status',
+  verifyToken.validate,
+  trimRequest.param,
+  validation.carIdParam,
+  validation.carStatus,
+  userValidation.validateUserReq,
+  carController.updateCarStatus);
+
 export default router;
