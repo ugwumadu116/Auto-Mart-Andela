@@ -29,4 +29,11 @@ router.get('/',
   trimRequest.param,
   carController.getCars);
 
+router.get('/:car_id',
+  verifyToken.validate,
+  trimRequest.param,
+  validation.carIdParam,
+  userValidation.validateUserReq,
+  carController.getSingleCar);
+
 export default router;
