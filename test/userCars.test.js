@@ -267,4 +267,43 @@ describe('Car Endpoint Tests', () => {
     expect(result.body.status).to.eq(404);
     assert.equal(result.body.message, 'Car with that id doest not exits');
   });
+  it('PATCH /car/car_id/price - User update a specific car price', async () => {
+    const result = await chai
+      .request(app)
+      .patch(`${API_PREFIX}/car/2/price`)
+      .set('authorization', jwtToken)
+      .send({
+        price: '1000000',
+      });
+    expect(result).to.have.status(200);
+    expect(result.body.status).to.eq(200);
+    expect(result.body.data).to.have.property('name');
+    expect(result.body.data).to.have.property('manufacturer');
+    expect(result.body.data).to.have.property('body_type');
+    expect(result.body.data).to.have.property('price');
+  });
+  it('PATCH /car/car_id/price - User update a specific car price / FAIL', async () => {
+    const result = await chai
+      .request(app)
+      .patch(`${API_PREFIX}/car/500/price`)
+      .set('authorization', jwtToken)
+      .send({
+        price: '1000000',
+      });
+    expect(result).to.have.status(400);
+    expect(result.body.status).to.eq(400);
+    assert.equal(result.body.message, 'Car with that id doest not exits');
+  });
+  it('PATCH /car/car_id/price - User update a specific car price / FAIL', async () => {
+    const result = await chai
+      .request(app)
+      .patch(`${API_PREFIX}/car/2/price`)
+      .set('authorization', adminJwtToken)
+      .send({
+        price: '1000000',
+      });
+    expect(result).to.have.status(400);
+    expect(result.body.status).to.eq(400);
+    assert.equal(result.body.message, 'you cannot update the price of car you do not own');
+  });
 });

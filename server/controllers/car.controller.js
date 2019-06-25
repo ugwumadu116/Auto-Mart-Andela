@@ -109,5 +109,27 @@ class carController {
       });
     }
   }
+
+  static async updateCarPrice(req, res) {
+    try {
+      const checkIfCarExist = await CarServices.findCar(req.params.car_id);
+      if (!checkIfCarExist) {
+        throw new Error('Car with that id doest not exits');
+      }
+      if (checkIfCarExist.owner !== req.userData.user) {
+        throw new Error('you cannot update the price of car you do not own');
+      }
+      const updatedCar = await CarServices.updatePrice(req.params.car_id, req.body.price);
+      return res.status(200).json({
+        status: 200,
+        data: updatedCar,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: 400,
+        message: error.message,
+      });
+    }
+  }
 }
 export default carController;
