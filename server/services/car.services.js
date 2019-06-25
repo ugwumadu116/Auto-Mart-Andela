@@ -85,5 +85,16 @@ class CarService {
     client.release();
     return result.rows;
   }
+
+  static async updatePrice(id, price) {
+    const sql = 'UPDATE cars SET price = $1 WHERE id = $2 RETURNING *';
+    const bindParameters = [price, id];
+    const client = await db.connect();
+    const result = await client.query(sql, bindParameters);
+    client.release();
+    if (result.rowCount > 0) {
+      return result.rows[0];
+    }
+  }
 }
 export default CarService;
