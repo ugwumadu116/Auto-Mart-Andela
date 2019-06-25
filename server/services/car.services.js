@@ -96,5 +96,17 @@ class CarService {
       return result.rows[0];
     }
   }
+
+  static async updateStatus(id, status) {
+    const sql = 'UPDATE cars SET status = $1 WHERE id = $2 RETURNING *';
+    const bindParameters = [status, id];
+    const client = await db.connect();
+    const result = await client.query(sql, bindParameters);
+    client.release();
+    if (result.rowCount > 0) {
+      return result.rows[0];
+    }
+    return false;
+  }
 }
 export default CarService;
