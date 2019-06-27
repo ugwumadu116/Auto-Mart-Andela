@@ -26,5 +26,28 @@ class OrderController {
       });
     }
   }
+
+  static async updateOrderPrice(req, res) {
+    try {
+      const checkIfUserExist = await OrderServices.checkUser(req.userData.user);
+      if (!checkIfUserExist) {
+        throw new Error('User not registered');
+      }
+      const checkIfOrderExist = await OrderServices.findOrder(req.params.order_id, req.userData.user);
+      if (!checkIfOrderExist) {
+        throw new Error('You cant update the price of this order');
+      }
+      const updateOrder = await OrderServices.updatePrice(req.params.order_id, req.body.price_offered);
+      return res.status(200).json({
+        status: 200,
+        data: updateOrder,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: 400,
+        message: error.message,
+      });
+    }
+  }
 }
 export default OrderController;

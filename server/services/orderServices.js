@@ -38,5 +38,29 @@ class OrderService {
     }
     return false;
   }
+
+  static async findOrder(orderId, userId) {
+    const sql = 'SELECT * from orders WHERE id = $1 AND buyer = $2 AND status = $3';
+    const bindParameters = [orderId, userId, 'pending'];
+    const client = await db.connect();
+    const result = await client.query(sql, bindParameters);
+    client.release();
+    if (result.rowCount > 0) {
+      return result.rows[0];
+    }
+    return false;
+  }
+
+  static async updatePrice(id, price) {
+    const sql = 'UPDATE orders SET price_offered = $1 WHERE id = $2 RETURNING *';
+    const bindParameters = [price, id];
+    const client = await db.connect();
+    const result = await client.query(sql, bindParameters);
+    client.release();
+    if (result.rowCount > 0) {
+      return result.rows[0];
+    }
+    return false;
+  }
 }
 export default OrderService;
