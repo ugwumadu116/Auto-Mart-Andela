@@ -345,4 +345,28 @@ describe('Car Endpoint Tests', () => {
     expect(result.body.status).to.eq(400);
     assert.equal(result.body.message, 'Car with that id doest not exits');
   });
+  it('GET /car/car - User (admin) can get sold and unsold cars', async () => {
+    const result = await chai
+      .request(app)
+      .get(`${API_PREFIX}/car`)
+      .set('authorization', adminJwtToken);
+    expect(result).to.have.status(200);
+    expect(result.body.status).to.eq(200);
+    expect(result.body.data[0]).to.have.property('name');
+    expect(result.body.data[0]).to.have.property('manufacturer');
+    expect(result.body.data[0]).to.have.property('body_type');
+    expect(result.body.data[0]).to.have.property('price');
+  });
+  it('GET /car/car - User can get unsold cars', async () => {
+    const result = await chai
+      .request(app)
+      .get(`${API_PREFIX}/car`)
+      .set('authorization', jwtToken);
+    expect(result).to.have.status(200);
+    expect(result.body.status).to.eq(200);
+    expect(result.body.data[0]).to.have.property('name');
+    expect(result.body.data[0]).to.have.property('manufacturer');
+    expect(result.body.data[0]).to.have.property('body_type');
+    expect(result.body.data[0]).to.have.property('price');
+  });
 });

@@ -86,6 +86,15 @@ class CarService {
     return result.rows;
   }
 
+  static async getAvailableCars() {
+    const sql = 'SELECT * from cars WHERE status = $1';
+    const bindParameters = ['available'];
+    const client = await db.connect();
+    const result = await client.query(sql, bindParameters);
+    client.release();
+    return result.rows;
+  }
+
   static async updatePrice(id, price) {
     const sql = 'UPDATE cars SET price = $1 WHERE id = $2 RETURNING *';
     const bindParameters = [price, id];
