@@ -65,6 +65,21 @@ class carController {
 
   static async getCars(req, res) {
     try {
+      if (Object.keys(req.query).length === 0) {
+        const checkIfUserIsAdmin = await CarServices.checkIfUserIsAdmin(req.userData.user);
+        if (checkIfUserIsAdmin) {
+          const allCars = await CarServices.getAllCars();
+          return res.status(200).json({
+            status: 200,
+            data: allCars,
+          });
+        }
+        const availableCars = await CarServices.getAvailableCars();
+        return res.status(200).json({
+          status: 200,
+          data: availableCars,
+        });
+      }
       const queryObj = req.query;
       if ('min_price' in queryObj) {
         const myCars = await CarServices.getAllCars();
