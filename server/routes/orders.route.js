@@ -28,4 +28,9 @@ router.get('/sale',
   trimRequest.body,
   orderController.getSaleOrders);
 
+router.get('/purchase',
+  verifyToken.validate,
+  trimRequest.body,
+  orderController.getPurchaseOrders);
+
 export default router;
