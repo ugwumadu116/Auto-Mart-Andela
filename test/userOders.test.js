@@ -114,4 +114,22 @@ describe('Order Endpoint Tests', () => {
     expect(result.body.status).to.eq(400);
     assert.equal(result.body.message, 'You cant update the price of this order');
   });
+  it('GET /order/sale - User GET cars he wants to sale', async () => {
+    const result = await chai
+      .request(app)
+      .get(`${API_PREFIX}/order/sale`)
+      .set('authorization', jwtToken);
+    expect(result).to.have.status(200);
+    expect(result.body.status).to.eq(200);
+    expect(result.body.data).to.be.an('array');
+  });
+  it('GET /order/sale - User GET cars he wants to sale failed User not registered', async () => {
+    const result = await chai
+      .request(app)
+      .get(`${API_PREFIX}/order/sale`)
+      .set('authorization', unregisteredToken);
+    expect(result).to.have.status(400);
+    expect(result.body.status).to.eq(400);
+    assert.equal(result.body.message, 'User not registered');
+  });
 });
