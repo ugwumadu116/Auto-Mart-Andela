@@ -68,5 +68,24 @@ class OrderController {
       });
     }
   }
+
+  static async getPurchaseOrders(req, res) {
+    try {
+      const checkIfUserExist = await OrderServices.checkUser(req.userData.user);
+      if (!checkIfUserExist) {
+        throw new Error('User not registered');
+      }
+      const queryOrders = await OrderServices.findPurchaseOrder(req.userData.user);
+      return res.status(200).json({
+        status: 200,
+        data: queryOrders,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: 400,
+        message: error.message,
+      });
+    }
+  }
 }
 export default OrderController;
