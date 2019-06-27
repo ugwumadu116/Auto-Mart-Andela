@@ -62,5 +62,14 @@ class OrderService {
     }
     return false;
   }
+
+  static async findSalesOrder(id) {
+    const sql = 'SELECT users.first_name, users.email, users.last_name, cars.name, cars.img, orders.owner, orders.created_on, orders.status, orders.price, orders.price_offered FROM orders INNER JOIN cars ON orders.car_id = cars.id INNER JOIN users ON orders.buyer = users.id WHERE orders.owner = $1;';
+    const bindParameters = [id];
+    const client = await db.connect();
+    const result = await client.query(sql, bindParameters);
+    client.release();
+    return result.rows;
+  }
 }
 export default OrderService;

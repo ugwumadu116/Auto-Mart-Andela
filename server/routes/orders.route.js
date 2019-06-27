@@ -23,4 +23,9 @@ router.patch('/:order_id/price',
   userValidation.validateUserReq,
   orderController.updateOrderPrice);
 
+router.get('/sale',
+  verifyToken.validate,
+  trimRequest.body,
+  orderController.getSaleOrders);
+
 export default router;
