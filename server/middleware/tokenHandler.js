@@ -21,17 +21,17 @@ class checkAuth {
       if (err.message === 'Unauthorized invalid token') {
         res.status(400).json({
           status: 400,
-          message: 'Unauthorized invalid token',
+          error: 'Unauthorized invalid token',
         });
       } else if (err.message === 'jwt malformed' || err.message === 'jwt expired') {
         res.status(400).json({
           status: 400,
-          message: 'invalid or expired token',
+          error: 'invalid or expired token',
         });
       } else {
         res.status(401).json({
           status: 401,
-          message: err.message,
+          error: err.message,
         });
       }
     }

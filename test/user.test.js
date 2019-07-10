@@ -57,7 +57,7 @@ describe('User Auth Signup Endpoint Tests', () => {
       .then((res) => {
         expect(res).to.have.status(400);
         assert.equal(res.body.status, 400);
-        assert.equal(res.body.message.firstName, 'First name with minimum of 2 characters long is required');
+        assert.equal(res.body.error.firstName, 'First name with minimum of 2 characters long is required');
       });
     done();
   });
@@ -75,8 +75,8 @@ describe('User Auth Signup Endpoint Tests', () => {
       .then((res) => {
         expect(res).to.have.status(400);
         assert.equal(res.body.status, 400);
-        assert.equal(res.body.message.firstName, 'First name with minimum of 2 characters long is required');
-        assert.equal(res.body.message.lastName, 'Last name with minimum of 2 characters long is required');
+        assert.equal(res.body.error.firstName, 'First name with minimum of 2 characters long is required');
+        assert.equal(res.body.error.lastName, 'Last name with minimum of 2 characters long is required');
       });
     done();
   });
@@ -94,7 +94,7 @@ describe('User Auth Signup Endpoint Tests', () => {
       .then((res) => {
         expect(res).to.have.status(400);
         assert.equal(res.body.status, 400);
-        assert.equal(res.body.message.email, 'A valid email is required');
+        assert.equal(res.body.error.email, 'A valid email is required');
       });
     done();
   });
@@ -112,7 +112,7 @@ describe('User Auth Signup Endpoint Tests', () => {
       .then((res) => {
         expect(res).to.have.status(409);
         assert.equal(res.body.status, 409);
-        assert.equal(res.body.message, 'User already registered please sign in');
+        assert.equal(res.body.error, 'User already registered please sign in');
       });
     done();
   });
@@ -130,8 +130,8 @@ describe('User Auth Signup Endpoint Tests', () => {
       .then((res) => {
         expect(res).to.have.status(201);
         assert.equal(res.body.status, 201);
-        assert.equal(res.body.data[0].firstName, 'kim');
-        assert.equal(res.body.data[0].lastName, 'shawn');
+        assert.equal(res.body.data[0].first_name, 'kim');
+        assert.equal(res.body.data[0].last_name, 'shawn');
       });
     done();
   });
@@ -150,8 +150,8 @@ describe('User Auth SignIn Endpoint Tests', () => {
         expect(res).to.have.status(200);
         assert.equal(res.body.status, 200);
         assert.equal(res.body.data[0].email, 'ugw5@gmail.com');
-        assert.equal(res.body.data[0].firstName, 'joel');
-        assert.equal(res.body.data[0].lastName, 'ugwumadu');
+        assert.equal(res.body.data[0].first_name, 'joel');
+        assert.equal(res.body.data[0].last_name, 'ugwumadu');
       });
     done();
   });
@@ -166,7 +166,7 @@ describe('User Auth SignIn Endpoint Tests', () => {
       .then((res) => {
         expect(res).to.have.status(404);
         assert.equal(res.body.status, 404);
-        assert.equal(res.body.message, 'User not registered please signup');
+        assert.equal(res.body.error, 'User not registered please signup');
       });
     done();
   });
@@ -181,7 +181,18 @@ describe('User Auth SignIn Endpoint Tests', () => {
       .then((res) => {
         expect(res).to.have.status(400);
         assert.equal(res.body.status, 400);
-        assert.equal(res.body.message, 'invalid password or email');
+        assert.equal(res.body.error, 'invalid password or email');
+      });
+    done();
+  });
+  it('GET /wrong - User SignIn Validation Test(wrong password)', (done) => {
+    chai
+      .request(app)
+      .get(`/wrong`)
+      .then((res) => {
+        expect(res).to.have.status(404);
+        assert.equal(res.body.status, 404);
+        assert.equal(res.body.error, 'Route does not exist');
       });
     done();
   });

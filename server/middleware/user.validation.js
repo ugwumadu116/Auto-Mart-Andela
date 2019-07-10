@@ -8,7 +8,7 @@ class checkRequestInput {
     } catch (error) {
       return res.status(400).json({
         status: 400,
-        message: error.mapped(),
+        error: error.mapped(),
       });
     }
   }
