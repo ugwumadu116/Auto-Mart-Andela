@@ -15,7 +15,7 @@ class carController {
         data: {
           id: newCar[0].id,
           name: newCar[0].name,
-          img: newCar[0].img,
+          image: newCar[0].image,
           price: newCar[0].price,
           model: newCar[0].model,
           manufacturer: newCar[0].manufacturer,
@@ -26,9 +26,15 @@ class carController {
         },
       });
     } catch (error) {
+      if (error.message === 'User not registered') {
+        return res.status(401).json({
+          status: 401,
+          error: error.message,
+        });
+      }
       return res.status(409).json({
         status: 409,
-        message: error.message,
+        error: error.message,
       });
     }
   }
@@ -44,7 +50,7 @@ class carController {
         throw new Error('Car with that id doest not exits');
       }
       await CarServices.deleteSingleCar(checkIfCarExist.id);
-      await cloudinary.uploader.destroy(checkIfCarExist.img_id);
+      await cloudinary.uploader.destroy(checkIfCarExist.image_id);
       return res.status(200).json({
         status: 200,
         data: 'Car Ad successfully deleted',
@@ -53,21 +59,24 @@ class carController {
       if (error.message === 'Car with that id doest not exits') {
         return res.status(404).json({
           status: 404,
-          message: error.message,
+          error: error.message,
         });
       }
       return res.status(401).json({
         status: 401,
-        message: error.message,
+        error: error.message,
       });
     }
   }
 
   static async getCars(req, res) {
     try {
+      const checkIfUserExist = await CarServices.checkUser(req.userData.user);
+      if (!checkIfUserExist) {
+        throw new Error('User not registered');
+      }
       if (Object.keys(req.query).length === 0) {
-        const checkIfUserIsAdmin = await CarServices.checkIfUserIsAdmin(req.userData.user);
-        if (checkIfUserIsAdmin) {
+        if (checkIfUserExist.is_admin) {
           const allCars = await CarServices.getAllCars();
           return res.status(200).json({
             status: 200,
@@ -100,15 +109,25 @@ class carController {
         data: queryCars,
       });
     } catch (error) {
+      if (error.message === 'User not registered') {
+        return res.status(401).json({
+          status: 401,
+          error: error.message,
+        });
+      }
       return res.status(404).json({
         status: 404,
-        message: error.message,
+        error: error.message,
       });
     }
   }
 
   static async getSingleCar(req, res) {
     try {
+      const checkIfUserExist = await CarServices.checkUser(req.userData.user);
+      if (!checkIfUserExist) {
+        throw new Error('User not registered');
+      }
       const checkIfCarExist = await CarServices.findCar(req.params.car_id);
       if (!checkIfCarExist) {
         throw new Error('Car with that id doest not exits');
@@ -118,15 +137,25 @@ class carController {
         data: checkIfCarExist,
       });
     } catch (error) {
+      if (error.message === 'User not registered') {
+        return res.status(401).json({
+          status: 401,
+          error: error.message,
+        });
+      }
       return res.status(404).json({
         status: 404,
-        message: error.message,
+        error: error.message,
       });
     }
   }
 
   static async updateCarPrice(req, res) {
     try {
+      const checkIfUserExist = await CarServices.checkUser(req.userData.user);
+      if (!checkIfUserExist) {
+        throw new Error('User not registered');
+      }
       const checkIfCarExist = await CarServices.findCar(req.params.car_id);
       if (!checkIfCarExist) {
         throw new Error('Car with that id doest not exits');
@@ -137,18 +166,31 @@ class carController {
       const updatedCar = await CarServices.updatePrice(req.params.car_id, req.body.price);
       return res.status(200).json({
         status: 200,
-        data: updatedCar,
+        data: {
+          ...updatedCar,
+          email: checkIfUserExist.email,
+        },
       });
     } catch (error) {
+      if (error.message === 'User not registered') {
+        return res.status(401).json({
+          status: 401,
+          error: error.message,
+        });
+      }
       return res.status(400).json({
         status: 400,
-        message: error.message,
+        error: error.message,
       });
     }
   }
 
   static async updateCarStatus(req, res) {
     try {
+      const checkIfUserExist = await CarServices.checkUser(req.userData.user);
+      if (!checkIfUserExist) {
+        throw new Error('User not registered');
+      }
       const checkIfCarExist = await CarServices.findCar(req.params.car_id);
       if (!checkIfCarExist) {
         throw new Error('Car with that id doest not exits');
@@ -156,15 +198,27 @@ class carController {
       if (checkIfCarExist.owner !== req.userData.user) {
         throw new Error('you cannot update the status of car you do not own');
       }
+      if (checkIfCarExist.status === 'sold') {
+        throw new Error('Car is already sold');
+      }
       const updatedCar = await CarServices.updateStatus(req.params.car_id, req.body.status);
       return res.status(200).json({
         status: 200,
-        data: updatedCar,
+        data: {
+          ...updatedCar,
+          email: checkIfUserExist.email,
+        },
       });
     } catch (error) {
+      if (error.message === 'User not registered') {
+        return res.status(401).json({
+          status: 401,
+          error: error.message,
+        });
+      }
       return res.status(400).json({
         status: 400,
-        message: error.message,
+        error: error.message,
       });
     }
   }

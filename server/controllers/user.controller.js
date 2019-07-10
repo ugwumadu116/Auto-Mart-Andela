@@ -15,13 +15,14 @@ class UserController {
         password,
         address,
       } = req.body;
-      const hashPassword = await bcrypt.hash(password, 10);
+      const userPassword = Array.isArray(password) ? password[0] : password;
+      const hashPassword = await bcrypt.hash(userPassword, 10);
       const user = {
-        firstName: firstName.toLowerCase(),
-        lastName: lastName.toLowerCase(),
-        email: email.toLowerCase(),
+        firstName: Array.isArray(firstName) ? firstName[0].toLowerCase() : firstName.toLowerCase(),
+        lastName: Array.isArray(lastName) ? lastName[0].toLowerCase() : lastName.toLowerCase(),
+        email: Array.isArray(email) ? email[0].toLowerCase() : email.toLowerCase(),
         hashPassword,
-        address: address.toLowerCase(),
+        address: Array.isArray(address) ? address[0].toLowerCase() : address.toLowerCase(),
       };
       const checkIfUserExist = await userService.checkUser(user.email);
       if (checkIfUserExist > 0) {
@@ -30,41 +31,41 @@ class UserController {
       if (user.email === 'admin@gmail.com') {
         const registerAdmin = await userService.createUser(user, true);
         const jwtTokenAdmin = jwt.sign({ user: registerAdmin.id, admin: true }, secret, {
-          expiresIn: '6h',
+          expiresIn: '12h',
         });
         return res.status(201).json({
           status: 201,
           data: [{
             token: jwtTokenAdmin,
             id: registerAdmin.id,
-            firstName: registerAdmin.first_name,
-            lastName: registerAdmin.last_name,
+            first_name: registerAdmin.first_name,
+            last_name: registerAdmin.last_name,
             email: registerAdmin.email,
             address: registerAdmin.address,
-            isAdmin: registerAdmin.is_admin,
+            is_admin: registerAdmin.is_admin,
           }],
         });
       }
       const result = await userService.createUser(user, false);
       const jwtToken = jwt.sign({ user: result.id, admin: false, info: `${result.first_name} ${result.last_name}` }, secret, {
-        expiresIn: '6h',
+        expiresIn: '12h',
       });
       return res.status(201).json({
         status: 201,
         data: [{
           token: jwtToken,
           id: result.id,
-          firstName: result.first_name,
-          lastName: result.last_name,
+          first_name: result.first_name,
+          last_name: result.last_name,
           email: result.email,
           address: result.address,
-          isAdmin: result.is_admin,
+          is_admin: result.is_admin,
         }],
       });
     } catch (error) {
       return res.status(409).json({
         status: 409,
-        message: error.message,
+        error: error.message,
       });
     }
   }
@@ -75,39 +76,41 @@ class UserController {
         email,
         password,
       } = req.body;
-      const checkIfUserExist = await userService.findUser(email);
+      const userEmail = Array.isArray(email) ? email[0] : email;
+      const userPassword = Array.isArray(password) ? password[0] : password;
+      const checkIfUserExist = await userService.findUser(userEmail);
       if (checkIfUserExist.length <= 0) {
         throw new Error('User not registered please signup');
       }
-      const checkPassword = await bcrypt.compare(password, checkIfUserExist[0].password);
+      const checkPassword = await bcrypt.compare(userPassword, checkIfUserExist[0].password);
       if (!checkPassword) {
         throw new Error('invalid password or email');
       }
       const jwtToken = await jwt.sign({ user: checkIfUserExist[0].id, admin: checkIfUserExist[0].is_admin, info: `${checkIfUserExist[0].first_name} ${checkIfUserExist[0].last_name}` }, secret, {
-        expiresIn: '6h',
+        expiresIn: '12h',
       });
       return res.status(200).json({
         status: 200,
         data: [{
           token: jwtToken,
           id: checkIfUserExist[0].id,
-          firstName: checkIfUserExist[0].first_name,
-          lastName: checkIfUserExist[0].last_name,
+          first_name: checkIfUserExist[0].first_name,
+          last_name: checkIfUserExist[0].last_name,
           email: checkIfUserExist[0].email,
           address: checkIfUserExist[0].address,
-          isAdmin: checkIfUserExist[0].is_admin,
+          is_admin: checkIfUserExist[0].is_admin,
         }],
       });
     } catch (error) {
       if (error.message === 'invalid password or email') {
         return res.status(400).json({
           status: 400,
-          message: error.message,
+          error: error.message,
         });
       }
       return res.status(404).json({
         status: 404,
-        message: error.message,
+        error: error.message,
       });
     }
   }

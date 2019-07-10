@@ -22,7 +22,7 @@ class OrderController {
     } catch (error) {
       return res.status(409).json({
         status: 409,
-        message: error.message,
+        error: error.message,
       });
     }
   }
@@ -34,18 +34,28 @@ class OrderController {
         throw new Error('User not registered');
       }
       const checkIfOrderExist = await OrderServices.findOrder(req.params.order_id, req.userData.user);
+      const oldPriceOffered = checkIfOrderExist.price_offered;
       if (!checkIfOrderExist) {
         throw new Error('You cant update the price of this order');
       }
       const updateOrder = await OrderServices.updatePrice(req.params.order_id, req.body.price_offered);
       return res.status(200).json({
         status: 200,
-        data: updateOrder,
+        data: {
+          id: updateOrder.id,
+          car_id: updateOrder.car_id,
+          buyer: updateOrder.buyer,
+          status: updateOrder.status,
+          owner: updateOrder.owner,
+          old_price_offered: oldPriceOffered,
+          new_price_offered: updateOrder.price_offered,
+          created_on: updateOrder.created_on,
+        },
       });
     } catch (error) {
       return res.status(400).json({
         status: 400,
-        message: error.message,
+        error: error.message,
       });
     }
   }
@@ -64,7 +74,7 @@ class OrderController {
     } catch (error) {
       return res.status(400).json({
         status: 400,
-        message: error.message,
+        error: error.message,
       });
     }
   }
@@ -83,7 +93,7 @@ class OrderController {
     } catch (error) {
       return res.status(400).json({
         status: 400,
-        message: error.message,
+        error: error.message,
       });
     }
   }

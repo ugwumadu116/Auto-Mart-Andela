@@ -29,7 +29,6 @@ const create = () => {
     email VARCHAR(100) UNIQUE NOT NULL,
     password TEXT NOT NULL,
     address VARCHAR(1600),
-    createdon TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     is_admin BOOLEAN DEFAULT FALSE
   )`;
   // cars table
@@ -37,8 +36,8 @@ const create = () => {
   cars(
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    img VARCHAR(1600) NOT NULL,
-    img_id VARCHAR(1600) NOT NULL,
+    image VARCHAR(1600) NOT NULL,
+    image_id VARCHAR(1600) NOT NULL,
     price BIGINT NOT NULL,
     model VARCHAR(1600) NOT NULL,
     manufacturer VARCHAR(1600) NOT NULL,
@@ -61,7 +60,7 @@ const create = () => {
     price BIGINT NOT NULL,
     created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_buyer FOREIGN KEY (buyer) REFERENCES  users (id),
-    CONSTRAINT fk_car_id FOREIGN KEY (car_id) REFERENCES  cars (id)
+    CONSTRAINT fk_car_id FOREIGN KEY (car_id) REFERENCES  cars (id) ON DELETE CASCADE
   )`;
 
   const migrationQueries = `${usersTable};${carsTable};${ordersTable};`;

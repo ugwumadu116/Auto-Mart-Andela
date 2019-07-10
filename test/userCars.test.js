@@ -99,9 +99,9 @@ describe('Car Endpoint Tests', () => {
       .attach('image',
         fs.readFileSync('UI/images/car1.jpg'),
         'car1.jpg');
-    expect(result).to.have.status(409);
-    expect(result.body.status).to.eq(409);
-    assert.equal(result.body.message, 'User not registered');
+    expect(result).to.have.status(401);
+    expect(result.body.status).to.eq(401);
+    assert.equal(result.body.error, 'User not registered');
   });
   it('POST /car/ - User POST car - fake token provided', async () => {
     const result = await chai
@@ -120,7 +120,7 @@ describe('Car Endpoint Tests', () => {
         'car1.jpg');
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
-    assert.equal(result.body.message, 'invalid or expired token');
+    assert.equal(result.body.error, 'invalid or expired token');
   });
   it('POST /car/ - User POST car - token not provided', async () => {
     const result = await chai
@@ -138,7 +138,7 @@ describe('Car Endpoint Tests', () => {
         'car1.jpg');
     expect(result).to.have.status(401);
     expect(result.body.status).to.eq(401);
-    assert.equal(result.body.message, 'Access denied.No token provided');
+    assert.equal(result.body.error, 'Access denied.No token provided');
   });
   it('POST /car/ - User POST car- fail due to incomplete fields', async () => {
     const result = await chai
@@ -155,8 +155,8 @@ describe('Car Endpoint Tests', () => {
         'car1.jpg');
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
-    expect(result.body.message).to.have.property('name');
-    expect(result.body.message).to.have.property('manufacturer');
+    expect(result.body.error).to.have.property('name');
+    expect(result.body.error).to.have.property('manufacturer');
   });
   it('POST /car/ - User POST car- fail due to no fields', async () => {
     const result = await chai
@@ -169,10 +169,10 @@ describe('Car Endpoint Tests', () => {
         'car1.jpg');
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
-    expect(result.body.message).to.have.property('name');
-    expect(result.body.message).to.have.property('manufacturer');
-    expect(result.body.message).to.have.property('body_type');
-    expect(result.body.message).to.have.property('price');
+    expect(result.body.error).to.have.property('name');
+    expect(result.body.error).to.have.property('manufacturer');
+    expect(result.body.error).to.have.property('body_type');
+    expect(result.body.error).to.have.property('price');
   });
   it('DELETE /car/id - User DELETE car- pass', async () => {
     const result = await chai
@@ -190,7 +190,7 @@ describe('Car Endpoint Tests', () => {
       .set('authorization', jwtToken);
     expect(result).to.have.status(401);
     expect(result.body.status).to.eq(401);
-    assert.equal(result.body.message, 'Unauthorized only admin can delete');
+    assert.equal(result.body.error, 'Unauthorized only admin can delete');
   });
   it('DELETE /car/id - User DELETE car- fail car does not exits', async () => {
     const result = await chai
@@ -199,7 +199,7 @@ describe('Car Endpoint Tests', () => {
       .set('authorization', adminJwtToken);
     expect(result).to.have.status(404);
     expect(result.body.status).to.eq(404);
-    assert.equal(result.body.message, 'Car with that id doest not exits');
+    assert.equal(result.body.error, 'Car with that id doest not exits');
   });
   it('DELETE /car/id - User DELETE car- fail invalid car id', async () => {
     const result = await chai
@@ -208,7 +208,7 @@ describe('Car Endpoint Tests', () => {
       .set('authorization', adminJwtToken);
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
-    expect(result.body.message).to.have.property('car_id');
+    expect(result.body.error).to.have.property('car_id');
   });
   it('GET /car?body_type=car - User GET cars with body_type=car', async () => {
     const result = await chai
@@ -226,7 +226,7 @@ describe('Car Endpoint Tests', () => {
       .set('authorization', 'jwtToken');
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
-    assert.equal(result.body.message, 'invalid or expired token');
+    assert.equal(result.body.error, 'invalid or expired token');
   });
   it('GET /car?status=available - User GET cars with status=available', async () => {
     const result = await chai
@@ -265,7 +265,7 @@ describe('Car Endpoint Tests', () => {
       .set('authorization', jwtToken);
     expect(result).to.have.status(404);
     expect(result.body.status).to.eq(404);
-    assert.equal(result.body.message, 'Car with that id doest not exits');
+    assert.equal(result.body.error, 'Car with that id doest not exits');
   });
   it('PATCH /car/car_id/price - User update a specific car price', async () => {
     const result = await chai
@@ -292,7 +292,7 @@ describe('Car Endpoint Tests', () => {
       });
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
-    assert.equal(result.body.message, 'Car with that id doest not exits');
+    assert.equal(result.body.error, 'Car with that id doest not exits');
   });
   it('PATCH /car/car_id/price - User update a specific car price / FAIL', async () => {
     const result = await chai
@@ -304,7 +304,7 @@ describe('Car Endpoint Tests', () => {
       });
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
-    assert.equal(result.body.message, 'you cannot update the price of car you do not own');
+    assert.equal(result.body.error, 'you cannot update the price of car you do not own');
   });
   it('PATCH /car/car_id/status - User update a specific car status fail car not owned ny user', async () => {
     const result = await chai
@@ -316,7 +316,7 @@ describe('Car Endpoint Tests', () => {
       });
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
-    assert.equal(result.body.message, 'you cannot update the status of car you do not own');
+    assert.equal(result.body.error, 'you cannot update the status of car you do not own');
   });
   it('PATCH /car/car_id/status - User update a specific car status', async () => {
     const result = await chai
@@ -343,7 +343,7 @@ describe('Car Endpoint Tests', () => {
       });
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
-    assert.equal(result.body.message, 'Car with that id doest not exits');
+    assert.equal(result.body.error, 'Car with that id doest not exits');
   });
   it('GET /car/car - User (admin) can get sold and unsold cars', async () => {
     const result = await chai
@@ -356,6 +356,15 @@ describe('Car Endpoint Tests', () => {
     expect(result.body.data[0]).to.have.property('manufacturer');
     expect(result.body.data[0]).to.have.property('body_type');
     expect(result.body.data[0]).to.have.property('price');
+  });
+  it('GET /car/car - User not registered', async () => {
+    const result = await chai
+      .request(app)
+      .get(`${API_PREFIX}/car`)
+      .set('authorization', notRegisteredUser);
+    expect(result).to.have.status(401);
+    expect(result.body.status).to.eq(401);
+    assert.equal(result.body.error, 'User not registered');
   });
   it('GET /car/car - User can get unsold cars', async () => {
     const result = await chai

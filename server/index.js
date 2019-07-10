@@ -21,13 +21,25 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 const PORT = process.env.PORT || 3001;
 const prefix = '/api/v1';
 
-app.get('/', (req, res) => {
-  res.status(200).send('welcome to Auto-Mart');
-});
+app.get('/', (req, res) => res.status(200).json({
+  status: 200,
+  data: 'welcome to Auto-Mart',
+}));
 
 app.use(`${prefix}/`, userRouter);
 app.use(`${prefix}/car`, carRouter);
 app.use(`${prefix}/order`, orderRouter);
+
+app.use(async (req, res) => {
+  try {
+    throw new Error('Route does not exist');
+  } catch (error) {
+    return res.status(error.status || 404).json({
+      status: error.status || 404,
+      error: error.message,
+    });
+  }
+});
 
 app.listen(PORT, () => console.log(`Welcome ${PORT}`));
 

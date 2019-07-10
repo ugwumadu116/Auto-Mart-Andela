@@ -19,26 +19,31 @@ const checkCar = (req) => {
     body_type,
     state,
   } = req.body;
-
+  const carName = Array.isArray(name) ? name[0] : name;
+  const carManufacturer = Array.isArray(manufacturer) ? manufacturer[0] : manufacturer;
+  const carModel = Array.isArray(model) ? model[0] : model;
+  const carPrice = Array.isArray(price) ? price[0] : price;
+  const carBodyType = Array.isArray(body_type) ? body_type[0] : body_type;
+  const carState = Array.isArray(state) ? state[0] : state;
   if (req.file === undefined || !req.file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
     groupError['image'] = 'Car image is required only image (jpg, jpeg, png, gif) files are allowed!';
   }
-  if (name === '' || name === undefined || name.length <= 1) {
+  if (carName === '' || carName === undefined || carName.length <= 1) {
     groupError['name'] = 'Car name with minimum of 2 characters long is required';
   }
-  if (manufacturer === '' || manufacturer === undefined || manufacturer.length <= 1) {
+  if (carManufacturer === '' || carManufacturer === undefined || carManufacturer.length <= 1) {
     groupError['manufacturer'] = 'Car manufacturer with minimum of 2 characters long is required';
   }
-  if (model === '' || model === undefined || model.length <= 1) {
+  if (carModel === '' || carModel === undefined || carModel.length <= 1) {
     groupError['model'] = 'Car model with minimum of 2 characters long is required';
   }
-  if (price === '' || price === undefined || isNaN(price)) {
+  if (carPrice === '' || carPrice === undefined || isNaN(carPrice)) {
     groupError['price'] = 'Car price must be numbers only and is required';
   }
-  if (body_type === '' || body_type === undefined || !body_type.match(/^car$|^truck$|^trailer$|^van$/i)) {
+  if (carBodyType === '' || carBodyType === undefined || !carBodyType.match(/^car$|^truck$|^trailer$|^van$/i)) {
     groupError['body_type'] = 'Car body type should be car or truck or van or trailer and is required';
   }
-  if (state === '' || state === undefined || !state.match(/^new$|^old$/i)) {
+  if (carState === '' || carState === undefined || !carState.match(/^new$|^old$/i)) {
     groupError['state'] = 'Car state should be new or old and is required';
   }
   return groupError;

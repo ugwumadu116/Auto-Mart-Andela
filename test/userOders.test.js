@@ -58,7 +58,7 @@ describe('Order Endpoint Tests', () => {
       });
     expect(result).to.have.status(409);
     expect(result.body.status).to.eq(409);
-    assert.equal(result.body.message, 'Car with that id doest not exits');
+    assert.equal(result.body.error, 'Car with that id doest not exits');
   });
   it('POST /order/ - User POST order / fail unregistered user', async () => {
     const result = await chai
@@ -71,7 +71,7 @@ describe('Order Endpoint Tests', () => {
       });
     expect(result).to.have.status(409);
     expect(result.body.status).to.eq(409);
-    assert.equal(result.body.message, 'User not registered');
+    assert.equal(result.body.error, 'User not registered');
   });
   it('POST /order/ - User POST order / fail already sold', async () => {
     const result = await chai
@@ -84,7 +84,7 @@ describe('Order Endpoint Tests', () => {
       });
     expect(result).to.have.status(409);
     expect(result.body.status).to.eq(409);
-    assert.equal(result.body.message, 'this car has been sold');
+    assert.equal(result.body.error, 'this car has been sold');
   });
   it('PATCH /order/ - User update order price', async () => {
     const result = await chai
@@ -97,8 +97,8 @@ describe('Order Endpoint Tests', () => {
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
     expect(result.body.data).to.have.property('id');
-    expect(result.body.data).to.have.property('price_offered');
-    expect(result.body.data).to.have.property('price');
+    expect(result.body.data).to.have.property('new_price_offered');
+    expect(result.body.data).to.have.property('old_price_offered');
     expect(result.body.data).to.have.property('buyer');
     expect(result.body.data).to.have.property('status');
   });
@@ -112,7 +112,7 @@ describe('Order Endpoint Tests', () => {
       });
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
-    assert.equal(result.body.message, 'You cant update the price of this order');
+    assert.equal(result.body.error, 'You cant update the price of this order');
   });
   it('GET /order/sale - User GET cars he wants to sale', async () => {
     const result = await chai
@@ -130,7 +130,7 @@ describe('Order Endpoint Tests', () => {
       .set('authorization', unregisteredToken);
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
-    assert.equal(result.body.message, 'User not registered');
+    assert.equal(result.body.error, 'User not registered');
   });
   it('GET /order/purchase - User GET cars he wants to buy', async () => {
     const result = await chai
@@ -148,6 +148,6 @@ describe('Order Endpoint Tests', () => {
       .set('authorization', unregisteredToken);
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
-    assert.equal(result.body.message, 'User not registered');
+    assert.equal(result.body.error, 'User not registered');
   });
 });
