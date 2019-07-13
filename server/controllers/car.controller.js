@@ -92,7 +92,7 @@ class carController {
       const queryObj = req.query;
       if ('min_price' in queryObj) {
         const myCars = await CarServices.getAllCars();
-        const carRange = myCars.filter(car => car.status === queryObj['status'] && Number(car.price) >= queryObj['min_price'] && Number(car.price) <= queryObj['max_price']);
+        const carRange = myCars.filter(car => car.status === 'available' && Number(car.price) >= queryObj['min_price'] && Number(car.price) <= queryObj['max_price']);
         return res.status(200).json({
           status: 200,
           data: carRange,
