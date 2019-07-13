@@ -15,7 +15,7 @@ class carController {
         data: {
           id: newCar[0].id,
           name: newCar[0].name,
-          image: newCar[0].image,
+          image_url: newCar[0].image,
           price: newCar[0].price,
           model: newCar[0].model,
           manufacturer: newCar[0].manufacturer,

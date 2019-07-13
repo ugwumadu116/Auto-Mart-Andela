@@ -26,7 +26,7 @@ const checkCar = (req) => {
   const carBodyType = Array.isArray(body_type) ? body_type[0] : body_type;
   const carState = Array.isArray(state) ? state[0] : state;
   if (req.file === undefined || !req.file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
-    groupError['image'] = 'Car image is required only image (jpg, jpeg, png, gif) files are allowed!';
+    groupError['image_url'] = 'Car image is required only image (jpg, jpeg, png, gif) files are allowed!';
   }
   if (carName === '' || carName === undefined || carName.length <= 1) {
     groupError['name'] = 'Car name with minimum of 2 characters long is required';
