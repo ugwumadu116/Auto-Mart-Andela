@@ -34,7 +34,7 @@ class UserController {
         });
         return res.status(201).json({
           status: 201,
-          data: [{
+          data: {
             token: jwtTokenAdmin,
             id: registerAdmin.id,
             first_name: registerAdmin.first_name,
@@ -42,7 +42,7 @@ class UserController {
             email: registerAdmin.email,
             address: registerAdmin.address,
             is_admin: registerAdmin.is_admin,
-          }],
+          },
         });
       }
       const result = await userService.createUser(user, false);
@@ -51,7 +51,7 @@ class UserController {
       });
       return res.status(201).json({
         status: 201,
-        data: [{
+        data: {
           token: jwtToken,
           id: result.id,
           first_name: result.first_name,
@@ -59,7 +59,7 @@ class UserController {
           email: result.email,
           address: result.address,
           is_admin: result.is_admin,
-        }],
+        },
       });
     } catch (error) {
       return res.status(409).json({
@@ -88,7 +88,7 @@ class UserController {
       });
       return res.status(200).json({
         status: 200,
-        data: [{
+        data: {
           token: jwtToken,
           id: checkIfUserExist[0].id,
           first_name: checkIfUserExist[0].first_name,
@@ -96,7 +96,7 @@ class UserController {
           email: checkIfUserExist[0].email,
           address: checkIfUserExist[0].address,
           is_admin: checkIfUserExist[0].is_admin,
-        }],
+        },
       });
     } catch (error) {
       if (error.message === 'invalid password or email') {
