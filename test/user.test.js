@@ -130,8 +130,8 @@ describe('User Auth Signup Endpoint Tests', () => {
       .then((res) => {
         expect(res).to.have.status(201);
         assert.equal(res.body.status, 201);
-        assert.equal(res.body.data[0].first_name, 'kim');
-        assert.equal(res.body.data[0].last_name, 'shawn');
+        assert.equal(res.body.data.first_name, 'kim');
+        assert.equal(res.body.data.last_name, 'shawn');
       });
     done();
   });
@@ -149,9 +149,9 @@ describe('User Auth SignIn Endpoint Tests', () => {
       .then((res) => {
         expect(res).to.have.status(200);
         assert.equal(res.body.status, 200);
-        assert.equal(res.body.data[0].email, 'ugw5@gmail.com');
-        assert.equal(res.body.data[0].first_name, 'joel');
-        assert.equal(res.body.data[0].last_name, 'ugwumadu');
+        assert.equal(res.body.data.email, 'ugw5@gmail.com');
+        assert.equal(res.body.data.first_name, 'joel');
+        assert.equal(res.body.data.last_name, 'ugwumadu');
       });
     done();
   });
