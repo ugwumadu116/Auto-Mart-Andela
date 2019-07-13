@@ -214,10 +214,18 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .get(`${API_PREFIX}/car?body_type=car`)
-      .set('token', jwtToken);
+      .set('authorization', jwtToken);
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
     expect(result.body.data).to.be.an('array');
+  });
+  it('GET /car?body_type=car - User GET cars with body_type=car', async () => {
+    const result = await chai
+      .request(app)
+      .get(`${API_PREFIX}/car?body_type=car`)
+      .set('token', notRegisteredUser);
+    expect(result).to.have.status(401);
+    expect(result.body.status).to.eq(401);
   });
   it('GET /car?body_type=car - User GET cars with body_type=car fail wrong token', async () => {
     const result = await chai
