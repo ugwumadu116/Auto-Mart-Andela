@@ -21,10 +21,10 @@ before(async () => {
   await chai
     .request(app)
     .post(`${API_PREFIX}/order`)
-    .set('authorization', jwtToken)
+    .set('token', jwtToken)
     .send({
       car_id: 2,
-      price_offered: 1000,
+      amount: 1000,
     });
 });
 
@@ -34,10 +34,10 @@ describe('Order Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .post(`${API_PREFIX}/order`)
-      .set('authorization', jwtToken)
+      .set('token', jwtToken)
       .send({
         car_id: 2,
-        price_offered: 1000,
+        amount: 1000,
       });
     expect(result).to.have.status(201);
     expect(result.body.status).to.eq(201);
@@ -51,10 +51,10 @@ describe('Order Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .post(`${API_PREFIX}/order`)
-      .set('authorization', jwtToken)
+      .set('token', jwtToken)
       .send({
         car_id: 222,
-        price_offered: 1000,
+        amount: 1000,
       });
     expect(result).to.have.status(409);
     expect(result.body.status).to.eq(409);
@@ -64,10 +64,10 @@ describe('Order Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .post(`${API_PREFIX}/order`)
-      .set('authorization', unregisteredToken)
+      .set('token', unregisteredToken)
       .send({
         car_id: 222,
-        price_offered: 1000,
+        amount: 1000,
       });
     expect(result).to.have.status(409);
     expect(result.body.status).to.eq(409);
@@ -77,10 +77,10 @@ describe('Order Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .post(`${API_PREFIX}/order`)
-      .set('authorization', jwtToken)
+      .set('token', jwtToken)
       .send({
         car_id: 3,
-        price_offered: 1000,
+        amount: 1000,
       });
     expect(result).to.have.status(409);
     expect(result.body.status).to.eq(409);
@@ -90,9 +90,9 @@ describe('Order Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .patch(`${API_PREFIX}/order/1/price`)
-      .set('authorization', jwtToken)
+      .set('token', jwtToken)
       .send({
-        price_offered: 156,
+        price: 156,
       });
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
@@ -106,9 +106,9 @@ describe('Order Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .patch(`${API_PREFIX}/order/234/price`)
-      .set('authorization', jwtToken)
+      .set('token', jwtToken)
       .send({
-        price_offered: 1000,
+        price: 1000,
       });
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
@@ -118,7 +118,7 @@ describe('Order Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .get(`${API_PREFIX}/order/sale`)
-      .set('authorization', jwtToken);
+      .set('token', jwtToken);
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
     expect(result.body.data).to.be.an('array');
@@ -127,7 +127,7 @@ describe('Order Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .get(`${API_PREFIX}/order/sale`)
-      .set('authorization', unregisteredToken);
+      .set('token', unregisteredToken);
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
     assert.equal(result.body.error, 'User not registered');
@@ -136,7 +136,7 @@ describe('Order Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .get(`${API_PREFIX}/order/purchase`)
-      .set('authorization', jwtToken);
+      .set('token', jwtToken);
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
     expect(result.body.data).to.be.an('array');
@@ -145,7 +145,7 @@ describe('Order Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .get(`${API_PREFIX}/order/purchase`)
-      .set('authorization', unregisteredToken);
+      .set('token', unregisteredToken);
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
     assert.equal(result.body.error, 'User not registered');

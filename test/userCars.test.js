@@ -28,7 +28,7 @@ before(async () => {
   await chai
     .request(app)
     .post(`${API_PREFIX}/car`)
-    .set('authorization', jwtToken)
+    .set('token', jwtToken)
     .set('Content-Type', 'application/x-www-form-urlencoded')
     .field('manufacturer', 'General Motors (GM)')
     .field('name', 'Chevrolet')
@@ -46,7 +46,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .post(`${API_PREFIX}/car`)
-      .set('authorization', jwtToken)
+      .set('token', jwtToken)
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .field('manufacturer', 'General Motors (GM)')
       .field('name', 'Chevrolet')
@@ -67,7 +67,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .post(`${API_PREFIX}/car`)
-      .set('authorization', jwtToken)
+      .set('token', jwtToken)
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .field('manufacturer', 'General Motors (GM)')
       .field('name', 'Chevrolet')
@@ -88,7 +88,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .post(`${API_PREFIX}/car`)
-      .set('authorization', notRegisteredUser)
+      .set('token', notRegisteredUser)
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .field('manufacturer', 'General Motors (GM)')
       .field('name', 'Chevrolet')
@@ -107,7 +107,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .post(`${API_PREFIX}/car`)
-      .set('authorization', 'jwtToken')
+      .set('token', 'jwtToken')
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .field('manufacturer', 'General Motors (GM)')
       .field('name', 'Chevrolet')
@@ -144,7 +144,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .post(`${API_PREFIX}/car`)
-      .set('authorization', jwtToken)
+      .set('token', jwtToken)
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .field('model', '2018 model')
       .field('price', 232)
@@ -162,7 +162,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .post(`${API_PREFIX}/car`)
-      .set('authorization', jwtToken)
+      .set('token', jwtToken)
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .attach('image',
         fs.readFileSync('UI/images/car1.jpg'),
@@ -178,7 +178,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .delete(`${API_PREFIX}/car/1`)
-      .set('authorization', adminJwtToken);
+      .set('token', adminJwtToken);
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
     assert.equal(result.body.data, 'Car Ad successfully deleted');
@@ -187,7 +187,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .delete(`${API_PREFIX}/car/1`)
-      .set('authorization', jwtToken);
+      .set('token', jwtToken);
     expect(result).to.have.status(401);
     expect(result.body.status).to.eq(401);
     assert.equal(result.body.error, 'Unauthorized only admin can delete');
@@ -196,7 +196,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .delete(`${API_PREFIX}/car/111`)
-      .set('authorization', adminJwtToken);
+      .set('token', adminJwtToken);
     expect(result).to.have.status(404);
     expect(result.body.status).to.eq(404);
     assert.equal(result.body.error, 'Car with that id doest not exits');
@@ -205,7 +205,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .delete(`${API_PREFIX}/car/abc`)
-      .set('authorization', adminJwtToken);
+      .set('token', adminJwtToken);
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
     expect(result.body.error).to.have.property('car_id');
@@ -214,7 +214,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .get(`${API_PREFIX}/car?body_type=car`)
-      .set('authorization', jwtToken);
+      .set('token', jwtToken);
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
     expect(result.body.data).to.be.an('array');
@@ -223,7 +223,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .get(`${API_PREFIX}/car?body_type=car`)
-      .set('authorization', 'jwtToken');
+      .set('token', 'jwtToken');
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
     assert.equal(result.body.error, 'invalid or expired token');
@@ -232,7 +232,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .get(`${API_PREFIX}/car?status=available`)
-      .set('authorization', jwtToken);
+      .set('token', jwtToken);
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
     expect(result.body.data).to.be.an('array');
@@ -241,7 +241,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .get(`${API_PREFIX}/car?status=available&min_price=100&max_price=1000`)
-      .set('authorization', jwtToken);
+      .set('token', jwtToken);
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
     expect(result.body.data).to.be.an('array');
@@ -250,7 +250,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .get(`${API_PREFIX}/car/2`)
-      .set('authorization', jwtToken);
+      .set('token', jwtToken);
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
     expect(result.body.data).to.have.property('name');
@@ -262,7 +262,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .get(`${API_PREFIX}/car/3333`)
-      .set('authorization', jwtToken);
+      .set('token', jwtToken);
     expect(result).to.have.status(404);
     expect(result.body.status).to.eq(404);
     assert.equal(result.body.error, 'Car with that id doest not exits');
@@ -271,7 +271,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .patch(`${API_PREFIX}/car/2/price`)
-      .set('authorization', jwtToken)
+      .set('token', jwtToken)
       .send({
         price: '1000000',
       });
@@ -286,7 +286,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .patch(`${API_PREFIX}/car/500/price`)
-      .set('authorization', jwtToken)
+      .set('token', jwtToken)
       .send({
         price: '1000000',
       });
@@ -298,7 +298,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .patch(`${API_PREFIX}/car/2/price`)
-      .set('authorization', adminJwtToken)
+      .set('token', adminJwtToken)
       .send({
         price: '1000000',
       });
@@ -310,7 +310,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .patch(`${API_PREFIX}/car/3/status`)
-      .set('authorization', fakeUser)
+      .set('token', fakeUser)
       .send({
         status: 'sold',
       });
@@ -322,7 +322,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .patch(`${API_PREFIX}/car/3/status`)
-      .set('authorization', jwtToken)
+      .set('token', jwtToken)
       .send({
         status: 'sold',
       });
@@ -337,7 +337,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .patch(`${API_PREFIX}/car/500/status`)
-      .set('authorization', jwtToken)
+      .set('token', jwtToken)
       .send({
         status: 'sold',
       });
@@ -349,7 +349,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .get(`${API_PREFIX}/car`)
-      .set('authorization', adminJwtToken);
+      .set('token', adminJwtToken);
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
     expect(result.body.data[0]).to.have.property('name');
@@ -361,7 +361,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .get(`${API_PREFIX}/car`)
-      .set('authorization', notRegisteredUser);
+      .set('token', notRegisteredUser);
     expect(result).to.have.status(401);
     expect(result.body.status).to.eq(401);
     assert.equal(result.body.error, 'User not registered');
@@ -370,7 +370,7 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .get(`${API_PREFIX}/car`)
-      .set('authorization', jwtToken);
+      .set('token', jwtToken);
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
     expect(result.body.data[0]).to.have.property('name');

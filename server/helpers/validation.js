@@ -13,10 +13,10 @@ const signUpValidation = [
   )
     .trim()
     .isLength({ min: 6 }),
-  body('firstName', 'First name with minimum of 2 characters long is required')
+  body('first_name', 'First name with minimum of 2 characters long is required')
     .isLength({ min: 2 })
     .trim(),
-  body('lastName', 'Last name with minimum of 2 characters long is required')
+  body('last_name', 'Last name with minimum of 2 characters long is required')
     .isLength({ min: 2 })
     .trim(),
   body('address', 'Address with minimum of 2 characters long is required')
@@ -70,10 +70,10 @@ const carStatus = [
 ];
 const purchaseOrder = [
   body('car_id', 'car id should be numeric').isNumeric(),
-  body('price_offered', 'price offered should be number').isNumeric(),
+  body('amount', 'price offered should be number').isNumeric(),
 ];
 const orderPrice = [
-  body('price_offered', 'price should be numbers only').isNumeric(),
+  body('price', 'price should be numbers only').isNumeric(),
 ];
 const orderIdParam = [
   param('order_id', 'Invalid order id').isNumeric(),

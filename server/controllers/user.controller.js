@@ -9,8 +9,8 @@ class UserController {
   static async registerUser(req, res) {
     try {
       const {
-        firstName,
-        lastName,
+        first_name,
+        last_name,
         email,
         password,
         address,
@@ -18,8 +18,8 @@ class UserController {
       const userPassword = Array.isArray(password) ? password[0] : password;
       const hashPassword = await bcrypt.hash(userPassword, 10);
       const user = {
-        firstName: Array.isArray(firstName) ? firstName[0].toLowerCase() : firstName.toLowerCase(),
-        lastName: Array.isArray(lastName) ? lastName[0].toLowerCase() : lastName.toLowerCase(),
+        firstName: Array.isArray(first_name) ? first_name[0].toLowerCase() : first_name.toLowerCase(),
+        lastName: Array.isArray(last_name) ? last_name[0].toLowerCase() : last_name.toLowerCase(),
         email: Array.isArray(email) ? email[0].toLowerCase() : email.toLowerCase(),
         hashPassword,
         address: Array.isArray(address) ? address[0].toLowerCase() : address.toLowerCase(),

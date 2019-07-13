@@ -12,8 +12,8 @@ before(async () => {
     .request(app)
     .post(`${API_PREFIX}/auth/signup`)
     .send({
-      firstName: 'admin',
-      lastName: 'admin',
+      first_name: 'admin',
+      last_name: 'admin',
       email: 'admin@gmail.com',
       password: 'adminPwd',
       address: 'ipaja lagos',
@@ -22,8 +22,8 @@ before(async () => {
     .request(app)
     .post(`${API_PREFIX}/auth/signup`)
     .send({
-      firstName: 'joel',
-      lastName: 'ugwumadu',
+      first_name: 'joel',
+      last_name: 'ugwumadu',
       email: 'ugw5@gmail.com',
       password: 'password',
       address: 'ipaja lagos',
@@ -48,8 +48,8 @@ describe('User Auth Signup Endpoint Tests', () => {
       .request(app)
       .post(`${API_PREFIX}/auth/signup`)
       .send({
-        firstName: '',
-        lastName: 'ugwumadu',
+        first_name: '',
+        last_name: 'ugwumadu',
         email: 'ugw5@gmail.com',
         password: 'password',
         address: 'ipaja lagos',
@@ -57,7 +57,7 @@ describe('User Auth Signup Endpoint Tests', () => {
       .then((res) => {
         expect(res).to.have.status(400);
         assert.equal(res.body.status, 400);
-        assert.equal(res.body.error.firstName, 'First name with minimum of 2 characters long is required');
+        assert.equal(res.body.error.first_name, 'First name with minimum of 2 characters long is required');
       });
     done();
   });
@@ -66,8 +66,8 @@ describe('User Auth Signup Endpoint Tests', () => {
       .request(app)
       .post(`${API_PREFIX}/auth/signup`)
       .send({
-        firstName: '',
-        lastName: '',
+        first_name: '',
+        last_name: '',
         email: 'ugw5@gmail.com',
         password: 'password',
         address: 'ipaja lagos',
@@ -75,8 +75,8 @@ describe('User Auth Signup Endpoint Tests', () => {
       .then((res) => {
         expect(res).to.have.status(400);
         assert.equal(res.body.status, 400);
-        assert.equal(res.body.error.firstName, 'First name with minimum of 2 characters long is required');
-        assert.equal(res.body.error.lastName, 'Last name with minimum of 2 characters long is required');
+        assert.equal(res.body.error.first_name, 'First name with minimum of 2 characters long is required');
+        assert.equal(res.body.error.last_name, 'Last name with minimum of 2 characters long is required');
       });
     done();
   });
@@ -85,8 +85,8 @@ describe('User Auth Signup Endpoint Tests', () => {
       .request(app)
       .post(`${API_PREFIX}/auth/signup`)
       .send({
-        firstName: 'john',
-        lastName: 'doe',
+        first_name: 'john',
+        last_name: 'doe',
         email: 'ugw5.com',
         password: 'password',
         address: 'ipaja lagos',
@@ -103,8 +103,8 @@ describe('User Auth Signup Endpoint Tests', () => {
       .request(app)
       .post(`${API_PREFIX}/auth/signup`)
       .send({
-        firstName: 'joel',
-        lastName: 'ugwumadu',
+        first_name: 'joel',
+        last_name: 'ugwumadu',
         email: 'ugw5@gmail.com',
         password: 'password',
         address: 'ipaja lagos',
@@ -121,8 +121,8 @@ describe('User Auth Signup Endpoint Tests', () => {
       .request(app)
       .post(`${API_PREFIX}/auth/signup`)
       .send({
-        firstName: 'kim',
-        lastName: 'shawn',
+        first_name: 'kim',
+        last_name: 'shawn',
         email: 'kim@gmail.com',
         password: 'password',
         address: 'ipaja lagos',
