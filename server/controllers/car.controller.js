@@ -8,7 +8,7 @@ class carController {
       if (!checkIfUserExist) {
         throw new Error('User not registered');
       }
-      const uploadImage = await cloudinary.uploader.upload(req.file.path);
+      const uploadImage = req.body.image_url ? req.body.image_url : await cloudinary.uploader.upload(req.file.path);
       const newCar = await CarServices.registerCar(req, uploadImage);
       return res.status(201).json({
         status: 201,
