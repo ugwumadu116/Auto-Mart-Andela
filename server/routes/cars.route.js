@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post('/',
   verifyToken.validate,
-  createCar.upload.single('image'),
+  createCar.upload.single('image_url'),
   trimRequest.body,
   carValidation.validatePostCar,
   carController.createCar);

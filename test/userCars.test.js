@@ -36,7 +36,7 @@ before(async () => {
     .field('price', 32)
     .field('body_type', 'car')
     .field('state', 'new')
-    .attach('image',
+    .attach('image_url',
       fs.readFileSync('UI/images/car1.jpg'),
       'car1.jpg');
 });
@@ -54,7 +54,7 @@ describe('Car Endpoint Tests', () => {
       .field('price', 132)
       .field('body_type', 'car')
       .field('state', 'new')
-      .attach('image',
+      .attach('image_url',
         fs.readFileSync('UI/images/car1.jpg'),
         'car1.jpg');
     expect(result).to.have.status(201);
@@ -75,7 +75,7 @@ describe('Car Endpoint Tests', () => {
       .field('price', 132)
       .field('body_type', 'car')
       .field('state', 'old')
-      .attach('image',
+      .attach('image_url',
         fs.readFileSync('UI/images/car1.jpg'),
         'car1.jpg');
     expect(result).to.have.status(201);
@@ -96,7 +96,7 @@ describe('Car Endpoint Tests', () => {
       .field('price', 232)
       .field('body_type', 'car')
       .field('state', 'new')
-      .attach('image',
+      .attach('image_url',
         fs.readFileSync('UI/images/car1.jpg'),
         'car1.jpg');
     expect(result).to.have.status(401);
@@ -115,7 +115,7 @@ describe('Car Endpoint Tests', () => {
       .field('price', 232)
       .field('body_type', 'car')
       .field('state', 'new')
-      .attach('image',
+      .attach('image_url',
         fs.readFileSync('UI/images/car1.jpg'),
         'car1.jpg');
     expect(result).to.have.status(400);
@@ -133,7 +133,7 @@ describe('Car Endpoint Tests', () => {
       .field('price', 232)
       .field('body_type', 'car')
       .field('state', 'new')
-      .attach('image',
+      .attach('image_url',
         fs.readFileSync('UI/images/car1.jpg'),
         'car1.jpg');
     expect(result).to.have.status(401);
@@ -150,7 +150,7 @@ describe('Car Endpoint Tests', () => {
       .field('price', 232)
       .field('body_type', 'car')
       .field('state', 'new')
-      .attach('image',
+      .attach('image_url',
         fs.readFileSync('UI/images/car1.jpg'),
         'car1.jpg');
     expect(result).to.have.status(400);
@@ -164,7 +164,7 @@ describe('Car Endpoint Tests', () => {
       .post(`${API_PREFIX}/car`)
       .set('token', jwtToken)
       .set('Content-Type', 'application/x-www-form-urlencoded')
-      .attach('image',
+      .attach('image_url',
         fs.readFileSync('UI/images/car1.jpg'),
         'car1.jpg');
     expect(result).to.have.status(400);
