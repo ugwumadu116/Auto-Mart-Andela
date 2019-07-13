@@ -2,8 +2,6 @@ import db from '../config/db';
 
 class CarService {
   static async registerCar(req, uploadImage) {
-    const img = uploadImage.secure_url;
-    const imgID = uploadImage.public_id;
     const {
       name,
       model,
@@ -11,7 +9,10 @@ class CarService {
       body_type,
       state,
       manufacturer,
+      image_url,
     } = req.body;
+    const img = image_url || uploadImage.secure_url;
+    const imgID = image_url || uploadImage.public_id;
     const userId = req.userData.user;
     const sql = 'INSERT INTO cars (name, image, image_id, price, model, manufacturer, owner, status, state, body_type) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
     const bindParameters = [name, img, imgID, price, model, manufacturer, userId, 'available', state, body_type];
