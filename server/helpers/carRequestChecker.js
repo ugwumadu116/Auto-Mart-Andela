@@ -41,10 +41,10 @@ const checkCar = (req) => {
   if (carPrice === '' || carPrice === undefined || isNaN(carPrice)) {
     groupError.price = 'Car price must be numbers only and is required';
   }
-  if (carBodyType === '' || carBodyType === undefined || !carBodyType.match(/^car$|^truck$|^trailer$|^van$/i)) {
+  if (carBodyType === '' || carBodyType === undefined) {
     groupError.body_type = 'Car body type should be car or truck or van or trailer and is required';
   }
-  if (carState === '' || carState === undefined || !carState.match(/^new$|^old$/i)) {
+  if (carState === '' || carState === undefined) {
     groupError.state = 'Car state should be new or old and is required';
   }
   if (!req.body.image_url && (req.file === undefined || !req.file.originalname.match(/\.(jpg|jpeg|png|gif)$/i))) {
