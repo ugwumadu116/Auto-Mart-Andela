@@ -9,20 +9,19 @@ class UserController {
   static async registerUser(req, res) {
     try {
       const {
-        firstName,
-        lastName,
+        first_name,
+        last_name,
         email,
         password,
         address,
       } = req.body;
-      const userPassword = Array.isArray(password) ? password[0] : password;
-      const hashPassword = await bcrypt.hash(userPassword, 10);
+      const hashPassword = await bcrypt.hash(password, 10);
       const user = {
-        firstName: Array.isArray(firstName) ? firstName[0].toLowerCase() : firstName.toLowerCase(),
-        lastName: Array.isArray(lastName) ? lastName[0].toLowerCase() : lastName.toLowerCase(),
-        email: Array.isArray(email) ? email[0].toLowerCase() : email.toLowerCase(),
+        firstName: first_name.toLowerCase(),
+        lastName: last_name.toLowerCase(),
+        email: email.toLowerCase(),
         hashPassword,
-        address: Array.isArray(address) ? address[0].toLowerCase() : address.toLowerCase(),
+        address: address.toLowerCase(),
       };
       const checkIfUserExist = await userService.checkUser(user.email);
       if (checkIfUserExist > 0) {
@@ -76,13 +75,11 @@ class UserController {
         email,
         password,
       } = req.body;
-      const userEmail = Array.isArray(email) ? email[0] : email;
-      const userPassword = Array.isArray(password) ? password[0] : password;
-      const checkIfUserExist = await userService.findUser(userEmail);
+      const checkIfUserExist = await userService.findUser(email);
       if (checkIfUserExist.length <= 0) {
         throw new Error('User not registered please signup');
       }
-      const checkPassword = await bcrypt.compare(userPassword, checkIfUserExist[0].password);
+      const checkPassword = await bcrypt.compare(password, checkIfUserExist[0].password);
       if (!checkPassword) {
         throw new Error('invalid password or email');
       }

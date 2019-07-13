@@ -50,11 +50,11 @@
             "application/json": {
               "schema": {
                 "properties": {
-                  "firstName": {
+                  "first_name": {
                     "type": "string",
                     "description": "First name of User"
                   },
-                  "lastName": {
+                  "last_name": {
                     "type": "string",
                     "description": "Last name of User"
                   },
@@ -134,12 +134,55 @@
         }
       }
     },
-    "/api/v1/car/": {
+    "/api/v1/car": {
+      "parameters": [
+        {
+          "name": "status",
+          "in": "query",
+          "description": "status of the car you want to query",
+          "type": "string",
+          "schema": {
+            "type": "string",
+            "description": "status of the car you want to query"
+          }
+        },
+        {
+          "name": "state",
+          "in": "query",
+          "description": "state of the car you want to query",
+          "type": "string",
+          "schema": {
+            "type": "string",
+            "description": "state of the car you want to query"
+          }
+        },
+        {
+          "name": "min_price",
+          "in": "query",
+          "description": "minimum price of the car you want to query",
+          "type": "integer",
+          "schema": {
+            "type": "integer",
+            "description": "minimum price of the car you want to query"
+          }
+        },
+        {
+          "name": "max_price",
+          "in": "query",
+          "description": "maximum price of the car you want to query",
+          "type": "integer",
+          "schema": {
+            "type": "integer",
+            "description": "maximum price of the car you want to query"
+          }
+        }
+      ],
       "get": {
         "summary": "Get all cars",
         "tags": [
           "Cars"
         ],
+        "description": "Get all cars that have not been sold",
         "produces": [
           "application/json"
         ],
@@ -168,6 +211,7 @@
         "tags": [
           "Cars"
         ],
+        "description": "Add New car to the system that you want to sale",
         "requestBody": {
           "description": "Input Data Format",
           "content": {
@@ -230,96 +274,6 @@
         ]
       }
     },
-    "/api/v1/car?status=available": {
-      "get": {
-        "summary": "Get all cars that are not sold",
-        "tags": [
-          "Cars"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "401": {
-            "description": "Only Authenticated/No token provided"
-          },
-          "400": {
-            "description": "Only Authenticated/Unauthorized or invalid token"
-          },
-          "404": {
-            "description": "No car found"
-          },
-          "200": {
-            "description": "User successfully gets cars"
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      }
-    },
-    "/api/v1/car?status=available&min_price=100&max_price=5000": {
-      "get": {
-        "summary": "Get all cars within a price range",
-        "tags": [
-          "Cars"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "401": {
-            "description": "Only Authenticated/No token provided"
-          },
-          "400": {
-            "description": "Only Authenticated/Unauthorized or invalid token"
-          },
-          "404": {
-            "description": "No car found"
-          },
-          "200": {
-            "description": "User successfully gets cars"
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      }
-    },
-    "/api/v1/car?status=available&state=new": {
-      "get": {
-        "summary": "View all cars of a state new",
-        "tags": [
-          "Cars"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "401": {
-            "description": "Only Authenticated/No token provided"
-          },
-          "400": {
-            "description": "Only Authenticated/Unauthorized or invalid token"
-          },
-          "404": {
-            "description": "No car found"
-          },
-          "200": {
-            "description": "User successfully gets cars"
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      }
-    },
     "/api/v1/car/{id}": {
       "parameters": [
         {
@@ -327,7 +281,11 @@
           "in": "path",
           "required": true,
           "description": "ID of the car that we want to work with",
-          "type": "string"
+          "type": "integer",
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
         }
       ],
       "delete": {
@@ -335,6 +293,7 @@
         "tags": [
           "Cars"
         ],
+        "description": "Delete a car from the system",
         "produces": [
           "application/json"
         ],
@@ -363,6 +322,7 @@
         "produces": [
           "application/json"
         ],
+        "description": "Get a car whose ID is what is in the parameter object",
         "responses": {
           "401": {
             "description": "Only Authenticated Users are Authorized"
@@ -391,7 +351,11 @@
           "in": "path",
           "required": true,
           "description": "ID of the car that we want to work with",
-          "type": "string"
+          "type": "string",
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
         }
       ],
       "patch": {
@@ -399,6 +363,7 @@
         "tags": [
           "Cars"
         ],
+        "description": "Update the price of a car",
         "requestBody": {
           "description": "Input Data Format",
           "content": {
@@ -446,7 +411,11 @@
           "in": "path",
           "required": true,
           "description": "ID of the car that we want to work with",
-          "type": "string"
+          "type": "string",
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
         }
       ],
       "patch": {
@@ -454,6 +423,7 @@
         "tags": [
           "Cars"
         ],
+        "description": "Update the status of a car",
         "requestBody": {
           "description": "Input Data Format",
           "content": {
@@ -500,6 +470,7 @@
         "tags": [
           "Orders"
         ],
+        "description": "Order cars you want to buy",
         "requestBody": {
           "description": "Input Data Format",
           "content": {
@@ -550,6 +521,7 @@
         "produces": [
           "application/json"
         ],
+        "description": "Get cars that people want to buy from you",
         "responses": {
           "401": {
             "description": "Only Authenticated Users are Authorized"
@@ -571,6 +543,7 @@
         "tags": [
           "Orders"
         ],
+        "description": "Get cars that you have ordered",
         "produces": [
           "application/json"
         ],
@@ -596,7 +569,11 @@
           "in": "path",
           "required": true,
           "description": "ID of the car that we want to work with",
-          "type": "string"
+          "type": "string",
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
         }
       ],
       "patch": {
@@ -604,6 +581,7 @@
         "tags": [
           "Orders"
         ],
+        "description": "ID of the car that we want to work with",
         "requestBody": {
           "description": "Input Data Format",
           "content": {

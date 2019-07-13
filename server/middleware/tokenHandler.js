@@ -6,7 +6,7 @@ dotenv.config();
 class checkAuth {
   static async validate(req, res, next) {
     try {
-      const token = req.headers.authorization;
+      const token = req.headers.token || req.headers.authorization;
       if (token) {
         const decoded = await jwt.verify(token, process.env.SECRET);
         if (!decoded) {

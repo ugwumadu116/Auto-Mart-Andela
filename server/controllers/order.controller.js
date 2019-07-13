@@ -38,7 +38,7 @@ class OrderController {
       if (!checkIfOrderExist) {
         throw new Error('You cant update the price of this order');
       }
-      const updateOrder = await OrderServices.updatePrice(req.params.order_id, req.body.price_offered);
+      const updateOrder = await OrderServices.updatePrice(req.params.order_id, req.body.price);
       return res.status(200).json({
         status: 200,
         data: {

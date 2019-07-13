@@ -16,11 +16,11 @@ class OrderService {
   static async createOrder(req, carDetails) {
     const {
       car_id,
-      price_offered,
+      amount,
     } = req.body;
     const userId = req.userData.user;
     const sql = 'INSERT INTO orders (car_id, buyer, owner, status, price_offered, price) VALUES($1, $2, $3, $4, $5, $6) RETURNING *';
-    const bindParameters = [car_id, userId, carDetails.owner, 'pending', price_offered, carDetails.price];
+    const bindParameters = [car_id, userId, carDetails.owner, 'pending', amount, carDetails.price];
     const client = await db.connect();
     const result = await client.query(sql, bindParameters);
     client.release();
