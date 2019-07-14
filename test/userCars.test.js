@@ -29,16 +29,15 @@ before(async () => {
     .request(app)
     .post(`${API_PREFIX}/car`)
     .set('token', jwtToken)
-    .set('Content-Type', 'application/x-www-form-urlencoded')
-    .field('manufacturer', 'General Motors (GM)')
-    .field('name', 'Chevrolet')
-    .field('model', '2018 model')
-    .field('price', 32)
-    .field('body_type', 'car')
-    .field('state', 'new')
-    .attach('image_url',
-      fs.readFileSync('UI/images/car1.jpg'),
-      'car1.jpg');
+    .send({
+      manufacturer: 'General Motors (GM)',
+      name: 'Chevrolet',
+      model: '2018 model',
+      price: '234',
+      body_type: 'car',
+      state: 'new',
+      image_url: 'image_url',
+    });
 });
 
 describe('Car Endpoint Tests', () => {
@@ -47,16 +46,15 @@ describe('Car Endpoint Tests', () => {
       .request(app)
       .post(`${API_PREFIX}/car`)
       .set('token', jwtToken)
-      .set('Content-Type', 'application/x-www-form-urlencoded')
-      .field('manufacturer', 'General Motors (GM)')
-      .field('name', 'Chevrolet')
-      .field('model', '2018 model')
-      .field('price', 132)
-      .field('body_type', 'car')
-      .field('state', 'new')
-      .attach('image_url',
-        fs.readFileSync('UI/images/car1.jpg'),
-        'car1.jpg');
+      .send({
+        manufacturer: 'General Motors (GM)',
+        name: 'Chevrolet',
+        model: '2018 model',
+        price: '234',
+        body_type: 'car',
+        state: 'new',
+        image_url: 'image_url',
+      });
     expect(result).to.have.status(201);
     expect(result.body.status).to.eq(201);
     expect(result.body.data).to.have.property('id');
@@ -68,16 +66,15 @@ describe('Car Endpoint Tests', () => {
       .request(app)
       .post(`${API_PREFIX}/car`)
       .set('token', jwtToken)
-      .set('Content-Type', 'application/x-www-form-urlencoded')
-      .field('manufacturer', 'General Motors (GM)')
-      .field('name', 'Chevrolet')
-      .field('model', '2018 model')
-      .field('price', 132)
-      .field('body_type', 'car')
-      .field('state', 'old')
-      .attach('image_url',
-        fs.readFileSync('UI/images/car1.jpg'),
-        'car1.jpg');
+      .send({
+        manufacturer: 'General Motors (GM)',
+        name: 'Chevrolet',
+        model: '2018 model',
+        price: '234',
+        body_type: 'car',
+        state: 'new',
+        image_url: 'image_url',
+      });
     expect(result).to.have.status(201);
     expect(result.body.status).to.eq(201);
     expect(result.body.data).to.have.property('id');
@@ -89,16 +86,15 @@ describe('Car Endpoint Tests', () => {
       .request(app)
       .post(`${API_PREFIX}/car`)
       .set('token', notRegisteredUser)
-      .set('Content-Type', 'application/x-www-form-urlencoded')
-      .field('manufacturer', 'General Motors (GM)')
-      .field('name', 'Chevrolet')
-      .field('model', '2018 model')
-      .field('price', 232)
-      .field('body_type', 'car')
-      .field('state', 'new')
-      .attach('image_url',
-        fs.readFileSync('UI/images/car1.jpg'),
-        'car1.jpg');
+      .send({
+        manufacturer: 'General Motors (GM)',
+        name: 'Chevrolet',
+        model: '2018 model',
+        price: '234',
+        body_type: 'car',
+        state: 'new',
+        image_url: 'image_url',
+      });
     expect(result).to.have.status(401);
     expect(result.body.status).to.eq(401);
     assert.equal(result.body.error, 'User not registered');
@@ -108,16 +104,15 @@ describe('Car Endpoint Tests', () => {
       .request(app)
       .post(`${API_PREFIX}/car`)
       .set('token', 'jwtToken')
-      .set('Content-Type', 'application/x-www-form-urlencoded')
-      .field('manufacturer', 'General Motors (GM)')
-      .field('name', 'Chevrolet')
-      .field('model', '2018 model')
-      .field('price', 232)
-      .field('body_type', 'car')
-      .field('state', 'new')
-      .attach('image_url',
-        fs.readFileSync('UI/images/car1.jpg'),
-        'car1.jpg');
+      .send({
+        manufacturer: 'General Motors (GM)',
+        name: 'Chevrolet',
+        model: '2018 model',
+        price: '234',
+        body_type: 'car',
+        state: 'new',
+        image_url: 'image_url',
+      });
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
     assert.equal(result.body.error, 'invalid or expired token');
@@ -126,16 +121,15 @@ describe('Car Endpoint Tests', () => {
     const result = await chai
       .request(app)
       .post(`${API_PREFIX}/car`)
-      .set('Content-Type', 'application/x-www-form-urlencoded')
-      .field('manufacturer', 'General Motors (GM)')
-      .field('name', 'Chevrolet')
-      .field('model', '2018 model')
-      .field('price', 232)
-      .field('body_type', 'car')
-      .field('state', 'new')
-      .attach('image_url',
-        fs.readFileSync('UI/images/car1.jpg'),
-        'car1.jpg');
+      .send({
+        manufacturer: 'General Motors (GM)',
+        name: 'Chevrolet',
+        model: '2018 model',
+        price: '234',
+        body_type: 'car',
+        state: 'new',
+        image_url: 'image_url',
+      });
     expect(result).to.have.status(401);
     expect(result.body.status).to.eq(401);
     assert.equal(result.body.error, 'Access denied.No token provided');
@@ -145,14 +139,13 @@ describe('Car Endpoint Tests', () => {
       .request(app)
       .post(`${API_PREFIX}/car`)
       .set('token', jwtToken)
-      .set('Content-Type', 'application/x-www-form-urlencoded')
-      .field('model', '2018 model')
-      .field('price', 232)
-      .field('body_type', 'car')
-      .field('state', 'new')
-      .attach('image_url',
-        fs.readFileSync('UI/images/car1.jpg'),
-        'car1.jpg');
+      .send({
+        model: '2018 model',
+        price: '234',
+        body_type: 'car',
+        state: 'new',
+        image_url: 'image_url',
+      });
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
     expect(result.body.error).to.have.property('name');
@@ -163,10 +156,9 @@ describe('Car Endpoint Tests', () => {
       .request(app)
       .post(`${API_PREFIX}/car`)
       .set('token', jwtToken)
-      .set('Content-Type', 'application/x-www-form-urlencoded')
-      .attach('image_url',
-        fs.readFileSync('UI/images/car1.jpg'),
-        'car1.jpg');
+      .send({
+        image_url: 'image_url',
+      });
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
     expect(result.body.error).to.have.property('name');
