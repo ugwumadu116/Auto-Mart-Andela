@@ -6,13 +6,12 @@ class CarService {
       name,
       model,
       price,
-      manufacturer,
     } = req.body;
     const img = 'https://res.cloudinary.com/joel116/image/upload/v1563034686/qqgxywul2imqpluyvlyy.jpg';
     const imgID = 'https://res.cloudinary.com/joel116/luyvlyy.jpg';
     const userId = req.userData.user;
     const sql = 'INSERT INTO cars (name, image, image_id, price, model, manufacturer, owner, status, state, body_type) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
-    const bindParameters = [name, img, imgID, price, model, manufacturer, userId, 'available', 'new', 'car'];
+    const bindParameters = [name, img, imgID, price, model, 'Benz motors', userId, 'available', 'new', 'car'];
     const client = await db.connect();
     const result = await client.query(sql, bindParameters);
     client.release();
