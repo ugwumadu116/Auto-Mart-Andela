@@ -20,40 +20,27 @@ const checkCar = (req) => {
     state,
   } = req.body;
 
-
-  const carName = Array.isArray(name) ? name[0] : name;
-  const carManufacturer = Array.isArray(manufacturer) ? manufacturer[0] : manufacturer;
-  const carModel = Array.isArray(model) ? model[0] : model;
-  const carPrice = Array.isArray(price) ? price[0] : price;
-  const carBodyType = Array.isArray(body_type) ? body_type[0] : body_type;
-  const carState = Array.isArray(state) ? state[0] : state;
-
-
-  if (carName === '' || carName === undefined || carName.length <= 1) {
+  if (name === '' || name === undefined) {
     groupError.name = 'Car name with minimum of 2 characters long is required';
   }
-  if (carManufacturer === '' || carManufacturer === undefined || carManufacturer.length <= 1) {
+  if (manufacturer === '' || manufacturer === undefined) {
     groupError.manufacturer = 'Car manufacturer with minimum of 2 characters long is required';
   }
-  if (carModel === '' || carModel === undefined || carModel.length <= 1) {
+  if (model === '' || model === undefined) {
     groupError.model = 'Car model with minimum of 2 characters long is required';
   }
-  if (carPrice === '' || carPrice === undefined || isNaN(carPrice)) {
+  if (price === '' || price === undefined) {
     groupError.price = 'Car price must be numbers only and is required';
   }
-  if (carBodyType === '' || carBodyType === undefined) {
+  if (body_type === '' || body_type === undefined) {
     groupError.body_type = 'Car body type should be car or truck or van or trailer and is required';
   }
-  if (carState === '' || carState === undefined) {
+  if (state === '' || state === undefined) {
     groupError.state = 'Car state should be new or old and is required';
   }
-  if (!req.body.image_url && (req.file === undefined || !req.file.originalname.match(/\.(jpg|jpeg|png|gif)$/i))) {
+  if (req.body.image_url === undefined || req.body.image_url === '') {
     groupError.image_url = 'Car image is required only image (jpg, jpeg, png, gif) files are allowed!';
   }
-
-  // if (req.file === undefined || !req.file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
-  //   groupError.image_url = 'Car image is required only image (jpg, jpeg, png, gif) files are allowed!';
-  // }
   return groupError;
 };
 
