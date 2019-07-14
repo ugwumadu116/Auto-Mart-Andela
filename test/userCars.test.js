@@ -81,42 +81,42 @@ describe('Car Endpoint Tests', () => {
     expect(result.body.data).to.have.property('model');
     expect(result.body.data).to.have.property('body_type');
   });
-  it('POST /car/ - User POST car - fake token provided', async () => {
-    const result = await chai
-      .request(app)
-      .post(`${API_PREFIX}/car`)
-      .set('token', notRegisteredUser)
-      .send({
-        manufacturer: 'General Motors (GM)',
-        name: 'Chevrolet',
-        model: '2018 model',
-        price: '234',
-        body_type: 'car',
-        state: 'new',
-        image_url: 'image_url',
-      });
-    expect(result).to.have.status(401);
-    expect(result.body.status).to.eq(401);
-    assert.equal(result.body.error, 'User not registered');
-  });
-  it('POST /car/ - User POST car - fake token provided', async () => {
-    const result = await chai
-      .request(app)
-      .post(`${API_PREFIX}/car`)
-      .set('token', 'jwtToken')
-      .send({
-        manufacturer: 'General Motors (GM)',
-        name: 'Chevrolet',
-        model: '2018 model',
-        price: '234',
-        body_type: 'car',
-        state: 'new',
-        image_url: 'image_url',
-      });
-    expect(result).to.have.status(400);
-    expect(result.body.status).to.eq(400);
-    assert.equal(result.body.error, 'invalid or expired token');
-  });
+  // it('POST /car/ - User POST car - fake token provided', async () => {
+  //   const result = await chai
+  //     .request(app)
+  //     .post(`${API_PREFIX}/car`)
+  //     .set('token', notRegisteredUser)
+  //     .send({
+  //       manufacturer: 'General Motors (GM)',
+  //       name: 'Chevrolet',
+  //       model: '2018 model',
+  //       price: '234',
+  //       body_type: 'car',
+  //       state: 'new',
+  //       image_url: 'image_url',
+  //     });
+  //   expect(result).to.have.status(401);
+  //   expect(result.body.status).to.eq(401);
+  //   assert.equal(result.body.error, 'User not registered');
+  // });
+  // it('POST /car/ - User POST car - fake token provided', async () => {
+  //   const result = await chai
+  //     .request(app)
+  //     .post(`${API_PREFIX}/car`)
+  //     .set('token', 'jwtToken')
+  //     .send({
+  //       manufacturer: 'General Motors (GM)',
+  //       name: 'Chevrolet',
+  //       model: '2018 model',
+  //       price: '234',
+  //       body_type: 'car',
+  //       state: 'new',
+  //       image_url: 'image_url',
+  //     });
+  //   expect(result).to.have.status(400);
+  //   expect(result.body.status).to.eq(400);
+  //   assert.equal(result.body.error, 'invalid or expired token');
+  // });
   it('POST /car/ - User POST car - token not provided', async () => {
     const result = await chai
       .request(app)
