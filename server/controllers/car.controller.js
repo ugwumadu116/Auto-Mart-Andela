@@ -3,11 +3,6 @@ import CarServices from '../services/car.services';
 class carController {
   static async createCar(req, res) {
     try {
-      const checkIfUserExist = await CarServices.checkUser(req.userData.user);
-      if (!checkIfUserExist) {
-        throw new Error('User not registered');
-      }
-
       const newCar = await CarServices.registerCar(req);
       return res.status(201).json({
         status: 201,
@@ -25,12 +20,6 @@ class carController {
         },
       });
     } catch (error) {
-      if (error.message === 'User not registered') {
-        return res.status(401).json({
-          status: 401,
-          error: error.message,
-        });
-      }
       return res.status(409).json({
         status: 409,
         error: error.message,
