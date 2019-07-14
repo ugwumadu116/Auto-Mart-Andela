@@ -38,9 +38,6 @@ const checkCar = (req) => {
   if (state === '' || state === undefined) {
     groupError.state = 'Car state should be new or old and is required';
   }
-  if (req.body.image_url === undefined || req.body.image_url === '') {
-    groupError.image_url = 'Car image is required only image (jpg, jpeg, png, gif) files are allowed!';
-  }
   return groupError;
 };
 
