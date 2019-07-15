@@ -31,12 +31,11 @@ before(async () => {
     .set('token', jwtToken)
     .send({
       manufacturer: 'General Motors (GM)',
-      name: 'Chevrolet',
       model: '2018 model',
       price: '234',
       body_type: 'car',
       state: 'new',
-      image_url: 'image_url',
+      img_url: 'img_url',
     });
 });
 
@@ -48,12 +47,11 @@ describe('Car Endpoint Tests', () => {
       .set('token', jwtToken)
       .send({
         manufacturer: 'General Motors (GM)',
-        name: 'Chevrolet',
         model: '2018 model',
         price: '234',
         body_type: 'car',
         state: 'new',
-        image_url: 'image_url',
+        img_url: 'img_url',
       });
     expect(result).to.have.status(201);
     expect(result.body.status).to.eq(201);
@@ -68,12 +66,11 @@ describe('Car Endpoint Tests', () => {
       .set('token', jwtToken)
       .send({
         manufacturer: 'General Motors (GM)',
-        name: 'Chevrolet',
         model: '2018 model',
         price: '234',
         body_type: 'car',
         state: 'new',
-        image_url: 'image_url',
+        img_url: 'img_url',
       });
     expect(result).to.have.status(201);
     expect(result.body.status).to.eq(201);
@@ -88,12 +85,11 @@ describe('Car Endpoint Tests', () => {
       .set('token', notRegisteredUser)
       .send({
         manufacturer: 'General Motors (GM)',
-        name: 'Chevrolet',
         model: '2018 model',
         price: '234',
         body_type: 'car',
         state: 'new',
-        image_url: 'image_url',
+        img_url: 'img_url',
       });
     expect(result).to.have.status(401);
     expect(result.body.status).to.eq(401);
@@ -106,12 +102,11 @@ describe('Car Endpoint Tests', () => {
       .set('token', 'jwtToken')
       .send({
         manufacturer: 'General Motors (GM)',
-        name: 'Chevrolet',
         model: '2018 model',
         price: '234',
         body_type: 'car',
         state: 'new',
-        image_url: 'image_url',
+        img_url: 'img_url',
       });
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
@@ -123,12 +118,11 @@ describe('Car Endpoint Tests', () => {
       .post(`${API_PREFIX}/car`)
       .send({
         manufacturer: 'General Motors (GM)',
-        name: 'Chevrolet',
         model: '2018 model',
         price: '234',
         body_type: 'car',
         state: 'new',
-        image_url: 'image_url',
+        img_url: 'img_url',
       });
     expect(result).to.have.status(401);
     expect(result.body.status).to.eq(401);
@@ -144,11 +138,10 @@ describe('Car Endpoint Tests', () => {
         price: '234',
         body_type: 'car',
         state: 'new',
-        image_url: 'image_url',
+        img_url: 'img_url',
       });
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
-    expect(result.body.error).to.have.property('name');
     expect(result.body.error).to.have.property('manufacturer');
   });
   it('POST /car/ - User POST car- fail due to no fields', async () => {
@@ -157,11 +150,10 @@ describe('Car Endpoint Tests', () => {
       .post(`${API_PREFIX}/car`)
       .set('token', jwtToken)
       .send({
-        image_url: 'image_url',
+        img_url: 'img_url',
       });
     expect(result).to.have.status(400);
     expect(result.body.status).to.eq(400);
-    expect(result.body.error).to.have.property('name');
     expect(result.body.error).to.have.property('manufacturer');
     expect(result.body.error).to.have.property('body_type');
     expect(result.body.error).to.have.property('price');
@@ -253,7 +245,6 @@ describe('Car Endpoint Tests', () => {
       .set('token', jwtToken);
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
-    expect(result.body.data).to.have.property('name');
     expect(result.body.data).to.have.property('manufacturer');
     expect(result.body.data).to.have.property('body_type');
     expect(result.body.data).to.have.property('price');
@@ -277,7 +268,6 @@ describe('Car Endpoint Tests', () => {
       });
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
-    expect(result.body.data).to.have.property('name');
     expect(result.body.data).to.have.property('manufacturer');
     expect(result.body.data).to.have.property('body_type');
     expect(result.body.data).to.have.property('price');
@@ -328,7 +318,6 @@ describe('Car Endpoint Tests', () => {
       });
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
-    expect(result.body.data).to.have.property('name');
     expect(result.body.data).to.have.property('manufacturer');
     expect(result.body.data).to.have.property('body_type');
     expect(result.body.data).to.have.property('price');
@@ -352,7 +341,6 @@ describe('Car Endpoint Tests', () => {
       .set('token', adminJwtToken);
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
-    expect(result.body.data[0]).to.have.property('name');
     expect(result.body.data[0]).to.have.property('manufacturer');
     expect(result.body.data[0]).to.have.property('body_type');
     expect(result.body.data[0]).to.have.property('price');
@@ -373,7 +361,6 @@ describe('Car Endpoint Tests', () => {
       .set('token', jwtToken);
     expect(result).to.have.status(200);
     expect(result.body.status).to.eq(200);
-    expect(result.body.data[0]).to.have.property('name');
     expect(result.body.data[0]).to.have.property('manufacturer');
     expect(result.body.data[0]).to.have.property('body_type');
     expect(result.body.data[0]).to.have.property('price');

@@ -64,7 +64,7 @@ class OrderService {
   }
 
   static async findSalesOrder(id) {
-    const sql = 'SELECT users.first_name, users.email, users.last_name, cars.name, cars.image, orders.owner, orders.created_on, orders.status, orders.price, orders.price_offered FROM orders INNER JOIN cars ON orders.car_id = cars.id INNER JOIN users ON orders.buyer = users.id WHERE orders.owner = $1;';
+    const sql = 'SELECT users.first_name, users.email, users.last_name, cars.image, orders.owner, orders.created_on, orders.status, orders.price, orders.price_offered FROM orders INNER JOIN cars ON orders.car_id = cars.id INNER JOIN users ON orders.buyer = users.id WHERE orders.owner = $1;';
     const bindParameters = [id];
     const client = await db.connect();
     const result = await client.query(sql, bindParameters);
@@ -73,7 +73,7 @@ class OrderService {
   }
 
   static async findPurchaseOrder(id) {
-    const sql = 'SELECT users.first_name, users.email, users.last_name, cars.name, cars.image, orders.owner, orders.created_on, orders.status, orders.price, orders.price_offered FROM orders INNER JOIN cars ON orders.car_id = cars.id INNER JOIN users ON orders.owner = users.id WHERE orders.buyer = $1;';
+    const sql = 'SELECT users.first_name, users.email, users.last_name, cars.image, orders.owner, orders.created_on, orders.status, orders.price, orders.price_offered FROM orders INNER JOIN cars ON orders.car_id = cars.id INNER JOIN users ON orders.owner = users.id WHERE orders.buyer = $1;';
     const bindParameters = [id];
     const client = await db.connect();
     const result = await client.query(sql, bindParameters);

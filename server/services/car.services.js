@@ -3,17 +3,42 @@ import db from '../config/db';
 class CarService {
   static async registerCar(req) {
     const {
-      name,
       model,
       body_type,
       state,
       manufacturer,
+      img_url,
     } = req.body;
-    const img = 'image_url';
-    const imgID = 'image_url';
+
+
+    //     'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjozLCJhZG1pbiI6ZmFsc2UsImluZm8iOiJmaXJzdG5hbWUgbGFzdG5hbWUiLCJpYXQiOjE1NjMxODc0MzcsImV4cCI6MTU2MzIzMDYzN30.j6Xyym9QOGmwq2Afjvf1sNJiEP_qeIFgqBbQWZMg_Rk',
+    //  {
+    //    state: 'new',
+    //  status: 'available',
+    //  price: 1500000,
+    //  model: 'Camry',
+    //  year: 2000,
+    //  manufacturer: 'Toyota',
+    //  body_type: 'car',
+    //  fuel_type: 'Petrol',
+    //  fuel_cap: 300,
+    //  transmission_type: 'Automatic',
+    //  mileage: 3400,
+    //  color: 'Red',
+    //  description: 'Other stories about the car goes here',
+    //  doors: 4,
+    //  ac: true,
+    //  tinted_windows: true,
+    //  arm_rest: false,
+    //  air_bag: false,
+    //  fm_radio: true,
+    //  dvd_player: false,
+    //  img_url: 'https://google.com' }
+    const img = img_url;
+    const imgID = img_url;
     const userId = req.userData.user;
-    const sql = 'INSERT INTO cars (name, image, image_id, price, model, manufacturer, owner, status, state, body_type) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
-    const bindParameters = [name, img, imgID, 5000, model, manufacturer, userId, 'available', state, body_type];
+    const sql = 'INSERT INTO cars (image, image_id, price, model, manufacturer, owner, status, state, body_type) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *';
+    const bindParameters = [img, imgID, 5000, model, manufacturer, userId, 'available', state, body_type];
     const client = await db.connect();
     const result = await client.query(sql, bindParameters);
     client.release();

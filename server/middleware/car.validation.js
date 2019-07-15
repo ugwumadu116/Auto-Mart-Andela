@@ -4,7 +4,6 @@ let validationError;
 class CheckCarRequest {
   static async validatePostCar(req, res, next) {
     try {
-      console.log(req.body)
       const result = await checkCarInfo.checkCar(req);
       validationError = result;
       if (Object.entries(result).length > 0) {

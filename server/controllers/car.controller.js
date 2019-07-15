@@ -72,7 +72,6 @@ class carController {
 
   static async getCars(req, res) {
     try {
-      console.log(req.body);
       const checkIfUserExist = await CarServices.checkUser(req.userData.user);
       if (!checkIfUserExist) {
         throw new Error('User not registered');

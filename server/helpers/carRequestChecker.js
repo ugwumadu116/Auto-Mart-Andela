@@ -12,17 +12,12 @@ const upload = multer({ storage });
 const checkCar = (req) => {
   const groupError = {};
   const {
-    name,
     manufacturer,
     model,
     price,
     body_type,
     state,
   } = req.body;
-
-  if (name === '' || name === undefined) {
-    groupError.name = 'Car name with minimum of 2 characters long is required';
-  }
   if (manufacturer === '' || manufacturer === undefined) {
     groupError.manufacturer = 'Car manufacturer with minimum of 2 characters long is required';
   }

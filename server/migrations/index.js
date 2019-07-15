@@ -35,7 +35,6 @@ const create = () => {
   const carsTable = `CREATE TABLE IF NOT EXISTS
   cars(
     id SERIAL PRIMARY KEY,
-    name VARCHAR(250) NOT NULL,
     image VARCHAR(1600) NOT NULL,
     image_id VARCHAR(1600) NOT NULL,
     price BIGINT NOT NULL,
