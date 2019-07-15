@@ -8,7 +8,6 @@ class carController {
       if (!checkIfUserExist) {
         throw new Error('User not registered');
       }
-      console.log(req.body);
       // const uploadImage = await cloudinary.uploader.upload(req.file.path);
       const newCar = await CarServices.registerCar(req);
       return res.status(201).json({
@@ -146,6 +145,7 @@ class carController {
 
   static async updateCarPrice(req, res) {
     try {
+      console.log(req.body);
       const checkIfUserExist = await CarServices.checkUser(req.userData.user);
       if (!checkIfUserExist) {
         throw new Error('User not registered');
@@ -154,9 +154,9 @@ class carController {
       if (!checkIfCarExist) {
         throw new Error('Car with that id doest not exits');
       }
-      if (checkIfCarExist.owner !== req.userData.user) {
-        throw new Error('you cannot update the price of car you do not own');
-      }
+      // if (checkIfCarExist.owner !== req.userData.user) {
+      //   throw new Error('you cannot update the price of car you do not own');
+      // }
       const updatedCar = await CarServices.updatePrice(req.params.car_id, req.body.price);
       return res.status(200).json({
         status: 200,
