@@ -3,6 +3,7 @@ import trimRequest from 'trim-request';
 import carController from '../controllers/car.controller';
 import carValidation from '../middleware/car.validation';
 import verifyToken from '../middleware/tokenHandler';
+import createCar from '../helpers/carRequestChecker';
 import validation from '../helpers/validation';
 import userValidation from '../middleware/user.validation';
 
@@ -12,6 +13,7 @@ const router = express.Router();
 router.post('/',
   verifyToken.validate,
   trimRequest.body,
+  createCar.upload.single('img_url'),
   carValidation.validatePostCar,
   carController.createCar);
 
@@ -37,9 +39,6 @@ router.get('/:car_id',
 router.patch('/:car_id/price',
   verifyToken.validate,
   trimRequest.param,
-  validation.carIdParam,
-  validation.carPrice,
-  userValidation.validateUserReq,
   carController.updateCarPrice);
 
 router.patch('/:car_id/status',
