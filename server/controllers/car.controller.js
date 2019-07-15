@@ -1,4 +1,4 @@
-import cloudinary from '../config/cloudinary';
+// import cloudinary from '../config/cloudinary';
 import CarServices from '../services/car.services';
 
 class carController {
@@ -8,6 +8,7 @@ class carController {
       if (!checkIfUserExist) {
         throw new Error('User not registered');
       }
+      console.log(req.body);
       // const uploadImage = await cloudinary.uploader.upload(req.file.path);
       const newCar = await CarServices.registerCar(req);
       return res.status(201).json({
@@ -50,7 +51,7 @@ class carController {
         throw new Error('Car with that id doest not exits');
       }
       await CarServices.deleteSingleCar(checkIfCarExist.id);
-      await cloudinary.uploader.destroy(checkIfCarExist.image_id);
+      // await cloudinary.uploader.destroy(checkIfCarExist.image_id);
       return res.status(200).json({
         status: 200,
         data: 'Car Ad successfully deleted',

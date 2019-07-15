@@ -9,13 +9,12 @@ class CarService {
       body_type,
       state,
       manufacturer,
-      image_url,
     } = req.body;
-    const img = image_url;
-    const imgID = image_url;
+    const img = 'image_url';
+    const imgID = 'image_url';
     const userId = req.userData.user;
     const sql = 'INSERT INTO cars (name, image, image_id, price, model, manufacturer, owner, status, state, body_type) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
-    const bindParameters = [name, img, imgID, price, model, manufacturer, userId, 'available', state, body_type];
+    const bindParameters = [name, img, imgID, 5000, model, manufacturer, userId, 'available', state, body_type];
     const client = await db.connect();
     const result = await client.query(sql, bindParameters);
     client.release();
