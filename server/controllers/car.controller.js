@@ -76,12 +76,27 @@ class carController {
         throw new Error('User not registered');
       }
       if (Object.keys(req.query).length === 0) {
-        const allCars = await CarServices.getAllCars();
+        const checkIfUserIsAdmin = await CarServices.checkIfUserIsAdmin(req.userData.user);
+        if (checkIfUserIsAdmin) {
+          const allCars = await CarServices.getAllCars();
+          return res.status(200).json({
+            status: 200,
+            data: allCars,
+          });
+        }
+        const availableCars = await CarServices.getAvailableCars();
         return res.status(200).json({
           status: 200,
-          data: allCars,
+          data: availableCars,
         });
       }
+      // if (Object.keys(req.query).length === 0) {
+      //   const allCars = await CarServices.getAllCars();
+      //   return res.status(200).json({
+      //     status: 200,
+      //     data: allCars,
+      //   });
+      // }
       const queryObj = req.query;
       if ('min_price' in queryObj) {
         const myCars = await CarServices.getAllCars();
@@ -145,20 +160,17 @@ class carController {
 
   static async updateCarPrice(req, res) {
     try {
-      console.log(req.body.price, 'JOEL PRICE IS HERE');
-      console.log(req.params, 'JOEL PRICE ID IS HERE');
       const checkIfUserExist = await CarServices.checkUser(req.userData.user);
       if (!checkIfUserExist) {
         throw new Error('User not registered');
       }
       const checkIfCarExist = await CarServices.findCar(req.params.car_id);
-      console.log(checkIfCarExist, 'JOEL THE CAR FOR UPDATE');
       if (!checkIfCarExist) {
         throw new Error('Car with that id doest not exits');
       }
-      // if (checkIfCarExist.owner !== req.userData.user) {
-      //   throw new Error('you cannot update the price of car you do not own');
-      // }
+      if (checkIfCarExist.owner !== req.userData.user) {
+        throw new Error('you cannot update the price of car you do not own');
+      }
       const updatedCar = await CarServices.updatePrice(req.params.car_id, req.body.price);
       return res.status(200).json({
         status: 200,
