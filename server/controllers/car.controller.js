@@ -146,11 +146,13 @@ class carController {
   static async updateCarPrice(req, res) {
     try {
       console.log(req.body.price, 'JOEL PRICE IS HERE');
+      console.log(req.params, 'JOEL PRICE ID IS HERE');
       const checkIfUserExist = await CarServices.checkUser(req.userData.user);
       if (!checkIfUserExist) {
         throw new Error('User not registered');
       }
       const checkIfCarExist = await CarServices.findCar(req.params.car_id);
+      console.log(checkIfCarExist, 'JOEL THE CAR FOR UPDATE');
       if (!checkIfCarExist) {
         throw new Error('Car with that id doest not exits');
       }
