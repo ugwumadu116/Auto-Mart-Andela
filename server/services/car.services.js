@@ -5,7 +5,6 @@ class CarService {
     const {
       name,
       model,
-      price,
       body_type,
       state,
       manufacturer,

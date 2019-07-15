@@ -72,22 +72,16 @@ class carController {
 
   static async getCars(req, res) {
     try {
+      console.log(req.body);
       const checkIfUserExist = await CarServices.checkUser(req.userData.user);
       if (!checkIfUserExist) {
         throw new Error('User not registered');
       }
       if (Object.keys(req.query).length === 0) {
-        if (checkIfUserExist.is_admin) {
-          const allCars = await CarServices.getAllCars();
-          return res.status(200).json({
-            status: 200,
-            data: allCars,
-          });
-        }
-        const availableCars = await CarServices.getAvailableCars();
+        const allCars = await CarServices.getAllCars();
         return res.status(200).json({
           status: 200,
-          data: availableCars,
+          data: allCars,
         });
       }
       const queryObj = req.query;
