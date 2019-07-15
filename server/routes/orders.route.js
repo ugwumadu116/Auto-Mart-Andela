@@ -15,13 +15,13 @@ router.post('/',
   userValidation.validateUserReq,
   orderController.createOrder);
 
-router.patch('/:order_id/price',
-  verifyToken.validate,
-  trimRequest.body,
-  validation.orderIdParam,
-  validation.orderPrice,
-  userValidation.validateUserReq,
-  orderController.updateOrderPrice);
+// router.patch('/:order_id/price',
+//   verifyToken.validate,
+//   trimRequest.body,
+//   validation.orderIdParam,
+//   validation.orderPrice,
+//   userValidation.validateUserReq,
+//   orderController.updateOrderPrice);
 
 router.get('/sale',
   verifyToken.validate,
