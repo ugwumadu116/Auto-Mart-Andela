@@ -35,7 +35,6 @@ const create = () => {
   const carsTable = `CREATE TABLE IF NOT EXISTS
   cars(
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
     image VARCHAR(1600) NOT NULL,
     image_id VARCHAR(1600) NOT NULL,
     price BIGINT NOT NULL,
@@ -43,9 +42,9 @@ const create = () => {
     manufacturer VARCHAR(1600) NOT NULL,
     owner INTEGER NOT NULL,
     created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(50) NOT NULL,
-    state VARCHAR(50) NOT NULL,
-    body_type VARCHAR(50) NOT NULL,
+    status VARCHAR(150) NOT NULL,
+    state VARCHAR(150) NOT NULL,
+    body_type VARCHAR(150) NOT NULL,
     CONSTRAINT fk_owner FOREIGN KEY (owner) REFERENCES  users (id)
   )`;
   // order table
