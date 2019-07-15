@@ -76,27 +76,12 @@ class carController {
         throw new Error('User not registered');
       }
       if (Object.keys(req.query).length === 0) {
-        const checkIfUserIsAdmin = await CarServices.checkIfUserIsAdmin(req.userData.user);
-        if (checkIfUserIsAdmin) {
-          const allCars = await CarServices.getAllCars();
-          return res.status(200).json({
-            status: 200,
-            data: allCars,
-          });
-        }
-        const availableCars = await CarServices.getAvailableCars();
+        const allCars = await CarServices.getAllCars();
         return res.status(200).json({
           status: 200,
-          data: availableCars,
+          data: allCars,
         });
       }
-      // if (Object.keys(req.query).length === 0) {
-      //   const allCars = await CarServices.getAllCars();
-      //   return res.status(200).json({
-      //     status: 200,
-      //     data: allCars,
-      //   });
-      // }
       const queryObj = req.query;
       if ('min_price' in queryObj) {
         const myCars = await CarServices.getAllCars();
