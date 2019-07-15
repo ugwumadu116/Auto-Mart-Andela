@@ -1,5 +1,6 @@
 import checkCarInfo from '../helpers/carRequestChecker';
 
+
 let validationError;
 class CheckCarRequest {
   static async validatePostCar(req, res, next) {

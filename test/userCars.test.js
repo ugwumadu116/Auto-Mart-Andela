@@ -365,4 +365,25 @@ describe('Car Endpoint Tests', () => {
     expect(result.body.data[0]).to.have.property('body_type');
     expect(result.body.data[0]).to.have.property('price');
   });
+  it('POST /car/ - User POST car', async () => {
+    const result = await chai
+      .request(app)
+      .post(`${API_PREFIX}/car`)
+      .set('authorization', jwtToken)
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .field('manufacturer', 'General Motors (GM)')
+      .field('name', 'Chevrolet')
+      .field('model', '2018 model')
+      .field('price', 132)
+      .field('body_type', 'car')
+      .field('state', 'new')
+      .attach('img_url',
+        fs.readFileSync('UI/images/car1.jpg'),
+        'car1.jpg');
+    expect(result).to.have.status(201);
+    expect(result.body.status).to.eq(201);
+    expect(result.body.data).to.have.property('id');
+    expect(result.body.data).to.have.property('model');
+    expect(result.body.data).to.have.property('body_type');
+  });
 });

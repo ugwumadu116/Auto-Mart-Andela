@@ -1,4 +1,4 @@
-// import cloudinary from '../config/cloudinary';
+import cloudinary from '../config/cloudinary';
 import CarServices from '../services/car.services';
 
 class carController {
@@ -8,7 +8,25 @@ class carController {
       if (!checkIfUserExist) {
         throw new Error('User not registered');
       }
-      // const uploadImage = await cloudinary.uploader.upload(req.file.path);
+      if (req.file) {
+        const uploadImage = await cloudinary.uploader.upload(req.file.path);
+        const newCar = await CarServices.registerCar(req, uploadImage);
+        return res.status(201).json({
+          status: 201,
+          data: {
+            id: newCar[0].id,
+            name: newCar[0].name,
+            image_url: newCar[0].image,
+            price: newCar[0].price,
+            model: newCar[0].model,
+            manufacturer: newCar[0].manufacturer,
+            owner: newCar[0].owner,
+            created_on: newCar[0].created_on,
+            status: newCar[0].status,
+            body_type: newCar[0].body_type,
+          },
+        });
+      }
       const newCar = await CarServices.registerCar(req);
       return res.status(201).json({
         status: 201,
@@ -49,8 +67,10 @@ class carController {
       if (!checkIfCarExist) {
         throw new Error('Car with that id doest not exits');
       }
+      if (checkIfCarExist.image !== checkIfCarExist.image_id) {
+        await cloudinary.uploader.destroy(checkIfCarExist.image_id);
+      }
       await CarServices.deleteSingleCar(checkIfCarExist.id);
-      // await cloudinary.uploader.destroy(checkIfCarExist.image_id);
       return res.status(200).json({
         status: 200,
         data: 'Car Ad successfully deleted',
