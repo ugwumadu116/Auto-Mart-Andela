@@ -145,7 +145,7 @@ class carController {
 
   static async updateCarPrice(req, res) {
     try {
-      console.log(req.body);
+      console.log(req.body.price, 'JOEL PRICE IS HERE');
       const checkIfUserExist = await CarServices.checkUser(req.userData.user);
       if (!checkIfUserExist) {
         throw new Error('User not registered');

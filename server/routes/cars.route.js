@@ -37,9 +37,6 @@ router.get('/:car_id',
 router.patch('/:car_id/price',
   verifyToken.validate,
   trimRequest.param,
-  validation.carIdParam,
-  validation.carPrice,
-  userValidation.validateUserReq,
   carController.updateCarPrice);
 
 router.patch('/:car_id/status',
