@@ -8,7 +8,7 @@ router.get('/events',
     kabinetController.getEvents);
 
 router.get('/interest',
-    kabinetController.getEvents);
+    kabinetController.getInterest);
 
 router.post('/create_events',
 // You can do some validations here
