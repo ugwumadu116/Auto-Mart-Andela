@@ -68,7 +68,7 @@ class KabinetController {
             return res.status(200).json({
                 status: 200,
                 data: {
-                    val: "result"
+                    val: result
                 },
             });
         } catch (error) {
