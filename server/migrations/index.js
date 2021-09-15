@@ -7,8 +7,10 @@ pool.on('connect', () => {
 const drop = () => {
   const usersTable = 'DROP TABLE IF EXISTS users CASCADE';
   const carsTable = 'DROP TABLE IF EXISTS cars CASCADE';
+  const eventsTable = 'DROP TABLE IF EXISTS kabinetevents CASCADE';
+  const interestTable = 'DROP TABLE IF EXISTS kabinetinterest CASCADE';
   const ordersTable = 'DROP TABLE IF EXISTS orders CASCADE';
-  const dropTables = `${usersTable};${carsTable};${ordersTable};`;
+  const dropTables = `${usersTable};${carsTable};${ordersTable};${eventsTable};${interestTable};`;
 
   pool.query(`${dropTables}`, (err) => {
     if (err) {
@@ -21,6 +23,31 @@ const drop = () => {
 };
 
 const create = () => {
+  const eventsTable = `CREATE TABLE IF NOT EXISTS
+  kabinetevents(
+    id SERIAL PRIMARY KEY,
+    date VARCHAR(50) NOT NULL,
+    title TEXT NOT NULL,
+    event_type TEXT NOT NULL,
+    location TEXT NOT NULL,
+    organization_name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    category TEXT NOT NULL,
+    organizer_info TEXT NOT NULL,
+    website TEXT NOT NULL,
+    organizer_contact TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  )`;
+
+const interestTable = `CREATE TABLE IF NOT EXISTS
+kabinetinterest(
+    id SERIAL PRIMARY KEY,
+    eventid INTEGER NOT NULL,
+    contact VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_owner FOREIGN KEY (eventid) REFERENCES  kabinetevents (id)
+  )`;
+
   const usersTable = `CREATE TABLE IF NOT EXISTS
   users(
     id SERIAL PRIMARY KEY,
@@ -62,7 +89,7 @@ const create = () => {
     CONSTRAINT fk_car_id FOREIGN KEY (car_id) REFERENCES  cars (id) ON DELETE CASCADE
   )`;
 
-  const migrationQueries = `${usersTable};${carsTable};${ordersTable};`;
+  const migrationQueries = `${usersTable};${carsTable};${ordersTable};${eventsTable};${interestTable};`;
   pool.query(`${migrationQueries}`, (err, res) => {
     if (err) {
       console.log(err);
