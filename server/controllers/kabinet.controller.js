@@ -63,12 +63,12 @@ class KabinetController {
     static async getEvents(req, res) {
         try {
            
-            const result = await userService.getEvent(req.body);
+            const result = await userService.getEvent(req.body);?
             
             return res.status(200).json({
                 status: 200,
                 data: {
-                    val: result
+                    val: "result"
                 },
             });
         } catch (error) {
