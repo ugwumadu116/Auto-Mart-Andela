@@ -39,15 +39,6 @@ const create = () => {
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
   )`;
 
-const interestTable = `CREATE TABLE IF NOT EXISTS
-kabinetinterest(
-    id SERIAL PRIMARY KEY,
-    eventid INTEGER NOT NULL,
-    contact VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_owner FOREIGN KEY (eventid) REFERENCES  kabinetevents (id)
-  )`;
-
   const usersTable = `CREATE TABLE IF NOT EXISTS
   users(
     id SERIAL PRIMARY KEY,
@@ -89,7 +80,7 @@ kabinetinterest(
     CONSTRAINT fk_car_id FOREIGN KEY (car_id) REFERENCES  cars (id) ON DELETE CASCADE
   )`;
 
-  const migrationQueries = `${usersTable};${carsTable};${ordersTable};${eventsTable};${interestTable};`;
+  const migrationQueries = `${usersTable};${carsTable};${ordersTable};${eventsTable};`;
   pool.query(`${migrationQueries}`, (err, res) => {
     if (err) {
       console.log(err);
