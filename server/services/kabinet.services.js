@@ -30,14 +30,15 @@ class KabinetService {
   static async createInterest(user) {
   
     const {
-      contact,
+      phone,
+      email,
       eventid
     } = user;
 
    
     
-    const sql = 'INSERT INTO kabinetinterest (contact, eventid) VALUES($1, $2) RETURNING *';
-    const bindParameters = [contact, eventid];
+    const sql = 'INSERT INTO kabinetinterest (event_id, email, phone) VALUES($1, $2, $3) RETURNING *';
+    const bindParameters = [eventid,email, phone];
     const client = await db.connect();
     const result = await client.query(sql, bindParameters);
     client.release();

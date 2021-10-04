@@ -10,7 +10,8 @@ const drop = () => {
   const eventsTable = 'DROP TABLE IF EXISTS kabinetevents CASCADE';
   const interestTable = 'DROP TABLE IF EXISTS kabinetinterest CASCADE';
   const ordersTable = 'DROP TABLE IF EXISTS orders CASCADE';
-  const dropTables = `${usersTable};${carsTable};${ordersTable};${eventsTable};${interestTable};`;
+  const dropTables = `${interestTable};`;
+  // const dropTables = `${usersTable};${carsTable};${ordersTable};${eventsTable};${interestTable};`;
 
   pool.query(`${dropTables}`, (err) => {
     if (err) {
@@ -36,6 +37,14 @@ const create = () => {
     organizer_info TEXT NOT NULL,
     website TEXT NOT NULL,
     organizer_contact TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  )`;
+  const interestTable = `CREATE TABLE IF NOT EXISTS
+  kabinetinterest(
+    id SERIAL PRIMARY KEY,
+    event_id VARCHAR(50) NOT NULL,
+    phone TEXT NOT NULL,
+    email TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
   )`;
 
@@ -80,7 +89,8 @@ const create = () => {
     CONSTRAINT fk_car_id FOREIGN KEY (car_id) REFERENCES  cars (id) ON DELETE CASCADE
   )`;
 
-  const migrationQueries = `${usersTable};${carsTable};${ordersTable};${eventsTable};`;
+  const migrationQueries = `${interestTable};`;
+  // const migrationQueries = `${usersTable};${carsTable};${ordersTable};${eventsTable};${interestTable};`;
   pool.query(`${migrationQueries}`, (err, res) => {
     if (err) {
       console.log(err);
